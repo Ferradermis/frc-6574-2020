@@ -21,7 +21,6 @@ import frc.robot.subsystems.Limelight;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
 
   //Subsystems
   public final DriveTrain driveTrain = new DriveTrain();
