@@ -15,7 +15,7 @@ import frc.robot.subsystems.DriveTrain;
 
 public class ArcadeDrive extends CommandBase {
 
-  private final DriveTrain driveTrain;
+  private DriveTrain driveTrain;
 
   public ArcadeDrive(DriveTrain driveTrain) {
     this.driveTrain = driveTrain;
@@ -36,63 +36,56 @@ public class ArcadeDrive extends CommandBase {
     y = Math.pow(y, 3);
     x = 0.5 * Math.pow(x, 3);
 
-    //Just here for testing.
-    final double STEER_K = 0.004;
-    final double DRIVE_K = 0.3;
-    final double DESIRED_TARGET_AREA = .7;
-    final double MAX_DRIVE = 0.25;
 
-    double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
-    double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
-    double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
-    double ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
+      //Just here for testing.
+      final double STEER_K = 0.008;
+      final double DRIVE_K = 0.3;
+      final double h2 = 86.36; //height of target
+      final double h1 = 16.51; //height of camera
+      //double DESIRED_DISTANCE = 274.32‬‬; //desired distance of camera to target
+      final double DESIRED_DISTANCE = 150;
+      //final double DESIRED_TARGET_AREA = .7;
+      final double MAX_DRIVE = 0.25;
+       double currentDistance;
+      final double A1 = 3.2;
 
-  
-    SmartDashboard.putNumber("tv", tv);
-    SmartDashboard.putNumber("tx", tx);
-    SmartDashboard.putNumber("ty", ty);
-    SmartDashboard.putNumber("ta", ta);
+      double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
+      double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+      double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
+      double ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
+      SmartDashboard.putNumber("tv", tv);
+      SmartDashboard.putNumber("tx", tx);
+      SmartDashboard.putNumber("ty", ty);
+      SmartDashboard.putNumber("ta", ta);
 
-   /* if(tx>1.0)
-{
-  tx = tx-.05f;
-}
-else if (tx<1.0)
-{
-  tx = tx+.05f;
-}
-*/
+    
+      
+      currentDistance = (h2-h1)/Math.tan((ty+A1)*Math.PI/180);
+      double distance = (currentDistance - DESIRED_DISTANCE);
+      if (Math.abs(distance) < 5) distance = 0;
+      SmartDashboard.putNumber("currentDistance", currentDistance/2.54);
+      double steer_cmd = tx * STEER_K;
+      double drive_cmd = (distance) * DRIVE_K; 
+      SmartDashboard.putNumber("steer cmd", steer_cmd);
+    SmartDashboard.putNumber("drive cmd", drive_cmd);
     if(RobotContainer.oi.l_xButton.get()){
-
       if (tv < 1.0) {
         driveTrain.arcadeDrive(0, 0);
         return;
       }
-  
-      double steer_cmd = tx * STEER_K;
-      double drive_cmd = (DESIRED_TARGET_AREA - ta) * DRIVE_K;
-      SmartDashboard.putNumber("steer cmd", steer_cmd);
-    SmartDashboard.putNumber("drive cmd", drive_cmd);
-  
-      if (drive_cmd > MAX_DRIVE) {
+      if  (drive_cmd > MAX_DRIVE) {
         driveTrain.arcadeDrive(MAX_DRIVE, steer_cmd);
+        return;
       }
-      else   driveTrain.arcadeDrive(drive_cmd, steer_cmd);
+      if (drive_cmd < -MAX_DRIVE) {
+        driveTrain.arcadeDrive(-MAX_DRIVE, steer_cmd);
+        return;
+      }
+        driveTrain.arcadeDrive(drive_cmd, steer_cmd);
       
-     // y= ty/24.85;//dividing by four to make the robot slower
-     // y = y-(0.68410462);
-     // x= tx/29.8;
-      /*if (ty < 16.9f)
-{
-  y = -.8;
-}
-else if (ty > 17.1f)
-{
-  y = .8;
-}
-    }    */
+    
   } else
-      driveTrain.arcadeDrive(y/4, x);
+      driveTrain.arcadeDrive(y/8, x);
   }
 
   // Make this return true when this Command no longer needs to run execute()
