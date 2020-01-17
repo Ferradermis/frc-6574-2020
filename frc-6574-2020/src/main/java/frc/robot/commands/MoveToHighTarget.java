@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MoveToHighTarget extends CommandBase {
   DriveTrain driveTrain;
+  boolean finished = false;
   
   /**
    * Creates a new MoveToHighTarget.
@@ -45,9 +46,10 @@ public class MoveToHighTarget extends CommandBase {
     limelight.setTarget(0);
 
     // If no target in view; stop and exit
-    if (limelight.hasTarget()) {
+    if (!limelight.hasTarget()) {
       driveTrain.arcadeDrive(0, 0);
       limelight.ledOff();
+      finished = true;
       return;
     }
 
@@ -95,6 +97,9 @@ public class MoveToHighTarget extends CommandBase {
     driveTrain.arcadeDrive(drive_cmd, steer_cmd);
     }
     
+    if ((Math.abs(angleX)<.05)&&(Math.abs(distanceError)<0.05)) {
+      finished = true;
+    }
     limelight.ledOff();
     return;
 
@@ -108,6 +113,6 @@ public class MoveToHighTarget extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return finished;
   }
 }

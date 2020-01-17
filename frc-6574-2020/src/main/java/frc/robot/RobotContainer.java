@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.MoveToHighTarget;
+import frc.robot.commands.RunAutonomousSequence;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Limelight;
 
@@ -46,6 +47,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     oi.l_xButton.whileHeld(new MoveToHighTarget(driveTrain));
+    oi.l_yButton.whenPressed(new RunAutonomousSequence(driveTrain));
   }
 
 
