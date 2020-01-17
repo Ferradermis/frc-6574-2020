@@ -35,7 +35,7 @@ public class ArcadeDrive extends CommandBase {
     double steer_cmd=0;
     double drive_cmd=0;
 
-    
+    /* this code has all been moved to MoveToHighTarget command
     // IF xButton is pressed, then target the powerport
     if(RobotContainer.oi.l_xButton.get()){
       Limelight limelight = RobotContainer.limelight;
@@ -89,22 +89,19 @@ public class ArcadeDrive extends CommandBase {
   
       if  (drive_cmd > MAX_DRIVE) {
         driveTrain.arcadeDrive(MAX_DRIVE, steer_cmd);
-        limelight.ledOff();
-        return;
       }
-
-      if (drive_cmd < -MAX_DRIVE) {
+      else if (drive_cmd < -MAX_DRIVE) {
         driveTrain.arcadeDrive(-MAX_DRIVE, steer_cmd);
-        limelight.ledOff();
-        return;
+      }
+      else {
+      driveTrain.arcadeDrive(drive_cmd, steer_cmd);
       }
 
-      driveTrain.arcadeDrive(drive_cmd, steer_cmd);
       limelight.ledOff();
       return;
 
     }
-    
+    */
     // IF bButton is pressed then target a ball and move to ball;
     if(RobotContainer.oi.l_bButton.get()){
        //sets pipeline

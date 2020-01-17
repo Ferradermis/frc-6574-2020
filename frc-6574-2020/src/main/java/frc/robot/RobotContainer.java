@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.MoveToHighTarget;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Limelight;
 
@@ -21,7 +22,10 @@ import frc.robot.subsystems.Limelight;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-
+   /**
+   * The container for the robot.  Contains subsystems, OI devices, and commands.
+   */
+  
   //Subsystems
   public final DriveTrain driveTrain = new DriveTrain();
   public static final OI oi = new OI(); //Phase out
@@ -30,9 +34,6 @@ public class RobotContainer {
   //Commands
   public final ArcadeDrive arcadeDrive = new ArcadeDrive(driveTrain);
 
-  /**
-   * The container for the robot.  Contains subsystems, OI devices, and commands.
-   */
   public RobotContainer() {
     configureButtonBindings();
   }
@@ -44,6 +45,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    oi.l_xButton.whileHeld(new MoveToHighTarget(driveTrain));
   }
 
 
