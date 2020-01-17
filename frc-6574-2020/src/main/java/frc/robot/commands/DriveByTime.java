@@ -10,6 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.Robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Spark;
 
@@ -30,9 +31,9 @@ public class DriveByTime extends CommandBase {
     this.drive = drive;
     this.steer = steer;
     this.time = time;
-    leds = new Spark(0);
+    
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(driveTrain);
+   // addRequirements(driveTrain);
   }
     
   
@@ -41,13 +42,16 @@ public class DriveByTime extends CommandBase {
   @Override
   public void initialize() {
   startTime = Timer.getFPGATimestamp();
-  }
+  SmartDashboard.putNumber("startTime", startTime);
+  SmartDashboard.putNumber("Time", time);
+  Robot.leds.set(.61); // red for testing
+  
+}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //driveTrain.arcadeDrive(drive, steer);
-    leds.set(.61); // red for testing
+    driveTrain.arcadeDrive(drive, steer);
     SmartDashboard.putNumber("startTime", startTime);
     SmartDashboard.putNumber("currentTime", Timer.getFPGATimestamp());
 
@@ -56,12 +60,12 @@ public class DriveByTime extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    leds.set(.77);
+    Robot.leds.set(.77);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (Timer.getFPGATimestamp()-startTime == time);
+    return (Timer.getFPGATimestamp()>(startTime + time));
   }
 }

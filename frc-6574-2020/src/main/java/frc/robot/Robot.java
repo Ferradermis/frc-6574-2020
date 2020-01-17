@@ -53,7 +53,7 @@ public class Robot extends TimedRobot {
   private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
   private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
 
-  Spark leds = new Spark(0);
+  public static Spark leds = new Spark(0);
 
   private RobotContainer robotContainer;
 
@@ -89,16 +89,16 @@ public class Robot extends TimedRobot {
 
     if (match.color == kBlueTarget) {
       colorString = "Blue";
-      leds.set(.87);
+  //    leds.set(.87);
     } else if (match.color == kRedTarget) {
       colorString = "Red";
-      leds.set(.61);
+  //    leds.set(.61);
     } else if (match.color == kGreenTarget) {
       colorString = "Green";
-      leds.set(.77);
+  //    leds.set(.77);
     } else if (match.color == kYellowTarget) {
       colorString = "Yellow";
-      leds.set(.69);
+  //    leds.set(.69);
     } else {
       colorString = "Unknown";
     }

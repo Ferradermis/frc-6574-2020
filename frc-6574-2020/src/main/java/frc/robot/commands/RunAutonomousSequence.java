@@ -9,6 +9,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.DriveTrain;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;;
 
 public class RunAutonomousSequence extends InstantCommand {
   /**
@@ -27,13 +29,15 @@ public class RunAutonomousSequence extends InstantCommand {
   public void initialize() {
     //Shoot
     driveBackward(10);
+    SmartDashboard.putNumber("Running Autonomous", 0);
+  
    
-
     
   }
 
   private void driveBackward(double distance){
-    new DriveByTime(driveTrain, -.25, 0.0, distance);
+    CommandScheduler.getInstance().schedule(new DriveByTime(driveTrain, -.25, 0.0, distance));
+    CommandScheduler.getInstance().schedule(new ArcadeDrive(driveTrain));
   }
   private void driveForward(double distance){
     new DriveByTime(driveTrain, -.25, 0.0, distance);
