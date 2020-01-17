@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Spark;
 
 
 public class DriveByTime extends CommandBase {
@@ -22,12 +23,14 @@ public class DriveByTime extends CommandBase {
   double steer;
   double time;
   double startTime;
+  Spark leds;
 
   public DriveByTime(DriveTrain driveTrain, double drive, double steer, double time) {
     this.driveTrain = driveTrain;
     this.drive = drive;
     this.steer = steer;
     this.time = time;
+    leds = new Spark(0);
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrain);
   }
@@ -44,6 +47,7 @@ public class DriveByTime extends CommandBase {
   @Override
   public void execute() {
     //driveTrain.arcadeDrive(drive, steer);
+    leds.set(.61); // red for testing
     SmartDashboard.putNumber("startTime", startTime);
     SmartDashboard.putNumber("currentTime", Timer.getFPGATimestamp());
 
@@ -52,6 +56,7 @@ public class DriveByTime extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    leds.set(.77);
   }
 
   // Returns true when the command should end.
