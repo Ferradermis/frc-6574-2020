@@ -7,12 +7,13 @@
 
 package frc.robot.commands;
 
-// import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveTrain;
-import frc.robot.Robot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
+import frc.robot.subsystems.DriveTrain;
+
 
 
 public class DriveByTime extends CommandBase {
@@ -26,10 +27,11 @@ public class DriveByTime extends CommandBase {
   double startTime;
   Spark leds;
 
-  public DriveByTime(DriveTrain driveTrain, double drive, double steer) {
+  public DriveByTime(DriveTrain driveTrain, double drive, double steer, double time) {
     this.driveTrain = driveTrain;
     this.drive = drive;
     this.steer = steer;
+    this.time = time;
     
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrain);
@@ -40,8 +42,9 @@ public class DriveByTime extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-  // SmartDashboard.putNumber("startTime", startTime);
-  //SmartDashboard.putNumber("Time", time);
+    startTime = Timer.getFPGATimestamp();
+   SmartDashboard.putNumber("startTime", startTime);
+  SmartDashboard.putNumber("Time", time);
   Robot.leds.set(.61); // red for testing
   
 }
@@ -49,6 +52,8 @@ public class DriveByTime extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    SmartDashboard.putNumber("Drive in backward", drive);
+    SmartDashboard.putNumber("Steer in backward", steer);
     
     driveTrain.arcadeDrive(drive, steer);
    // SmartDashboard.putNumber("startTime", startTime);
@@ -67,8 +72,8 @@ public class DriveByTime extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-   // return (Timer.getFPGATimestamp()>(startTime + time));
+   return (Timer.getFPGATimestamp()>(startTime + time));
    // this.startTime
-   return false;
+   //return false;
   }
 }

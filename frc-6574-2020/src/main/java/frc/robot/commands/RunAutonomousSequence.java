@@ -46,21 +46,23 @@ public class RunAutonomousSequence extends InstantCommand {
   }
 
   private void driveBackward(double distance){
-    final double feetPerSecond = 10.0;
+    final double feetPerSecond = 2.5;
     double time = distance / feetPerSecond;  
-    CommandScheduler.getInstance().schedule((new DriveByTime(driveTrain, -.25, 0.0)).withTimeout(time));
+    CommandScheduler.getInstance().schedule((new DriveByTime(driveTrain, -.25, 0.0,time)));
+    
+    //.withTimeout(time));
     
     // try new StartEndCommand(()->driveTrain.arcadeDrive(-.25,0),
     // ()->driveTrain.arcadeDrive(0,0), driveTrain).withTimout(time))
   
-    CommandScheduler.getInstance().schedule(new ArcadeDrive(driveTrain));
+   CommandScheduler.getInstance().schedule(new ArcadeDrive(driveTrain));
   }
 
   private void driveForward(double distance){
     final double feetPerSecond = 10.0;
     double time = distance / feetPerSecond;  
-    CommandScheduler.getInstance().schedule((new DriveByTime(driveTrain, .25, 0.0)).withTimeout(time));
-    CommandScheduler.getInstance().schedule(new ArcadeDrive(driveTrain));
+ //   CommandScheduler.getInstance().schedule((new DriveByTime(driveTrain, .25, 0.0)).withTimeout(time));
+ //   CommandScheduler.getInstance().schedule(new ArcadeDrive(driveTrain));
   }
 
   private void shoot() {
