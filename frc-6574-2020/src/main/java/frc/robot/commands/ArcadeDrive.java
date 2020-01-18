@@ -137,7 +137,7 @@ public class ArcadeDrive extends CommandBase {
   
     // dividing drive_cmd and steer_cmd by 8 during testing in classroom
     // delete division when on larger field and done testing
-    driveTrain.arcadeDrive(drive_cmd/8, steer_cmd/8);   
+    driveTrain.arcadeDrive(drive_cmd/4, steer_cmd/4);   
   }
 
   // Make this return true when this Command no longer needs to run execute()

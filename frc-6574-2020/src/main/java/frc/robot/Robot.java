@@ -89,16 +89,16 @@ public class Robot extends TimedRobot {
 
     if (match.color == kBlueTarget) {
       colorString = "Blue";
-  //    leds.set(.87);
+      leds.set(.87);
     } else if (match.color == kRedTarget) {
       colorString = "Red";
-  //    leds.set(.61);
+      leds.set(.61);
     } else if (match.color == kGreenTarget) {
       colorString = "Green";
-  //    leds.set(.77);
+      leds.set(.77);
     } else if (match.color == kYellowTarget) {
       colorString = "Yellow";
-  //    leds.set(.69);
+      leds.set(.69);
     } else {
       colorString = "Unknown";
     }

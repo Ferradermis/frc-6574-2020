@@ -10,7 +10,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj.Timer;
+import frc.robot.Robot;
 
 public class RunAutonomousSequence extends InstantCommand {
   /**
@@ -27,19 +29,42 @@ public class RunAutonomousSequence extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //Shoot
+    // Shoot
+    SmartDashboard.putString("Running Autonomous - Status", "Shooting");
+    shoot();
+
+    // Drive Backward 10 feet
+    SmartDashboard.putString("Running Autonomous - Status", "Driving Backward(10)");
+    Timer.delay(5.0);
     driveBackward(10);
-    SmartDashboard.putNumber("Running Autonomous", 0);
   
-   
+    //Turn Left
+    SmartDashboard.putString("Running Autonomous - Status", "Turning Left");
+    Timer.delay(5.0);
+    // turnLeft();
     
   }
 
   private void driveBackward(double distance){
-    CommandScheduler.getInstance().schedule(new DriveByTime(driveTrain, -.25, 0.0, distance));
+    final double feetPerSecond = 10.0;
+    double time = distance / feetPerSecond;  
+    CommandScheduler.getInstance().schedule((new DriveByTime(driveTrain, -.25, 0.0)).withTimeout(time));
+    
+    // try new StartEndCommand(()->driveTrain.arcadeDrive(-.25,0),
+    // ()->driveTrain.arcadeDrive(0,0), driveTrain).withTimout(time))
+  
     CommandScheduler.getInstance().schedule(new ArcadeDrive(driveTrain));
   }
+
   private void driveForward(double distance){
-    new DriveByTime(driveTrain, -.25, 0.0, distance);
+    final double feetPerSecond = 10.0;
+    double time = distance / feetPerSecond;  
+    CommandScheduler.getInstance().schedule((new DriveByTime(driveTrain, .25, 0.0)).withTimeout(time));
+    CommandScheduler.getInstance().schedule(new ArcadeDrive(driveTrain));
+  }
+
+  private void shoot() {
+    Robot.leds.set(.71);
+    Timer.delay(5.0);
   }
 }
