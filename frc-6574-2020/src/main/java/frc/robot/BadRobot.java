@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * This is a simple example to show how the REV Color Sensor V3 can be used to
  * detect pre-configured colors.
  */
-public class Robot extends TimedRobot {
+public class BadRobot extends TimedRobot {
 
   //Change the I2C port below to match the connection of your color sensor
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
