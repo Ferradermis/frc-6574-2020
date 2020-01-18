@@ -10,9 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 
@@ -43,10 +41,12 @@ final double degreesPerSecond = 90.0;
   public void initialize() {
     // Shoot
     SmartDashboard.putString("Running Autonomous - Status", "Shooting");
-    RobotContainer.shooter.shoot();
+    RobotContainer.shooter.shoot(); 
 
     SmartDashboard.putString("Running Autonomous - Status", "Turning Left");
-    turnLeft(angle1); //turns on yellow LED and delay 2 sec (35 degrees)
+    turnLeft(90);
+    
+  /*  turnLeft(angle1); //turns on yellow LED and delay 2 sec (35 degrees)
   
     SmartDashboard.putString("Running Autonomous - Status", "Driving Backward(12.2)");
     driveBackward(sideA); //Drive backwards 12.2 feet to first ball, turns on blue violet LED
@@ -77,9 +77,11 @@ final double degreesPerSecond = 90.0;
   
     SmartDashboard.putString("Running Autonomous - Status", "Shooting");
     RobotContainer.shooter.shoot(); //turns on black LED and delay 3 sec  
+    */
   }
 
   private void driveBackward(double distance){
+    RobotContainer.leds.set(.89);
     double time = distance / feetPerSecond;  
     driveTrain.arcadeDrive(-driveSpeed, 0);
     Timer.delay(time);
@@ -94,6 +96,7 @@ final double degreesPerSecond = 90.0;
   }
 
   private void driveForward(double distance){
+    RobotContainer.leds.set(.81);
     double time = distance / feetPerSecond;  
     driveTrain.arcadeDrive(driveSpeed, 0);
     Timer.delay(time);
@@ -103,17 +106,28 @@ final double degreesPerSecond = 90.0;
   }
 
   private void turnRight(double degree) {
+    RobotContainer.leds.set(.65);
     double timeDelay = degree / degreesPerSecond;
-    Robot.leds.set(.65);
     driveTrain.arcadeDrive(0,turnSpeed);
     Timer.delay(timeDelay);
   }
   private void turnLeft(double degree) {
+    RobotContainer.leds.set(.69);
     double timeDelay = degree / degreesPerSecond;
-    Robot.leds.set(.65);
     driveTrain.arcadeDrive(0,-turnSpeed);
     Timer.delay(timeDelay);
   }
+
+  private void intakeOn() {
+    RobotContainer.leds.set(.67);
+    Timer.delay(1.0);
+  }
+
+private void intakeOff() {
+    RobotContainer.leds.set(.67);
+    Timer.delay(1.0);
+  }
+
 
  
 }

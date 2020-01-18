@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.ArcadeDrive;
@@ -33,6 +34,7 @@ public class RobotContainer {
   public static final OI oi = new OI(); //Phase out
   public static final Limelight limelight = new Limelight();
   public static final Shooter shooter = new Shooter();
+  public static Spark leds = new Spark(0);
   
   //Commands
   public final ArcadeDrive arcadeDrive = new ArcadeDrive(driveTrain);

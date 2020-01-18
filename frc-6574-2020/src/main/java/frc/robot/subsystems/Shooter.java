@@ -7,9 +7,9 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.Robot;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 
 public class Shooter extends SubsystemBase {
   /**
@@ -30,7 +30,7 @@ public class Shooter extends SubsystemBase {
 
   public void shoot()
   {
-    Robot.leds.set(.71);
+    RobotContainer.leds.set(.99);
     Timer.delay(5.0);
   }
 }
