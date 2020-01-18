@@ -15,6 +15,7 @@ import frc.robot.commands.MoveToHighTarget;
 import frc.robot.commands.RunAutonomousSequence;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.Shooter;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -31,6 +32,7 @@ public class RobotContainer {
   public final DriveTrain driveTrain = new DriveTrain();
   public static final OI oi = new OI(); //Phase out
   public static final Limelight limelight = new Limelight();
+  public static final Shooter shooter = new Shooter();
   
   //Commands
   public final ArcadeDrive arcadeDrive = new ArcadeDrive(driveTrain);

@@ -13,12 +13,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Robot;
+import frc.robot.RobotContainer;
+
 
 public class RunAutonomousSequence extends InstantCommand {
   /**
    * Creates a new RunAutonomousSequence.
    */
   DriveTrain driveTrain;
+
+final double angle1 = 35.0;
+final double angle2 = 23.0;
+final double sideA = 12.2;
+final double sideB = 6.0;
+final double sideC = 17.5;
+final double driveSpeed = 0.5;
+final double turnSpeed = 0.5;
+final double feetPerSecond = 5.0;
+final double degreesPerSecond = 90.0;
 
   public RunAutonomousSequence(DriveTrain driveTrain) {
     this.driveTrain = driveTrain;
@@ -31,25 +43,46 @@ public class RunAutonomousSequence extends InstantCommand {
   public void initialize() {
     // Shoot
     SmartDashboard.putString("Running Autonomous - Status", "Shooting");
-    shoot();
+    RobotContainer.shooter.shoot();
 
-    // Drive Backward 10 feet
-    SmartDashboard.putString("Running Autonomous - Status", "Driving Backward(10)");
-    Timer.delay(5.0);
-    driveBackward(10);
-  
-    //Turn Left
     SmartDashboard.putString("Running Autonomous - Status", "Turning Left");
-    Timer.delay(5.0);
-    // turnLeft();
+    turnLeft(angle1); //turns on yellow LED and delay 2 sec (35 degrees)
+  
+    SmartDashboard.putString("Running Autonomous - Status", "Driving Backward(12.2)");
+    driveBackward(sideA); //Drive backwards 12.2 feet to first ball, turns on blue violet LED
+  
+    SmartDashboard.putString("Running Autonomous - Status", "Turning Right");
+    turnRight(angle1); //turns on orange LED and delay 2 sec (35 degrees)
     
+    SmartDashboard.putString("Running Autonomous - Status", "Intake On");
+    //intakeOn(); //turn on gold LED and delay 1 second
+  
+    SmartDashboard.putString("Running Autonomous - Status", "Driving Backward(6)");
+    driveBackward(sideB); //Drive backwards 6 feet to collect balls, turns on blue violet LED
+
+    SmartDashboard.putString("Running Autonomous - Status", "Intake On");
+    //intakeOff(); //turn on gold LED and delay 1 second
+  
+    SmartDashboard.putString("Running Autonomous - Status", "Turning Left");
+    turnLeft(angle2); //turns on yellow LED and delay 2 sec (23 degrees)
+  
+    SmartDashboard.putString("Running Autonomous - Status", "Driving Forward(17.5)");
+    driveForward(sideC); //Drive forward 17.5 feet back to start, turns on aqua LED
+  
+    SmartDashboard.putString("Running Autonomous - Status", "Turning Right");
+    turnRight(angle2); //turns on orange LED and delay 2 sec (23 degrees)
+  
+    SmartDashboard.putString("Running Autonomous - Status", "Aiming");
+    //aim(); //turns on dark green LED and delay 2 sec
+  
+    SmartDashboard.putString("Running Autonomous - Status", "Shooting");
+    RobotContainer.shooter.shoot(); //turns on black LED and delay 3 sec  
   }
 
   private void driveBackward(double distance){
-    final double feetPerSecond = 2.5;
     double time = distance / feetPerSecond;  
-    driveTrain.arcadeDrive(-.25, 0);
-    Timer.delay(2.0);
+    driveTrain.arcadeDrive(-driveSpeed, 0);
+    Timer.delay(time);
     driveTrain.arcadeDrive(0,0);
    // CommandScheduler.getInstance().schedule((new DriveByTime(driveTrain, -.25, 0.0,time)));
     //.withTimeout(time));
@@ -61,14 +94,26 @@ public class RunAutonomousSequence extends InstantCommand {
   }
 
   private void driveForward(double distance){
-    final double feetPerSecond = 10.0;
     double time = distance / feetPerSecond;  
+    driveTrain.arcadeDrive(driveSpeed, 0);
+    Timer.delay(time);
+    driveTrain.arcadeDrive(0,0);
  //   CommandScheduler.getInstance().schedule((new DriveByTime(driveTrain, .25, 0.0)).withTimeout(time));
  //   CommandScheduler.getInstance().schedule(new ArcadeDrive(driveTrain));
   }
 
-  private void shoot() {
-    Robot.leds.set(.71);
-    Timer.delay(5.0);
+  private void turnRight(double degree) {
+    double timeDelay = degree / degreesPerSecond;
+    Robot.leds.set(.65);
+    driveTrain.arcadeDrive(0,turnSpeed);
+    Timer.delay(timeDelay);
   }
+  private void turnLeft(double degree) {
+    double timeDelay = degree / degreesPerSecond;
+    Robot.leds.set(.65);
+    driveTrain.arcadeDrive(0,-turnSpeed);
+    Timer.delay(timeDelay);
+  }
+
+ 
 }
