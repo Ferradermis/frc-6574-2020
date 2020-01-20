@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
@@ -32,6 +33,8 @@ public class DriveTrain extends SubsystemBase {
   private CANSparkMax frontRight = new CANSparkMax(RobotMap.FRONT_RIGHT_CAN_ID, MotorType.kBrushless);
   private CANSparkMax backRight = new CANSparkMax(RobotMap.BACK_RIGHT_CAN_ID, MotorType.kBrushless);
 
+  private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+  
 
   public DriveTrain(){
     double rampRate = 0.2; //time in seconds to go from 0 to full throttle; 0.2 is selected on feel by drivers for 2019
@@ -48,6 +51,8 @@ public class DriveTrain extends SubsystemBase {
 
     backRight.setOpenLoopRampRate(rampRate);
     backRight.setSmartCurrentLimit(currentLimit);
+
+    gyro.calibrate();
   }
 
   
@@ -58,6 +63,8 @@ public class DriveTrain extends SubsystemBase {
    * best to pass in normalized variables from 1 to -1 
    */
   public void arcadeDrive(double drive, double steer) {
+
+    frontLeft.getEncoder().getPosition()
 
     // if steer and drive are both too low, stop the motors and end
     if ((Math.abs(drive) <= 0.05) && (Math.abs(steer) <= 0.05)) {
@@ -133,4 +140,26 @@ public class DriveTrain extends SubsystemBase {
     stopRight();
   }
 
+  /**
+	 * Gets the angle of drive train from its initial position.
+	 * 
+	 * @return	a double containing the drive train's current orientation
+	 */
+	public double getGyroAngle() {
+		return -gyro.getAngle();
+	}
+	
+	/**
+	 * Resets the drive train's gyroscope position to the zero value.
+	 */
+	public void resetGyro() {
+		gyro.reset();
+	}
+	
+	/**
+	 * Runs early gyroscope calibration.
+	 */
+	public void calibrateGyro() {
+		gyro.calibrate();
+	}
 }

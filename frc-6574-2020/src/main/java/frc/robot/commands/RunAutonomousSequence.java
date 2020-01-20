@@ -7,11 +7,12 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.subsystems.DriveTrain;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.DriveTrain;
 
 
 public class RunAutonomousSequence extends InstantCommand {
@@ -42,11 +43,12 @@ final double degreesPerSecond = 90.0;
     // Shoot
     SmartDashboard.putString("Running Autonomous - Status", "Shooting");
     RobotContainer.shooter.shoot(); 
-
-    SmartDashboard.putString("Running Autonomous - Status", "Turning Left");
+ 
+    SmartDashboard.putString("Running Autonomous - Status", "TESTING");
     turnLeft(90);
     
-  /*  turnLeft(angle1); //turns on yellow LED and delay 2 sec (35 degrees)
+  /*SmartDashboard.putString("Running Autonomous - Status", "Turning Left");
+    turnLeft(angle1); //turns on yellow LED and delay 2 sec (35 degrees)
   
     SmartDashboard.putString("Running Autonomous - Status", "Driving Backward(12.2)");
     driveBackward(sideA); //Drive backwards 12.2 feet to first ball, turns on blue violet LED
@@ -86,13 +88,9 @@ final double degreesPerSecond = 90.0;
     driveTrain.arcadeDrive(-driveSpeed, 0);
     Timer.delay(time);
     driveTrain.arcadeDrive(0,0);
-   // CommandScheduler.getInstance().schedule((new DriveByTime(driveTrain, -.25, 0.0,time)));
-    //.withTimeout(time));
     
-  //  CommandScheduler.getInstance().schedule(new StartEndCommand(()->driveTrain.arcadeDrive(.25,0),
-  //  ()->driveTrain.arcadeDrive(0,0), driveTrain)).withTimeout(2.0);
-  
-  // CommandScheduler.getInstance().schedule(new ArcadeDrive(driveTrain));
+  //  then try the following... not sure what the implications are relative to driveTrain
+  // new RunCommand(()->driveTrain.arcadeDrive(driveSpeed, 0.0)).withTimeout(time).schedule();
   }
 
   private void driveForward(double distance){
@@ -101,8 +99,6 @@ final double degreesPerSecond = 90.0;
     driveTrain.arcadeDrive(driveSpeed, 0);
     Timer.delay(time);
     driveTrain.arcadeDrive(0,0);
- //   CommandScheduler.getInstance().schedule((new DriveByTime(driveTrain, .25, 0.0)).withTimeout(time));
- //   CommandScheduler.getInstance().schedule(new ArcadeDrive(driveTrain));
   }
 
   private void turnRight(double degree) {
@@ -110,12 +106,18 @@ final double degreesPerSecond = 90.0;
     double timeDelay = degree / degreesPerSecond;
     driveTrain.arcadeDrive(0,turnSpeed);
     Timer.delay(timeDelay);
+    driveTrain.arcadeDrive(0,0);
   }
   private void turnLeft(double degree) {
     RobotContainer.leds.set(.69);
     double timeDelay = degree / degreesPerSecond;
     driveTrain.arcadeDrive(0,-turnSpeed);
     Timer.delay(timeDelay);
+    driveTrain.arcadeDrive(0,0);
+
+  //  then try the following... not sure what the implications are relative to driveTrain
+  // new RunCommand(()->driveTrain.arcadeDrive(0, -turnSpeed)).withTimeout(time).schedule();
+ 
   }
 
   private void intakeOn() {

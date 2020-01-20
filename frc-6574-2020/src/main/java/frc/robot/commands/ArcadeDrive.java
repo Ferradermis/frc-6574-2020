@@ -16,6 +16,8 @@ import frc.robot.subsystems.Limelight;
 public class ArcadeDrive extends CommandBase {
 
   private DriveTrain driveTrain;
+  final double Kp = .05;
+  final double throttle = .25; // controls speed via joystick; useful for test driving
 
   public ArcadeDrive(DriveTrain driveTrain) {
     this.driveTrain = driveTrain;
@@ -129,15 +131,14 @@ public class ArcadeDrive extends CommandBase {
     // Otherwise....
     //  NOTE THIS IS THE CODE THAT SHOULD REMAIN IN THIS FILE WHEN DONE TESTING
     // Read data from joystick and drive per joystick positioning
-    double y = -RobotContainer.oi.driver.getRawAxis(1);
-    double x = RobotContainer.oi.driver.getRawAxis(0);
+    double y = -RobotContainer.oi.getDriverLeftY();
+    double x = RobotContainer.oi.getDriverLeftX();
   
     drive_cmd = Math.pow(y, 3); // cubing y makes it more "sensitive"
     steer_cmd = 0.5 * Math.pow(x, 3); // cubing x and /2 makes it more "sensitive"
   
-    // dividing drive_cmd and steer_cmd by 8 during testing in classroom
-    // delete division when on larger field and done testing
-    driveTrain.arcadeDrive(drive_cmd/4, steer_cmd/4);   
+    // throttle is constant that controls "speed" of robot; helpful in testing in small areas
+    driveTrain.arcadeDrive(drive_cmd/throttle, steer_cmd/throttle);   
   }
 
   // Make this return true when this Command no longer needs to run execute()

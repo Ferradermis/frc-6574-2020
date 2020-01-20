@@ -8,20 +8,25 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 /**
- * This class is the glue that binds the controls on the physical operator
- * interface to the commands and command groups that allow control of the robot.
+ * This class contains all components of the Driver/Operator Interface
+ * 
+ * bindings of component actions to commmands should happen in:
+ *    RobotContainer.configureBindings();
+ * 
  */
 public class OI {
 
   public Joystick driver = new Joystick(0);
   public Joystick operator = new Joystick(1);
 
-  // Logitech Variables
+  //  STILL NEED TO FIGURE OUT TRIGGERS
+  // xBox Variables
   public Button l_xButton = new JoystickButton(driver, 3);
   public Button l_aButton = new JoystickButton(driver, 1);
   public Button l_bButton = new JoystickButton(driver, 2);
@@ -39,36 +44,36 @@ public class OI {
   public POVButton l_downDpad = new POVButton(driver, 180);
   public POVButton l_leftDpad = new POVButton(driver, 270);
 
-  public double getLogitechLeftX() {
-    return -driver.getRawAxis(0);
+  public double getDriverLeftX() {
+    return driver.getRawAxis(0);
   }
 
-  public double getLogitechLeftY() {
-    return -driver.getRawAxis(1);
+  public double getDriverLeftY() {
+    return driver.getRawAxis(1);
   }
 
-  public double getLogitechRightX() {
-    return -driver.getRawAxis(2);
-  }
-
-  public double getLogitechRightY() {
-    return -driver.getRawAxis(5);
-  }
-
-  public double getLogitechLeftTrigger() {
+  public double getDriverRightX() {
     return driver.getRawAxis(2);
   }
 
-  public double getLogitechRightTrigger() {
+  public double getDriverRightY() {
+    return driver.getRawAxis(5);
+  }
+
+  public double getDriverLeftTrigger() {
+    return driver.getRawAxis(2);
+  }
+
+  public double getDriverRightTrigger() {
     return driver.getRawAxis(3);
   }
 
-  public boolean getLogitechLeftBumper() {
-    return operator.getRawButton(5);
+  public boolean getDriverLeftBumper() {
+    return driver.getRawButton(5);
   }
 
-  public boolean getLogitechRightBumper() {
-    return operator.getRawButton(6);
+  public boolean getDriverRightBumper() {
+    return driver.getRawButton(6);
   }
 
   // operator Variables
@@ -90,19 +95,19 @@ public class OI {
   public POVButton x_leftDpad = new POVButton(operator, 270);
 
   public double getOperatorLeftX() {
-    return -operator.getRawAxis(0);
+    return operator.getRawAxis(0);
   }
 
   public double getOperatorLeftY() {
-    return -operator.getRawAxis(1);
+    return operator.getRawAxis(1);
   }
 
   public double getOperatorRightX() {
-    return -operator.getRawAxis(2);
+    return operator.getRawAxis(2);
   }
 
   public double getOperatorRightY() {
-    return -operator.getRawAxis(5);
+    return operator.getRawAxis(5);
   }
 
   public double getOperatorLeftTrigger() {
@@ -121,9 +126,21 @@ public class OI {
     return operator.getRawButton(6);
   }
 
-  public OI() {
+
+  public static double createSmartDashboardNumber(String key, double defValue) {
+
+    // See if already on dashboard, and if so, fetch current value
+    double value = SmartDashboard.getNumber(key, defValue);
   
-    //leftStickButton3.whenPressed(new Shift());
+    // Make sure value is on dashboard, puts back current value if already set
+    // otherwise puts back default value
+    SmartDashboard.putNumber(key, value);
+  
+    return value;
+  }
+
+  public OI() {
+  createSmartDashboardNumber("Test Variable", 0.0);
   }
 
 }

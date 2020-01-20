@@ -30,7 +30,7 @@ public class RobotContainer {
    */
   
   //Subsystems
-  public final DriveTrain driveTrain = new DriveTrain();
+  public static final DriveTrain driveTrain = new DriveTrain();
   public static final OI oi = new OI(); //Phase out
   public static final Limelight limelight = new Limelight();
   public static final Shooter shooter = new Shooter();
