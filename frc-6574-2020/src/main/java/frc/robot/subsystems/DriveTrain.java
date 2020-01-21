@@ -9,12 +9,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
-<<<<<<< Updated upstream
-=======
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
->>>>>>> Stashed changes
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
@@ -64,11 +59,8 @@ public class DriveTrain extends SubsystemBase {
    */
   public void arcadeDrive(double drive, double steer) {
 
-<<<<<<< Updated upstream
-=======
     SmartDashboard.putNumber("Encoder Position", frontLeft.getEncoder().getPosition());
 
->>>>>>> Stashed changes
     // if steer and drive are both too low, stop the motors and end
     if ((Math.abs(drive) <= 0.05) && (Math.abs(steer) <= 0.05)) {
       stop();
