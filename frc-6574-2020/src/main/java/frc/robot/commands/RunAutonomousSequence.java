@@ -8,6 +8,11 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+<<<<<<< Updated upstream
+=======
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import frc.robot.RobotContainer;
+>>>>>>> Stashed changes
 import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
@@ -89,17 +94,24 @@ final double degreesPerSecond = 90.0;
    // CommandScheduler.getInstance().schedule((new DriveByTime(driveTrain, -.25, 0.0,time)));
     //.withTimeout(time));
     
+<<<<<<< Updated upstream
   //  CommandScheduler.getInstance().schedule(new StartEndCommand(()->driveTrain.arcadeDrive(.25,0),
   //  ()->driveTrain.arcadeDrive(0,0), driveTrain)).withTimeout(2.0);
   
   // CommandScheduler.getInstance().schedule(new ArcadeDrive(driveTrain));
   }
+=======
+  //  then try the following... not sure what the implications are relative to driveTrain 
+  //  new StartEndCommand(()->driveTrain.arcadeDrive(-driveSpeed,0), 
+  //          ()->driveTrain.arcadeDrive(0,0)).withTimeout(time).schedule();
+}
+>>>>>>> Stashed changes
 
   private void driveForward(double distance){
     RobotContainer.leds.set(.81);
-    double time = distance / feetPerSecond;  
+    double timeDelay = distance / feetPerSecond;  
     driveTrain.arcadeDrive(driveSpeed, 0);
-    Timer.delay(time);
+    Timer.delay(timeDelay);
     driveTrain.arcadeDrive(0,0);
  //   CommandScheduler.getInstance().schedule((new DriveByTime(driveTrain, .25, 0.0)).withTimeout(time));
  //   CommandScheduler.getInstance().schedule(new ArcadeDrive(driveTrain));
@@ -111,11 +123,20 @@ final double degreesPerSecond = 90.0;
     driveTrain.arcadeDrive(0,turnSpeed);
     Timer.delay(timeDelay);
   }
+  
   private void turnLeft(double degree) {
     RobotContainer.leds.set(.69);
     double timeDelay = degree / degreesPerSecond;
     driveTrain.arcadeDrive(0,-turnSpeed);
     Timer.delay(timeDelay);
+<<<<<<< Updated upstream
+=======
+    driveTrain.arcadeDrive(0,0);
+
+  //  then try the following... not sure what the implications are relative to driveTrain 
+  //  new StartEndCommand(()->driveTrain.arcadeDrive(0,-turnSpeed), 
+  //          ()->driveTrain.arcadeDrive(0,0)).withTimeout(timeDelay).schedule();;
+>>>>>>> Stashed changes
   }
 
   private void intakeOn() {
@@ -128,6 +149,4 @@ private void intakeOff() {
     Timer.delay(1.0);
   }
 
-
- 
-}
+} // end class
