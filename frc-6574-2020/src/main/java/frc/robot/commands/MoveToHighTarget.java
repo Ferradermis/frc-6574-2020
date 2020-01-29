@@ -116,3 +116,32 @@ public class MoveToHighTarget extends CommandBase {
     return finished;
   }
 }
+<<<<<<< Updated upstream
+=======
+  /*  this code is just here in case needed at some point
+  /*    if(RobotContainer.oi.l_bButton.get()){
+       //sets pipeline
+       Limelight limelight = RobotContainer.limelight;
+       limelight.setTarget(1);
+    
+             
+       if (!limelight.hasTarget()){
+         driveTrain.arcadeDrive(0,0);
+         return;
+       }
+
+       double angleX = limelight.getAngleX();
+       SmartDashboard.putNumber("ball tx", angleX);
+
+      // otherwise aim towards ball and move "forward"
+      steer_cmd = angleX/27; // normalize tx
+      drive_cmd = (.25); // drive forward at steady state
+      SmartDashboard.putNumber("steer cmd", steer_cmd);
+      SmartDashboard.putNumber("drive cmd", drive_cmd);
+   
+      driveTrain.arcadeDrive(drive_cmd, steer_cmd);
+      return;
+    }
+*/
+
+>>>>>>> Stashed changes

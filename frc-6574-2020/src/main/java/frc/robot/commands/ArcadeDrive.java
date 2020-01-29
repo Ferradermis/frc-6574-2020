@@ -7,7 +7,10 @@
 
 package frc.robot.commands;
 
+<<<<<<< Updated upstream
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+=======
+>>>>>>> Stashed changes
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
@@ -16,6 +19,11 @@ import frc.robot.subsystems.Limelight;
 public class ArcadeDrive extends CommandBase {
 
   private DriveTrain driveTrain;
+<<<<<<< Updated upstream
+=======
+  final double THROTTLE = .25; // controls speed via joystick; useful for test driving
+                              // set to 1 for normal drive speed
+>>>>>>> Stashed changes
 
   public ArcadeDrive(DriveTrain driveTrain) {
     this.driveTrain = driveTrain;
@@ -24,7 +32,7 @@ public class ArcadeDrive extends CommandBase {
 
   // Called just before this Command runs the first time
   @Override
- public void initialize() {
+  public void initialize() {
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -34,6 +42,7 @@ public class ArcadeDrive extends CommandBase {
   public void execute() {
     double steer_cmd=0;
     double drive_cmd=0;
+<<<<<<< Updated upstream
 
     /* this code has all been moved to MoveToHighTarget command
     // IF xButton is pressed, then target the powerport
@@ -138,6 +147,18 @@ public class ArcadeDrive extends CommandBase {
     // dividing drive_cmd and steer_cmd by 8 during testing in classroom
     // delete division when on larger field and done testing
     driveTrain.arcadeDrive(drive_cmd/4, steer_cmd/4);   
+=======
+
+    // Read data from joystick and drive per joystick positioning
+    double y = -RobotContainer.oi.getDriverLeftY();
+    double x = RobotContainer.oi.getDriverRightX();
+  
+    drive_cmd = Math.pow(y, 3);       // cubing y makes it more "sensitive"
+    steer_cmd = Math.pow(x, 3); // cubing x and /2 makes it more "sensitive"
+  
+    // throttle is constant that controls "speed" of robot; helpful in testing in small areas
+    driveTrain.arcadeDrive(drive_cmd*THROTTLE, steer_cmd*THROTTLE);   
+>>>>>>> Stashed changes
   }
 
   // Make this return true when this Command no longer needs to run execute()

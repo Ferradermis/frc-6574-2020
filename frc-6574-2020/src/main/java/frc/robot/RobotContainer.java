@@ -11,9 +11,14 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.MoveToHighTarget;
+<<<<<<< Updated upstream
 import frc.robot.commands.RunAutonomousSequence;
+=======
+import frc.robot.commands.RunGyroAutonomousSequence;
+>>>>>>> Stashed changes
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
@@ -30,17 +35,23 @@ public class RobotContainer {
    */
   
   //Subsystems
-  public final DriveTrain driveTrain = new DriveTrain();
+  /** */ 
+  public static final DriveTrain driveTrain = new DriveTrain();
   public static final OI oi = new OI(); //Phase out
   public static final Limelight limelight = new Limelight();
   public static final Shooter shooter = new Shooter();
+<<<<<<< Updated upstream
   public static Spark leds = new Spark(0);
+=======
+ // public static Spark leds = new Spark(0);
+>>>>>>> Stashed changes
   
   //Commands
   public final ArcadeDrive arcadeDrive = new ArcadeDrive(driveTrain);
 
   public RobotContainer() {
     configureButtonBindings();
+    driveTrain.setDefaultCommand(arcadeDrive);
   }
 
   /**
@@ -51,7 +62,11 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     oi.l_xButton.whileHeld(new MoveToHighTarget(driveTrain));
+<<<<<<< Updated upstream
     oi.l_yButton.whenPressed(new RunAutonomousSequence(driveTrain));
+=======
+    oi.l_yButton.whenPressed(new RunGyroAutonomousSequence(driveTrain));  
+>>>>>>> Stashed changes
   }
 
 
@@ -61,7 +76,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return null;
+    return new RunGyroAutonomousSequence(driveTrain);
   }
 }
