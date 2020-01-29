@@ -7,13 +7,7 @@
 
 package frc.robot.subsystems;
 
-<<<<<<< Updated upstream
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotContainer;
-=======
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
->>>>>>> Stashed changes
 
 public class Shooter extends SubsystemBase {
   /**
@@ -34,11 +28,6 @@ public class Shooter extends SubsystemBase {
 
   public void shoot()
   {
-<<<<<<< Updated upstream
-    RobotContainer.leds.set(.99);
-    Timer.delay(5.0);
-=======
   //Timer.delay(0.5);
->>>>>>> Stashed changes
   }
 }

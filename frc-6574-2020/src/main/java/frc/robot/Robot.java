@@ -8,14 +8,10 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-<<<<<<< Updated upstream
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-=======
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.RunGyroAutonomousSequence;
 import frc.robot.subsystems.Limelight;
->>>>>>> Stashed changes
 
 public class Robot extends TimedRobot {
 
@@ -53,7 +49,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     SmartDashboard.putNumber("Current Gyro setting tP", RobotContainer.driveTrain.getGyroAngle());
-    SmartDashboard.putNumber("Current Encoder Position tP", RobotContainer.driveTrain.getPosition());
 
   }
 

@@ -116,8 +116,6 @@ public class MoveToHighTarget extends CommandBase {
     return finished;
   }
 }
-<<<<<<< Updated upstream
-=======
   /*  this code is just here in case needed at some point
   /*    if(RobotContainer.oi.l_bButton.get()){
        //sets pipeline
@@ -144,4 +142,3 @@ public class MoveToHighTarget extends CommandBase {
     }
 */
 
->>>>>>> Stashed changes

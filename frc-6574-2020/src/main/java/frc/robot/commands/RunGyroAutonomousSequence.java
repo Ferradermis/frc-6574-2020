@@ -44,71 +44,19 @@ public class RunGyroAutonomousSequence extends InstantCommand {
     System.out.println("Running Autonomous - Start Time:" + Timer.getFPGATimestamp());
 
     // Shoot
-   // System.out.println("Running Autonomous - Status: Shooting");
     // RobotContainer.shooter.shoot(); //turns on black LED and delay .05 sec 
-
-    // Turn to Heading 1
-    System.out.println("Running Autonomous - Status: Turning to Heading1.");
-    System.out.println("Starting Gyro setting" +  driveTrain.getGyroAngle());
-    System.out.println("Starting Encoder position" + driveTrain.getPosition());
     turnToHeading(Heading1);
-    System.out.println("Ending Gyro setting: " + driveTrain.getGyroAngle());
-    System.out.println("Ending Encoder position: " + driveTrain.getPosition());
-    System.out.println("Running Autonomous - Status: Done Turning to Heading 1");
-    System.out.println("");
- 
-    // Drive SideA  
-    System.out.println("Running Autonomous - Status Driving SideA");
-    System.out.println("Starting Gyro setting: " +  driveTrain.getGyroAngle());
-    System.out.println("Starting Encoder position: " + driveTrain.getPosition());
     driveAlongAngle(SideA,-1,Heading1); // drive backward 10 feet
-    //driveAlongAngle(SideA, 1, Heading1);
- //   simpleDriveBackward(SideA);
- //   simpleDriveForward(SideA);
-    System.out.println("Ending Gyro setting: " + driveTrain.getGyroAngle());
-    System.out.println("Ending Encoder position: " + driveTrain.getPosition());
-    System.out.println("Running Autonomous - Status: Done Driving SideA");
-    System.out.println("");
-   
-    System.out.println("");
-    System.out.println("Running Autonomous - Status: Turning Right to 0.0");
-    System.out.println("Starting Gyro setting: " +  driveTrain.getGyroAngle());
-    System.out.println("Starting Encoder position: " + driveTrain.getPosition());
     turnToHeading(0.0); 
-    System.out.println("Ending Gyro setting: " + driveTrain.getGyroAngle());
-    System.out.println("Ending Encoder position: " + driveTrain.getPosition());
-    System.out.println("Running Autonomous - Status: Done Turning Right to 0.0");
-    System.out.println("");
-    
-  //  SmartDashboard.putString("Running Autonomous - Status", "Intake On");
-    //intakeOn(); //turn on gold LED and delay 1 second
-  
-   // SmartDashboard.putString("Running Autonomous - Status", "Driving Backward " + SideB + " feet");
+    //intakeOn(); 
     driveAlongAngle(SideB, -1, 0.0); //Drive backwards to collect balls
-  //  System.out.println("Driving backward to collect power cells");
-
-  //  SmartDashboard.putString("Running Autonomous - Status", "Intake Off");
-   // intakeOff(); //turn on gold LED and delay 1 second
-  
-  //  SmartDashboard.putString("Running Autonomous - Status", "Turning Left to " + Heading2);
+   // intakeOff(); 
     turnToHeading(Heading2); //
-   // System.out.println("Turning to Heading 2");
-  //  SmartDashboard.putString("Running Autonomous - Status", "Driving Forward " + SideC + " feet.");
     driveAlongAngle(SideC, 1, Heading2); //Drive forward to start position
-  //  System.out.println("Driving forward to start position");
-  
-  //  SmartDashboard.putString("Running Autonomous - Status", "Done turning Right to 0.0");
-    //driveAlongAngle(1,1,0); //turn to target
-  //  System.out.println("Turning to target");
-  
     turnToHeading(0.0);
-    //driveTrain.arcadeDrive(0,0);
-
-    //SmartDashboard.putString("Running Autonomous - Status", "Aiming");
-    //aim(); //turns on dark green LED and delay 2 sec
-  
-    //SmartDashboard.putString("Running Autonomous - Status", "Shooting");
-    //RobotContainer.shooter.shoot(); //turns on black LED and delay 3 sec  
+    //driveTrain.stop();  // use this if we choose to remove stops with functions
+    //aim(); 
+    //robotContainer.shooter.shoot(); 
     double endTime = Timer.getFPGATimestamp();
     System.out.println("End Time:" + endTime);
     System.out.println("Run Time of Autonomous" + (endTime - startTime));
@@ -119,13 +67,10 @@ public class RunGyroAutonomousSequence extends InstantCommand {
   {
     double driveSpeed = MaxDriveSpeed * direction;
     double distanceInEncoderUnits = direction * distanceInFeet * EncoderUnitsPerFeet; 
-    
-  //  driveTrain.resetPosition();    
-    
+      
     double startPosition = driveTrain.getPosition();  
     double endPosition = startPosition + distanceInEncoderUnits;
-    System.out.println("In dAA, startPosition = " + startPosition);
-    System.out.println("In dAA, endPosition intended = " + endPosition);
+
 
     double angleError = alongAngle-driveTrain.getGyroAngle();
     if (Math.abs(angleError) > 1) {
@@ -222,11 +167,6 @@ public class RunGyroAutonomousSequence extends InstantCommand {
   private void drive(double distance, int direction) {
     driveAlongAngle(distance, direction, driveTrain.getGyroAngle());
   }
-
-//  @Override
-//  public void end(boolean interrupted) {
-//    CommandScheduler.getInstance().schedule(arcadeDrive);
-//  }
 
 
 }

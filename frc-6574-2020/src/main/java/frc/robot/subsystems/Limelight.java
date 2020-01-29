@@ -18,13 +18,10 @@ public class Limelight extends SubsystemBase {
 
     public NetworkTable limelight = NetworkTableInstance.getDefault().getTable("limelight");
 
-<<<<<<< Updated upstream
-=======
     public Limelight()
     {
         ledOff();
     }
->>>>>>> Stashed changes
     public void setTarget(int pipeline){
         limelight.getEntry("pipeline").setNumber(pipeline);
     }
