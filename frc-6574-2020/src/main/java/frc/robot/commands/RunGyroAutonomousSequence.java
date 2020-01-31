@@ -18,12 +18,25 @@ public class RunGyroAutonomousSequence extends InstantCommand {
    * Creates a new RunAutonomousSequence.
    */
   DriveTrain driveTrain;
+  // PlanA constants
+  final double PlanAHeading1 = -40.0;
+  final double PlanAHeading2 = -23.0;
+  final double PlanASideA = 10.0;  //10.0
+  final double PlanASideB = 7.0;  //7.0
+  final double PlanASideC = 12.5; //12.5
+ 
+  // PlanB constants
 
-  final double Heading1 = -40.0;
-  final double Heading2 = -23.0;
-  final double SideA = 10.0;  //10.0
-  final double SideB = 7.0;  //7.0
-  final double SideC = 12.5; //12.5
+  final double PlanBHeading1 = -45.0;
+  final double PlanBHeading2 = 61.20;
+  final double PlanBSideA = 10.83;
+  final double PlanBSideB = 2.25;
+  final double PlanBSideC = 3.25;
+  final double PlanBSideD = 19.25;
+  //
+  
+ 
+
   final double MaxDriveSpeed = 0.5;
   final double MaxTurnSpeed = 0.25;
   final double EncoderUnitsPerFeet = 13000;
@@ -44,19 +57,31 @@ public class RunGyroAutonomousSequence extends InstantCommand {
     driveTrain.resetGyro();
     // Shoot
     // RobotContainer.shooter.shoot(); 
-    turnToHeading(Heading1);
-    driveAlongAngle(SideA,-1,Heading1); 
-    turnToHeading(0.0); 
-    //intakeOn(); 
-    driveAlongAngle(SideB, -1, 0.0); 
-   // intakeOff(); 
-    turnToHeading(Heading2); 
-    driveAlongAngle(SideC, 1, Heading2); 
-    turnToHeading(0.0);
-    //driveTrain.stop();  // use this if we choose to remove stops with functions
-    //aim(); 
-    //robotContainer.shooter.shoot(); 
-    
+    if (autonomousPlan == PlanA){
+      turnToHeading(PlanAHeading1);
+      driveAlongAngle(PlanASideA,-1,PlanAHeading1); 
+      turnToHeading(0.0); 
+      //intakeOn(); 
+      driveAlongAngle(PlanASideB, -1, 0.0); 
+      // intakeOff(); 
+      turnToHeading(PlanAHeading2); 
+      driveAlongAngle(PlanASideC, 1, PlanAHeading2); 
+      turnToHeading(0.0);
+      //driveTrain.stop();  // use this if we choose to remove stops with functions
+      //aim(); 
+      //robotContainer.shooter.shoot(); 
+    }
+    else if (autonomousPlan == planB)
+    {
+    driveAlongAngle(PlanBSideA, -1, 0);
+    driveAlongAngle(PlanBSideB, 1, 0);
+    turnToHeading(PlanBHeading1);
+    driveAlongAngle(PlanBSideC, -1, -45);
+    turnToHeading(PlanBHeading2);
+    driveAlongAngle(PlanBSideD, 1, 61.20);
+    turnToHeading(0);
+    }
+  }    
     double endTime = Timer.getFPGATimestamp();
     System.out.println("End Time:" + endTime);
     System.out.println("Run Time of Autonomous" + (endTime - startTime));
