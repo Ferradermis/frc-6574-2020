@@ -24,13 +24,13 @@ public class RobotMap {
     CAN ID values
   */
   /** Front left drive train motor CAN ID. */
-  public static final int FRONT_LEFT_CAN_ID = 1;
+  public static final int FRONT_LEFT_CAN_ID = 2;
   /** Back left drive train motor CAN ID. */
   public static final int BACK_LEFT_CAN_ID = 3;
   /** Front right drive train motor CAN ID. */
-  public static final int FRONT_RIGHT_CAN_ID = 2;
+  public static final int FRONT_RIGHT_CAN_ID = 0;
   /** Back right drive train motor CAN ID. */
-  public static final int BACK_RIGHT_CAN_ID = 4;
+  public static final int BACK_RIGHT_CAN_ID = 1;
   
   /** Wedge deployment motor CAN ID. */
   public static final int WEDGE_MOTOR_CAN_ID = 7; //CHANGED FROM 5 

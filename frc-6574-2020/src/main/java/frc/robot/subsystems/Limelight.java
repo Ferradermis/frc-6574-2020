@@ -18,6 +18,14 @@ public class Limelight extends SubsystemBase {
 
     public NetworkTable limelight = NetworkTableInstance.getDefault().getTable("limelight");
 
+    public Limelight()
+    {
+        ledOff();
+    }
+    public void setTarget(int pipeline){
+        limelight.getEntry("pipeline").setNumber(pipeline);
+    }
+
     /**
      * Returns whether or not the Limelight has a valid target
      * in view, as identified by its targeting parameters.
@@ -46,10 +54,19 @@ public class Limelight extends SubsystemBase {
      * Returns the difference between the center of the camera's
      * view and the target's center.
      * 
-     * @return  a double containing the difference in degrees (in the range of -27 to 27)
+     * @return  a double containing the difference in degrees (in the range of -29.8 to 29.8)
      */
-    public double targetX() {
+    public double getAngleX() {
         return limelight.getEntry("tx").getDouble(0);
+    }
+   /**
+     * Returns the difference between the center of the camera's
+     * view and the target's center.
+     * 
+     * @return  a double containing the difference in degrees (in the range of -24.85 to 24.85)
+     */
+    public double getAngleY() {
+        return limelight.getEntry("ty").getDouble(0);
     }
 
 }

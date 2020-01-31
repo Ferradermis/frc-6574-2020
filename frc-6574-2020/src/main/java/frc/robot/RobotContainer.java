@@ -8,11 +8,15 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.MoveToHighTarget;
+import frc.robot.commands.RunGyroAutonomousSequence;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.Shooter;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -21,20 +25,24 @@ import frc.robot.subsystems.Limelight;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-
+   /**
+   * The container for the robot.  Contains subsystems, OI devices, and commands.
+   */
+  
   //Subsystems
-  public final DriveTrain driveTrain = new DriveTrain();
+  /** */ 
+  public static final DriveTrain driveTrain = new DriveTrain();
   public static final OI oi = new OI(); //Phase out
   public static final Limelight limelight = new Limelight();
+  public static final Shooter shooter = new Shooter();
+ // public static Spark leds = new Spark(0);
   
   //Commands
   public final ArcadeDrive arcadeDrive = new ArcadeDrive(driveTrain);
 
-  /**
-   * The container for the robot.  Contains subsystems, OI devices, and commands.
-   */
   public RobotContainer() {
     configureButtonBindings();
+    driveTrain.setDefaultCommand(arcadeDrive);
   }
 
   /**
@@ -44,6 +52,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    oi.l_xButton.whileHeld(new MoveToHighTarget(driveTrain));
+    oi.l_yButton.whenPressed(new RunGyroAutonomousSequence(driveTrain));  
   }
 
 
@@ -53,7 +63,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return null;
+    return new RunGyroAutonomousSequence(driveTrain);
   }
 }
