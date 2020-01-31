@@ -22,7 +22,7 @@ public class RunGyroAutonomousSequence extends InstantCommand {
   final double Heading1 = -40.0;
   final double Heading2 = -23.0;
   final double SideA = 10.0;  //10.0
-  final double SideB = 5.0;  //5.0
+  final double SideB = 7.0;  //7.0
   final double SideC = 12.5; //12.5
   final double MaxDriveSpeed = 0.5;
   final double MaxTurnSpeed = 0.25;
@@ -37,26 +37,26 @@ public class RunGyroAutonomousSequence extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    driveTrain.arcadeDrive(0, 0);
-    driveTrain.resetGyro();
- //   driveTrain.resetPosition();
     double startTime = Timer.getFPGATimestamp();
     System.out.println("Running Autonomous - Start Time:" + Timer.getFPGATimestamp());
-
+    
+    driveTrain.stop();
+    driveTrain.resetGyro();
     // Shoot
-    // RobotContainer.shooter.shoot(); //turns on black LED and delay .05 sec 
+    // RobotContainer.shooter.shoot(); 
     turnToHeading(Heading1);
-    driveAlongAngle(SideA,-1,Heading1); // drive backward 10 feet
+    driveAlongAngle(SideA,-1,Heading1); 
     turnToHeading(0.0); 
     //intakeOn(); 
-    driveAlongAngle(SideB, -1, 0.0); //Drive backwards to collect balls
+    driveAlongAngle(SideB, -1, 0.0); 
    // intakeOff(); 
-    turnToHeading(Heading2); //
-    driveAlongAngle(SideC, 1, Heading2); //Drive forward to start position
+    turnToHeading(Heading2); 
+    driveAlongAngle(SideC, 1, Heading2); 
     turnToHeading(0.0);
     //driveTrain.stop();  // use this if we choose to remove stops with functions
     //aim(); 
     //robotContainer.shooter.shoot(); 
+    
     double endTime = Timer.getFPGATimestamp();
     System.out.println("End Time:" + endTime);
     System.out.println("Run Time of Autonomous" + (endTime - startTime));
@@ -70,7 +70,6 @@ public class RunGyroAutonomousSequence extends InstantCommand {
       
     double startPosition = driveTrain.getPosition();  
     double endPosition = startPosition + distanceInEncoderUnits;
-
 
     double angleError = alongAngle-driveTrain.getGyroAngle();
     if (Math.abs(angleError) > 1) {
@@ -89,8 +88,6 @@ public class RunGyroAutonomousSequence extends InstantCommand {
       }
     }
     driveTrain.stop();
-    System.out.println("In dAA, endPosition actual = " + driveTrain.getPosition());
-
   }
 
   private void turnToHeading(double intendedHeading) {    
@@ -111,24 +108,15 @@ public class RunGyroAutonomousSequence extends InstantCommand {
   }
 
   private void driveForwardInEncoderUnits(double distanceinEU, double speed)
-  {
-  //  driveTrain.resetPosition();
-    SmartDashboard.putNumber("dFIEU start pos: ", driveTrain.getPosition());
-  
+  {  
     while (driveTrain.getPosition() < distanceinEU)
     {
       driveTrain.arcadeDrive(speed,0);
     }
-    double endPos = driveTrain.getPosition();
     driveTrain.stop();
-  
-    SmartDashboard.putNumber("dFIEU end pos: ", endPos);
-    Timer.delay(.05);                          // allow any remaining drift to occur
-    SmartDashboard.putNumber("dFIEU drift: ", driveTrain.getPosition()-distanceinEU);
-  }
+}
 
   private void simpleDriveForward(double distanceInFeet) {
-    //driveTrain.resetPosition();
     double distanceInEncoderUnits = distanceInFeet * EncoderUnitsPerFeet; 
  
     double startPosition = driveTrain.getPosition();
@@ -140,7 +128,6 @@ public class RunGyroAutonomousSequence extends InstantCommand {
   }
 
   private void simpleDriveBackward(double distanceInFeet) {
-    //driveTrain.resetPosition();
     double distanceInEncoderUnits = distanceInFeet * EncoderUnitsPerFeet; 
     
     double startPosition = driveTrain.getPosition();
@@ -150,23 +137,5 @@ public class RunGyroAutonomousSequence extends InstantCommand {
   
     driveTrain.stop();
   }
-
-  private void intakeOn() {
-   }
-
-  private void intakeOff() {
-   }
-
-   private void driveForward(double distance){
-    driveAlongAngle(distance, 1, driveTrain.getGyroAngle());
-  }
-
-  private void driveBackward(double distance){
-    driveAlongAngle(distance, -1, driveTrain.getGyroAngle());
-  }
-  private void drive(double distance, int direction) {
-    driveAlongAngle(distance, direction, driveTrain.getGyroAngle());
-  }
-
 
 }
