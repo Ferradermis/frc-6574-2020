@@ -7,10 +7,10 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.subsystems.DriveTrain;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.DriveTrain;
 
 
 public class RunGyroAutonomousSequence extends InstantCommand {
@@ -18,7 +18,10 @@ public class RunGyroAutonomousSequence extends InstantCommand {
    * Creates a new RunAutonomousSequence.
    */
   DriveTrain driveTrain;
+  
+  final char TestPlan = 'T';
   // PlanA constants
+  final char PlanA = 'A';
   final double PlanAHeading1 = -40.0;
   final double PlanAHeading2 = -23.0;
   final double PlanASideA = 10.0;  //10.0
@@ -26,7 +29,7 @@ public class RunGyroAutonomousSequence extends InstantCommand {
   final double PlanASideC = 12.5; //12.5
  
   // PlanB constants
-
+  final char PlanB = 'B';
   final double PlanBHeading1 = -45.0;
   final double PlanBHeading2 = 61.20;
   final double PlanBSideA = 10.83;
@@ -35,8 +38,6 @@ public class RunGyroAutonomousSequence extends InstantCommand {
   final double PlanBSideD = 19.25;
   //
   
- 
-
   final double MaxDriveSpeed = 0.5;
   final double MaxTurnSpeed = 0.25;
   final double EncoderUnitsPerFeet = 13000;
@@ -50,14 +51,21 @@ public class RunGyroAutonomousSequence extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    char autonomousPlan = TestPlan;
     double startTime = Timer.getFPGATimestamp();
     System.out.println("Running Autonomous - Start Time:" + Timer.getFPGATimestamp());
     
     driveTrain.stop();
     driveTrain.resetGyro();
-    // Shoot
-    // RobotContainer.shooter.shoot(); 
-    if (autonomousPlan == PlanA){
+
+    if (autonomousPlan == TestPlan) {
+      turnToHeading(-45.0);
+      driveAlongAngle(2, -1, -45.0);
+    }
+    else if (autonomousPlan == PlanA){
+      // Shoot
+      // RobotContainer.shooter.shoot(); 
+   
       turnToHeading(PlanAHeading1);
       driveAlongAngle(PlanASideA,-1,PlanAHeading1); 
       turnToHeading(0.0); 
@@ -67,12 +75,14 @@ public class RunGyroAutonomousSequence extends InstantCommand {
       turnToHeading(PlanAHeading2); 
       driveAlongAngle(PlanASideC, 1, PlanAHeading2); 
       turnToHeading(0.0);
-      //driveTrain.stop();  // use this if we choose to remove stops with functions
+    //  driveTrain.stop();  // use this if we choose to remove stops with functions
       //aim(); 
       //robotContainer.shooter.shoot(); 
     }
-    else if (autonomousPlan == planB)
+    else if (autonomousPlan == PlanB)  // grabbing two opponents Power Cells near their 
     {
+      // START NEAR OPPONENTS LOADING BAY, 
+      // drive backward to get two power cells in opponent trench run
     driveAlongAngle(PlanBSideA, -1, 0);
     driveAlongAngle(PlanBSideB, 1, 0);
     turnToHeading(PlanBHeading1);
@@ -80,6 +90,8 @@ public class RunGyroAutonomousSequence extends InstantCommand {
     turnToHeading(PlanBHeading2);
     driveAlongAngle(PlanBSideD, 1, 61.20);
     turnToHeading(0);
+    // aim
+    // RobotContainer.shooter.shoot(); // should be shooting 5 power cells
     }
   }    
     double endTime = Timer.getFPGATimestamp();
@@ -91,25 +103,36 @@ public class RunGyroAutonomousSequence extends InstantCommand {
   private void driveAlongAngle(double distanceInFeet, int direction, double alongAngle)
   {
     double driveSpeed = MaxDriveSpeed * direction;
-    double distanceInEncoderUnits = direction * distanceInFeet * EncoderUnitsPerFeet; 
+    double distanceInEncoderUnits = direction * distanceInFeet * EncoderUnitsPerFeet;
+    double distanceError = distanceInEncoderUnits; 
       
     double startPosition = driveTrain.getPosition();  
     double endPosition = startPosition + distanceInEncoderUnits;
 
     double angleError = alongAngle-driveTrain.getGyroAngle();
+  
     if (Math.abs(angleError) > 1) {
       turnToHeading(alongAngle);
     }
 
+    double currentPosition = driveTrain.getPosition();
     if (direction == -1){ // going backward
-      while (driveTrain.getPosition() > endPosition){
+      while (currentPosition > endPosition){
+        distanceError = endPosition-currentPosition;
+        driveSpeed = (Math.abs(distanceError) > (2 * EncoderUnitsPerFeet) ? MaxDriveSpeed :
+             (Math.abs(distanceError) / EncoderUnitsPerFeet / 2 * MaxDriveSpeed ));
         angleError = alongAngle-driveTrain.getGyroAngle();
         driveTrain.arcadeDrive(driveSpeed,angleError*.005);
+        currentPosition = driveTrain.getPosition();
       }
     } else { // going forward
-      while (driveTrain.getPosition() < endPosition) {
+      while (currentPosition < endPosition) {
+        distanceError = endPosition-currentPosition;
+        driveSpeed = (Math.abs(distanceError) > (2 * EncoderUnitsPerFeet) ? MaxDriveSpeed :
+             (Math.abs(distanceError) / EncoderUnitsPerFeet / 2 * MaxDriveSpeed ));
         angleError = alongAngle-driveTrain.getGyroAngle();
         driveTrain.arcadeDrive(driveSpeed,angleError*.005);
+        currentPosition = driveTrain.getPosition();
       }
     }
     driveTrain.stop();
