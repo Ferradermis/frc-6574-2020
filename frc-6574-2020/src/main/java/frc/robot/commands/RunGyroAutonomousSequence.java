@@ -19,8 +19,12 @@ public class RunGyroAutonomousSequence extends InstantCommand {
    */
   DriveTrain driveTrain;
   
+  // TestPlan constants:  Use TestPlan to run simple tests
   final char TestPlan = 'T';
-  // PlanA constants
+ 
+  // PlanA constants: Plan A starts in front of target, shoots 3 balls, retrieves first 3 balls in trench
+  // need to decide if we want to pick up last two balls in trench
+  // drive to target, shoot 3-5 balls
   final char PlanA = 'A';
   final double PlanAHeading1 = -40.0;
   final double PlanAHeading2 = -23.0;
@@ -28,7 +32,8 @@ public class RunGyroAutonomousSequence extends InstantCommand {
   final double PlanASideB = 7.0;  //7.0
   final double PlanASideC = 12.5; //12.5
  
-  // PlanB constants
+  // PlanB constants:  Plan B starts in front of outside ball near opponents trench;
+  // retrieve outside ball, retrieve inside ball, drive to target, shoot 5 balls
   final char PlanB = 'B';
   final double PlanBHeading1 = -45.0;
   final double PlanBHeading2 = 61.20;
@@ -59,8 +64,19 @@ public class RunGyroAutonomousSequence extends InstantCommand {
     driveTrain.resetGyro();
 
     if (autonomousPlan == TestPlan) {
-      
-      driveAlongAngle(10, -1, 0);
+      turnToHeading(20);
+      Timer.delay(1);
+      turnToHeading(60);
+      Timer.delay(1);
+      turnToHeading(30);
+      Timer.delay(1);
+      turnToHeading(-10);
+      Timer.delay(1);
+      turnToHeading(-70);
+      Timer.delay(1);
+      turnToHeading(30);
+
+      driveAlongAngle(1, -1, 0);
     }
     else if (autonomousPlan == PlanA){
       // Shoot
