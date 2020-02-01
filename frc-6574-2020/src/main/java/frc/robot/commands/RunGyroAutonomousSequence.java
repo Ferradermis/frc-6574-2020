@@ -9,7 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.RobotContainer;
+//import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
 
 
@@ -35,12 +35,12 @@ public class RunGyroAutonomousSequence extends InstantCommand {
   final double PlanBSideA = 10.83;
   final double PlanBSideB = 2.25;
   final double PlanBSideC = 3.25;
-  final double PlanBSideD = 19.25;
+  final double PlanBSideD = 12.25; // 19.25
   //
   
   final double MaxDriveSpeed = 0.5;
   final double MaxTurnSpeed = 0.25;
-  final double EncoderUnitsPerFeet = 13000;
+  final double EncoderUnitsPerFeet = 14500;
 
   public RunGyroAutonomousSequence(DriveTrain driveTrain) {
     this.driveTrain = driveTrain;
@@ -59,8 +59,8 @@ public class RunGyroAutonomousSequence extends InstantCommand {
     driveTrain.resetGyro();
 
     if (autonomousPlan == TestPlan) {
-      turnToHeading(-45.0);
-      driveAlongAngle(2, -1, -45.0);
+      
+      driveAlongAngle(10, -1, 0);
     }
     else if (autonomousPlan == PlanA){
       // Shoot
@@ -83,17 +83,17 @@ public class RunGyroAutonomousSequence extends InstantCommand {
     {
       // START NEAR OPPONENTS LOADING BAY, 
       // drive backward to get two power cells in opponent trench run
-    driveAlongAngle(PlanBSideA, -1, 0);
-    driveAlongAngle(PlanBSideB, 1, 0);
+    driveAlongAngle(PlanBSideA, -1, 0.0);
+    driveAlongAngle(PlanBSideB, 1, 0.0);
     turnToHeading(PlanBHeading1);
-    driveAlongAngle(PlanBSideC, -1, -45);
+    driveAlongAngle(PlanBSideC, -1, PlanBHeading1);
     turnToHeading(PlanBHeading2);
-    driveAlongAngle(PlanBSideD, 1, 61.20);
-    turnToHeading(0);
+    driveAlongAngle(PlanBSideD, 1, PlanBHeading2);
+    turnToHeading(0.0);
     // aim
     // RobotContainer.shooter.shoot(); // should be shooting 5 power cells
     }
-  }    
+      
     double endTime = Timer.getFPGATimestamp();
     System.out.println("End Time:" + endTime);
     System.out.println("Run Time of Autonomous" + (endTime - startTime));
@@ -105,6 +105,7 @@ public class RunGyroAutonomousSequence extends InstantCommand {
     double driveSpeed = MaxDriveSpeed * direction;
     double distanceInEncoderUnits = direction * distanceInFeet * EncoderUnitsPerFeet;
     double distanceError = distanceInEncoderUnits; 
+    
       
     double startPosition = driveTrain.getPosition();  
     double endPosition = startPosition + distanceInEncoderUnits;
@@ -119,8 +120,8 @@ public class RunGyroAutonomousSequence extends InstantCommand {
     if (direction == -1){ // going backward
       while (currentPosition > endPosition){
         distanceError = endPosition-currentPosition;
-        driveSpeed = (Math.abs(distanceError) > (2 * EncoderUnitsPerFeet) ? MaxDriveSpeed :
-             (Math.abs(distanceError) / EncoderUnitsPerFeet / 2 * MaxDriveSpeed ));
+        driveSpeed = (Math.abs(distanceError) > EncoderUnitsPerFeet) ? -MaxDriveSpeed :
+             (Math.abs(distanceError) / EncoderUnitsPerFeet * -MaxDriveSpeed *.75 -.05);
         angleError = alongAngle-driveTrain.getGyroAngle();
         driveTrain.arcadeDrive(driveSpeed,angleError*.005);
         currentPosition = driveTrain.getPosition();
@@ -128,8 +129,8 @@ public class RunGyroAutonomousSequence extends InstantCommand {
     } else { // going forward
       while (currentPosition < endPosition) {
         distanceError = endPosition-currentPosition;
-        driveSpeed = (Math.abs(distanceError) > (2 * EncoderUnitsPerFeet) ? MaxDriveSpeed :
-             (Math.abs(distanceError) / EncoderUnitsPerFeet / 2 * MaxDriveSpeed ));
+        driveSpeed = (Math.abs(distanceError) > ( EncoderUnitsPerFeet) ? MaxDriveSpeed :
+             (Math.abs(distanceError) / EncoderUnitsPerFeet  * MaxDriveSpeed * .75 + .05));
         angleError = alongAngle-driveTrain.getGyroAngle();
         driveTrain.arcadeDrive(driveSpeed,angleError*.005);
         currentPosition = driveTrain.getPosition();
@@ -142,7 +143,7 @@ public class RunGyroAutonomousSequence extends InstantCommand {
     double turnSpeed = ((intendedHeading-driveTrain.getGyroAngle()) < 0 ? -MaxTurnSpeed : MaxTurnSpeed);
     double tolerance = 13;
 
-    if (intendedHeading < 0){
+    if (intendedHeading < driveTrain.getGyroAngle()){
       while (driveTrain.getGyroAngle()>(intendedHeading+tolerance)) {
         driveTrain.arcadeDrive(0, turnSpeed);
       }
