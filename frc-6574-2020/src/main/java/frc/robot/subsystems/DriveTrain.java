@@ -36,6 +36,10 @@ public class DriveTrain extends SubsystemBase {
     double rampRate = 0.2; //time in seconds to go from 0 to full throttle; 0.2 is selected on feel by drivers for 2019
     int currentLimit = 30; //int because .setSmartCurrentLimit takes only ints, not doubles. Which makes sense programmatically. 
 
+    frontLeft.configFactoryDefault();
+    frontRight.configFactoryDefault();
+    backLeft.configFactoryDefault();
+    backRight.configFactoryDefault();
     frontLeft.config_kP(0, kP);
     frontRight.config_kP(0, kP);
     backLeft.config_kP(0, kP);
