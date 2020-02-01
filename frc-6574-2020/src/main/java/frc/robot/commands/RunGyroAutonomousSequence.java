@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.RobotContainer;
 //import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
 
@@ -63,35 +64,22 @@ public class RunGyroAutonomousSequence extends InstantCommand {
     driveTrain.stop();
     driveTrain.resetGyro();
 
-    if (autonomousPlan == TestPlan) {
-      turnToHeading(20);
-      Timer.delay(1);
-      turnToHeading(60);
-      Timer.delay(1);
-      turnToHeading(30);
-      Timer.delay(1);
-      turnToHeading(-10);
-      Timer.delay(1);
-      turnToHeading(-70);
-      Timer.delay(1);
-      turnToHeading(30);
-
-      driveAlongAngle(1, -1, 0);
+    if (autonomousPlan == TestPlan) {  
+      //intakeOn();
     }
     else if (autonomousPlan == PlanA){
       // Shoot
       // RobotContainer.shooter.shoot(); 
    
       turnToHeading(PlanAHeading1);
-      driveAlongAngle(PlanASideA,-1,PlanAHeading1); 
+      driveAlongAngle(PlanASideA, 1,PlanAHeading1); 
       turnToHeading(0.0); 
       //intakeOn(); 
-      driveAlongAngle(PlanASideB, -1, 0.0); 
+      driveAlongAngle(PlanASideB, 1, 0.0); 
       // intakeOff(); 
       turnToHeading(PlanAHeading2); 
-      driveAlongAngle(PlanASideC, 1, PlanAHeading2); 
+      driveAlongAngle(PlanASideC, -1, PlanAHeading2); 
       turnToHeading(0.0);
-    //  driveTrain.stop();  // use this if we choose to remove stops with functions
       //aim(); 
       //robotContainer.shooter.shoot(); 
     }
@@ -99,17 +87,18 @@ public class RunGyroAutonomousSequence extends InstantCommand {
     {
       // START NEAR OPPONENTS LOADING BAY, 
       // drive backward to get two power cells in opponent trench run
-    driveAlongAngle(PlanBSideA, -1, 0.0);
-    driveAlongAngle(PlanBSideB, 1, 0.0);
+    driveAlongAngle(PlanBSideA, 1, 0.0);
+    driveAlongAngle(PlanBSideB, -1, 0.0);
     turnToHeading(PlanBHeading1);
-    driveAlongAngle(PlanBSideC, -1, PlanBHeading1);
+    driveAlongAngle(PlanBSideC, 1, PlanBHeading1);
     turnToHeading(PlanBHeading2);
-    driveAlongAngle(PlanBSideD, 1, PlanBHeading2);
+    driveAlongAngle(PlanBSideD, -1, PlanBHeading2);
     turnToHeading(0.0);
     // aim
     // RobotContainer.shooter.shoot(); // should be shooting 5 power cells
     }
-      
+    
+    driveTrain.stop();    // make sure we are stopped at end of autonomous
     double endTime = Timer.getFPGATimestamp();
     System.out.println("End Time:" + endTime);
     System.out.println("Run Time of Autonomous" + (endTime - startTime));
@@ -201,6 +190,14 @@ public class RunGyroAutonomousSequence extends InstantCommand {
     driveTrain.drivePositionControl(-12000); 
   
     driveTrain.stop();
+  }
+
+  private void intakeOn() {
+    RobotContainer.intake.turnOn();
+  }
+
+  private void intakeOff() {
+    RobotContainer.intake.turnOff();
   }
 
 }

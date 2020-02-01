@@ -8,7 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SerialPort;
@@ -23,10 +23,10 @@ public class DriveTrain extends SubsystemBase {
   // here. Call these from Commands.
 
   private AHRS gyro = new AHRS(SerialPort.Port.kMXP); 
-  private TalonFX frontLeft = new TalonFX(RobotMap.FRONT_LEFT_CAN_ID);
-  private TalonFX backLeft = new TalonFX(RobotMap.BACK_LEFT_CAN_ID);
-  private TalonFX frontRight = new TalonFX(RobotMap.FRONT_RIGHT_CAN_ID);
-  private TalonFX backRight = new TalonFX(RobotMap.BACK_RIGHT_CAN_ID);
+  private WPI_TalonFX frontLeft = new WPI_TalonFX(RobotMap.FRONT_LEFT_CAN_ID);
+  private WPI_TalonFX backLeft = new WPI_TalonFX(RobotMap.BACK_LEFT_CAN_ID);
+  private WPI_TalonFX frontRight = new WPI_TalonFX(RobotMap.FRONT_RIGHT_CAN_ID);
+  private WPI_TalonFX backRight = new WPI_TalonFX(RobotMap.BACK_RIGHT_CAN_ID);
 
   public DriveTrain(){
     double kF = 0;
@@ -36,10 +36,23 @@ public class DriveTrain extends SubsystemBase {
     double rampRate = 0.2; //time in seconds to go from 0 to full throttle; 0.2 is selected on feel by drivers for 2019
     int currentLimit = 30; //int because .setSmartCurrentLimit takes only ints, not doubles. Which makes sense programmatically. 
 
+    gyro.enableLogging(false);
+
+    backLeft.follow(frontLeft);
+    backRight.follow(frontRight);
+
     frontLeft.configFactoryDefault();
     frontRight.configFactoryDefault();
     backLeft.configFactoryDefault();
     backRight.configFactoryDefault();
+
+    frontLeft.configOpenloopRamp(rampRate);
+    backLeft.configOpenloopRamp(rampRate);
+    frontRight.configOpenloopRamp(rampRate);
+    backRight.configOpenloopRamp(rampRate);
+
+//    frontLeft.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(enable, currentLimit, triggerThresholdCurrent, triggerThresholdTime));
+
     frontLeft.config_kP(0, kP);
     frontRight.config_kP(0, kP);
     backLeft.config_kP(0, kP);
@@ -102,7 +115,7 @@ public class DriveTrain extends SubsystemBase {
    */
   private void spinLeft(double speed) {
     frontLeft.set(ControlMode.PercentOutput,speed);
-    backLeft.set(ControlMode.PercentOutput,speed);
+//    backLeft.set(ControlMode.PercentOutput,speed);
   }
 
   /**
@@ -119,7 +132,7 @@ public class DriveTrain extends SubsystemBase {
    */
   private void spinRight(double speed) {
     frontRight.set(ControlMode.PercentOutput,speed);
-    backRight.set(ControlMode.PercentOutput,speed);
+//    backRight.set(ControlMode.PercentOutput,speed);
   }
 
   /**
@@ -158,8 +171,8 @@ public class DriveTrain extends SubsystemBase {
   {
     frontLeft.set(ControlMode.Position, endPosition);
     frontRight.set(ControlMode.Position, endPosition);
-    backRight.set(ControlMode.Position, endPosition);
-    backLeft.set(ControlMode.Position, endPosition);
+//    backRight.set(ControlMode.Position, endPosition);
+//    backLeft.set(ControlMode.Position, endPosition);
   }
 
   
