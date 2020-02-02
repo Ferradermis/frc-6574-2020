@@ -72,89 +72,43 @@ public class DriveTrain extends SubsystemBase {
    * best to pass in normalized variables from 1 to -1 
    */
   public void arcadeDrive(double drive, double steer) {
-
-   
-   // SmartDashboard.putNumber("Encoder Position", frontLeft.getSelectedSensorPosition());
-
     // if steer and drive are both too low, stop the motors and end
     if ((Math.abs(drive) <= 0.05) && (Math.abs(steer) <= 0.05)) {
       stop();
       return;
     }
 
-    // if steer and drive are not too low, then calculate "speed" and move
-   
     double leftSpeed = drive + steer;
     double rightSpeed = drive - steer;
 
-    if (leftSpeed > 1) {
-      leftSpeed = 1;
-    } else if (leftSpeed < -1) {
-      leftSpeed = -1;
-    }
+    if (leftSpeed > 1) { leftSpeed = 1; }
+      else if (leftSpeed < -1) {leftSpeed = -1;}
 
-    if (rightSpeed  > 1) {
-      rightSpeed = 1;
-    } else if (rightSpeed < -1) {
-      rightSpeed = -1;
-    }
-
-     spin(leftSpeed, rightSpeed);
-  
-    }
-      
-  private void spin(double leftSpeed, double rightSpeed){
-    spinLeft(leftSpeed);
-    spinRight(rightSpeed);
-  }
-  /**
-   * Spins the two left side motors of the robot's drive base.
-   * @param speed a double in the range of -1 to 1
-   * 
-   * Note current drivegears are faced "backwards" so need to invert the speed
-   */
-  private void spinLeft(double speed) {
-    frontLeft.set(ControlMode.PercentOutput,speed);
-//    backLeft.set(ControlMode.PercentOutput,speed);
+    if (rightSpeed  > 1) {rightSpeed = 1;}
+     else if (rightSpeed < -1) {rightSpeed = -1;}
+   
+     frontLeft.set(ControlMode.PercentOutput,leftSpeed);
+     frontRight.set(ControlMode.PercentOutput,rightSpeed);
   }
 
-  /**
-   * Stops the two left side motors of the robot's drive base.
-   */
-  private void stopLeft() {
-    spinLeft(0);
-  }
-
-  /**
-   * Spins the two right side motors of the robot's drive base.
-   * 
-   * @param speed a double in the range of -1 to 1
-   */
-  private void spinRight(double speed) {
-    frontRight.set(ControlMode.PercentOutput,speed);
-//    backRight.set(ControlMode.PercentOutput,speed);
-  }
-
-  /**
-   * Stops the two right side motors of the robot's drive base.
-   */
-  private void stopRight() {
-    spinRight(0);
-  }
-
-  /**
-   * Stops the four motors of the robot's drive base.
-   *
-   * */
+    /**
+	  * Stops all drivetrain wheels.
+	  */
   public void stop() {
-    stopLeft();
-    stopRight();
+    frontLeft.set(ControlMode.PercentOutput,0);
+    frontRight.set(ControlMode.PercentOutput,0);
+  }
+
+  public void drivePositionControl(double distanceInEncoderValues)
+  {
+    frontLeft.set(ControlMode.Position, frontLeft.getSelectedSensorPosition()+distanceInEncoderValues);
+    frontRight.set(ControlMode.Position, frontRight.getSelectedSensorPosition()+distanceInEncoderValues);
   }
 
   /**
 	 * Gets the angle of drive train from its initial position.
 	 * 
-	 * @return	a double containing the drive train's current orientation
+	 * @return	a double containing the drive train's current heading
 	 */
 	public double getGyroAngle() {
 		return gyro.getAngle();
@@ -167,23 +121,45 @@ public class DriveTrain extends SubsystemBase {
 		gyro.reset();
 	}
   
-  public void drivePositionControl(double endPosition)
-  {
-    frontLeft.set(ControlMode.Position, endPosition);
-    frontRight.set(ControlMode.Position, endPosition);
-//    backRight.set(ControlMode.Position, endPosition);
-//    backLeft.set(ControlMode.Position, endPosition);
-  }
-
-  
+  /**
+	 * Gets the current position of the drive train 
+	 * @return	a double containing the drive train's current position;
+   *                        as an average of left and right position.
+	 */
 	public double getPosition() {
       return ((frontLeft.getSelectedSensorPosition()+frontRight.getSelectedSensorPosition())/2); 
   }
 
+  // NOTE THIS FUNCTION CALL IS NON-BLOCKING; TRY TO AVOID USING
   public void resetPosition() {
     frontLeft.setSelectedSensorPosition(0, 0, 50); 
     frontRight.setSelectedSensorPosition(0, 0, 50); 
   }
-
-
 }
+
+/* SET OF CODE NO LONGER NEEDED DUE TO SIMPLIFICATIO
+    private void spin(double leftSpeed, double rightSpeed){
+    spinLeft(leftSpeed);
+    spinRight(rightSpeed);
+  }
+  private void spinLeft(double speed) {
+    frontLeft.set(ControlMode.PercentOutput,speed);
+  }
+
+  private void stopLeft() {
+    spinLeft(0);
+  }
+
+  private void spinRight(double speed) {
+    frontRight.set(ControlMode.PercentOutput,speed);
+  }
+
+  private void stopRight() {
+    spinRight(0);
+  }
+
+  public void stop() {
+    stopLeft();
+    stopRight();
+  }
+  **/

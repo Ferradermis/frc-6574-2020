@@ -65,6 +65,7 @@ public class RunGyroAutonomousSequence extends InstantCommand {
     driveTrain.resetGyro();
 
     if (autonomousPlan == TestPlan) {  
+      //test simpleDriveForward(1); should driveForward 1 foot using position control
       //intakeOn();
     }
     else if (autonomousPlan == PlanA){
@@ -72,7 +73,7 @@ public class RunGyroAutonomousSequence extends InstantCommand {
       // RobotContainer.shooter.shoot(); 
    
       turnToHeading(PlanAHeading1);
-      driveAlongAngle(PlanASideA, 1,PlanAHeading1); 
+      driveAlongAngle(PlanASideA, 1, PlanAHeading1); 
       turnToHeading(0.0); 
       //intakeOn(); 
       driveAlongAngle(PlanASideB, 1, 0.0); 
@@ -172,24 +173,12 @@ public class RunGyroAutonomousSequence extends InstantCommand {
 
   private void simpleDriveForward(double distanceInFeet) {
     double distanceInEncoderUnits = distanceInFeet * EncoderUnitsPerFeet; 
- 
-    double startPosition = driveTrain.getPosition();
-    double endPosition = startPosition + distanceInEncoderUnits;
-    
-    driveTrain.drivePositionControl(12000); 
-  
-    driveTrain.stop();
+    driveTrain.drivePositionControl(distanceInEncoderUnits);  
   }
 
   private void simpleDriveBackward(double distanceInFeet) {
     double distanceInEncoderUnits = distanceInFeet * EncoderUnitsPerFeet; 
-    
-    double startPosition = driveTrain.getPosition();
-    double endPosition = startPosition - distanceInEncoderUnits;
-
-    driveTrain.drivePositionControl(-12000); 
-  
-    driveTrain.stop();
+    driveTrain.drivePositionControl(-distanceInEncoderUnits); 
   }
 
   private void intakeOn() {

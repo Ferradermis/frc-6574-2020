@@ -10,7 +10,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.MoveToHighTarget;
 import frc.robot.commands.RunGyroAutonomousSequence;
@@ -56,7 +55,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     oi.l_xButton.whileHeld(new MoveToHighTarget(driveTrain));
-    oi.l_yButton.whenPressed(new RunGyroAutonomousSequence(driveTrain));  
+    oi.l_yButton.whenPressed(new RunGyroAutonomousSequence(driveTrain));  // remove for gameplay
     oi.l_bButton.whenPressed(()->intake.turnOn())
                 .whenReleased(()->intake.turnOff());
   }
