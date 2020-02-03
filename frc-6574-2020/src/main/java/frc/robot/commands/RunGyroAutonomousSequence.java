@@ -8,10 +8,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.Relay.Direction;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotContainer;
-//import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
 
 
@@ -60,12 +58,14 @@ public class RunGyroAutonomousSequence extends InstantCommand {
   public void initialize() {
     char autonomousPlan = TestPlan;
     double startTime = Timer.getFPGATimestamp();
-    System.out.println("Running Autonomous - Start Time:" + Timer.getFPGATimestamp());
+    System.out.println("Running Autonomous Plan " + TestPlan);
+    System.out.println("Starting Time:" + Timer.getFPGATimestamp());
     
     driveTrain.stop();
     driveTrain.resetGyro();
 
     if (autonomousPlan == TestPlan) {  
+      // retest turnToHeading and driveAlongAngle to confirm they work
       //test simpleDriveForward(1); should driveForward 1 foot using position control
       //intakeOn();
     }
@@ -102,8 +102,8 @@ public class RunGyroAutonomousSequence extends InstantCommand {
     
     driveTrain.stop();    // make sure we are stopped at end of autonomous
     double endTime = Timer.getFPGATimestamp();
-    System.out.println("End Time:" + endTime);
-    System.out.println("Run Time of Autonomous" + (endTime - startTime));
+    System.out.println("Ending Time:" + endTime);
+    System.out.println("Run Time of Autonomous: " + (endTime - startTime));
   }
   
  
@@ -145,7 +145,7 @@ public class RunGyroAutonomousSequence extends InstantCommand {
 
     angleError = intendedHeading - driveTrain.getGyroAngle();
     while (Math.abs(angleError) > tolerance) {      
-        driveTrain.arcadeDrive(0, angleError* kP + Math.copySign(kF, angleError));
+        driveTrain.arcadeDrive(0, angleError * kP + Math.copySign(kF, angleError));
         angleError = intendedHeading - driveTrain.getGyroAngle();
       }
 
