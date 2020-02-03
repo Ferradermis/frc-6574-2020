@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.Relay.Direction;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotContainer;
 //import frc.robot.RobotContainer;
@@ -45,7 +46,7 @@ public class RunGyroAutonomousSequence extends InstantCommand {
   //
   
   final double MaxDriveSpeed = 0.5;
-  final double MaxTurnSpeed = 0.25;
+  final double MaxTurnSpeed = 0.34;
   final double EncoderUnitsPerFeet = 14500;
 
   public RunGyroAutonomousSequence(DriveTrain driveTrain) {
@@ -108,57 +109,46 @@ public class RunGyroAutonomousSequence extends InstantCommand {
  
   private void driveAlongAngle(double distanceInFeet, int direction, double alongAngle)
   {
-    double driveSpeed = MaxDriveSpeed * direction;
-    double distanceInEncoderUnits = direction * distanceInFeet * EncoderUnitsPerFeet;
-    double distanceError = distanceInEncoderUnits; 
+    double kF = 0.05;
+    double kP = 0.6;
+    double tolerance = 750; // this would be roughly 1 inch
+
+    double angleKP = .005;
     
-      
-    double startPosition = driveTrain.getPosition();  
-    double endPosition = startPosition + distanceInEncoderUnits;
+    double driveSpeed;
+    double distanceError = distanceInFeet * EncoderUnitsPerFeet * direction;    
+    double endPosition = driveTrain.getPosition() + distanceError;
 
     double angleError = alongAngle-driveTrain.getGyroAngle();
-  
-    if (Math.abs(angleError) > 1) {
-      turnToHeading(alongAngle);
-    }
+    
+   // this code can be uncommented if we want to make sure we turn to Heading first
+   // if (Math.abs(angleError) > 1) {
+   //   turnToHeading(alongAngle);
+   // }
 
-    double currentPosition = driveTrain.getPosition();
-    if (direction == -1){ // going backward
-      while (currentPosition > endPosition){
-        distanceError = endPosition-currentPosition;
-        driveSpeed = (Math.abs(distanceError) > EncoderUnitsPerFeet) ? -MaxDriveSpeed :
-             (Math.abs(distanceError) / EncoderUnitsPerFeet * -MaxDriveSpeed *.75 -.05);
+      while (Math.abs(distanceError) > tolerance){
+        // in this form, we may be above MaxDriveSpeed when over 5 feet from target.
+        driveSpeed = (distanceError / EncoderUnitsPerFeet / 5 * MaxDriveSpeed * kP + kF*direction);
         angleError = alongAngle-driveTrain.getGyroAngle();
-        driveTrain.arcadeDrive(driveSpeed,angleError*.005);
-        currentPosition = driveTrain.getPosition();
+        driveTrain.arcadeDrive(driveSpeed,angleError*angleKP);
+        distanceError = endPosition-driveTrain.getPosition();
       }
-    } else { // going forward
-      while (currentPosition < endPosition) {
-        distanceError = endPosition-currentPosition;
-        driveSpeed = (Math.abs(distanceError) > ( EncoderUnitsPerFeet) ? MaxDriveSpeed :
-             (Math.abs(distanceError) / EncoderUnitsPerFeet  * MaxDriveSpeed * .75 + .05));
-        angleError = alongAngle-driveTrain.getGyroAngle();
-        driveTrain.arcadeDrive(driveSpeed,angleError*.005);
-        currentPosition = driveTrain.getPosition();
-      }
-    }
+    
     driveTrain.stop();
   }
 
-  private void turnToHeading(double intendedHeading) {    
-    double turnSpeed = ((intendedHeading-driveTrain.getGyroAngle()) < 0 ? -MaxTurnSpeed : MaxTurnSpeed);
-    double tolerance = 13;
+  private void turnToHeading(double intendedHeading) {  
+    double kF = 0.05; 
+    double kP = 0.005; 
+    double angleError;
+    double tolerance = 5;
 
-    if (intendedHeading < driveTrain.getGyroAngle()){
-      while (driveTrain.getGyroAngle()>(intendedHeading+tolerance)) {
-        driveTrain.arcadeDrive(0, turnSpeed);
+    angleError = intendedHeading - driveTrain.getGyroAngle();
+    while (Math.abs(angleError) > tolerance) {      
+        driveTrain.arcadeDrive(0, angleError* kP + Math.copySign(kF, angleError));
+        angleError = intendedHeading - driveTrain.getGyroAngle();
       }
-    }
-    else {
-      while (driveTrain.getGyroAngle()<(intendedHeading-tolerance)) {
-        driveTrain.arcadeDrive(0, turnSpeed);
-      }
-    }
+
     driveTrain.stop();
   }
 
