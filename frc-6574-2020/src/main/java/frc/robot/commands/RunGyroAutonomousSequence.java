@@ -73,7 +73,7 @@ public class RunGyroAutonomousSequence extends InstantCommand {
       Timer.delay(2);
       turnToHeading(0);
       driveAlongAngle(1, -1, 0);
-      driveAlongAngle(-1,1,0);
+      driveAlongAngle(1, 1, 0);
       System.out.println("Should be 0; " + driveTrain.getGyroAngle());
       }
     else if (autonomousPlan == PlanA){
@@ -117,7 +117,7 @@ public class RunGyroAutonomousSequence extends InstantCommand {
   private void driveAlongAngle(double distanceInFeet, int direction, double alongAngle)
   {
     double kF = 0.05;
-    double kP = 0.6;
+    double kP = 0.75;
     double tolerance = 750; // this would be roughly 1 inch
 
     double angleKP = .005;
@@ -134,8 +134,9 @@ public class RunGyroAutonomousSequence extends InstantCommand {
    // }
 
       while (Math.abs(distanceError) > tolerance){
-        // in this form, we may be above MaxDriveSpeed when over 5 feet from target.
-        driveSpeed = (distanceError / EncoderUnitsPerFeet / 5 * MaxDriveSpeed * kP + kF*direction);
+        driveSpeed = (distanceError / EncoderUnitsPerFeet / 5 * kP + kF*direction);
+        // make sure we go no faster than MaxDriveSpeed
+        driveSpeed = (driveSpeed > MaxDriveSpeed) ? MaxDriveSpeed :  driveSpeed)
         angleError = alongAngle-driveTrain.getGyroAngle();
         driveTrain.arcadeDrive(driveSpeed,angleError*angleKP);
         distanceError = endPosition-driveTrain.getPosition();
@@ -145,14 +146,18 @@ public class RunGyroAutonomousSequence extends InstantCommand {
   }
 
   private void turnToHeading(double intendedHeading) {  
-    double kF = 0.05; // 0.05
-    double kP = 0.005; 
+    double kF = 0.05;
+    double kP = 0.01; 
     double angleError;
+    double turnSpeed;
     double tolerance = 3;
 
     angleError = intendedHeading - driveTrain.getGyroAngle();
-    while (Math.abs(angleError) > tolerance) {      
-        driveTrain.arcadeDrive(0, angleError * kP + Math.copySign(kF, angleError));
+    while (Math.abs(angleError) > tolerance) {    
+        turnSpeed = angleError * kP + Math.copySign(kF, angleError);
+        // make sure turnSpeed is not greater than MaxTurnSpeed
+        turnSpeed = (Math.abs(turnSpeed) > MaxTurnSpeed ? Math.copySign(MaxTurnSpeed, angleError): turnSpeed);
+        driveTrain.arcadeDrive(0, turnSpeed);
         angleError = intendedHeading - driveTrain.getGyroAngle();
       }
 
