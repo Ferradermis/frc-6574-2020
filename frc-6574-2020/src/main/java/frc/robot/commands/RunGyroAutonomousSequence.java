@@ -21,7 +21,7 @@ public class RunGyroAutonomousSequence extends InstantCommand {
   
   // TestPlan constants:  Use TestPlan to run simple tests
   final char TestPlan = 'T';
- 
+
   // PlanA constants: Plan A starts in front of target, shoots 3 balls, retrieves first 3 balls in trench
   // need to decide if we want to pick up last two balls in trench
   // drive to target, shoot 3-5 balls
@@ -68,7 +68,14 @@ public class RunGyroAutonomousSequence extends InstantCommand {
       // retest turnToHeading and driveAlongAngle to confirm they work
       //test simpleDriveForward(1); should driveForward 1 foot using position control
       //intakeOn();
-    }
+      turnToHeading(45);
+      System.out.println("Should be 45; " + driveTrain.getGyroAngle());
+      Timer.delay(2);
+      turnToHeading(0);
+      driveAlongAngle(1, -1, 0);
+      driveAlongAngle(-1,1,0);
+      System.out.println("Should be 0; " + driveTrain.getGyroAngle());
+      }
     else if (autonomousPlan == PlanA){
       // Shoot
       // RobotContainer.shooter.shoot(); 
@@ -138,10 +145,10 @@ public class RunGyroAutonomousSequence extends InstantCommand {
   }
 
   private void turnToHeading(double intendedHeading) {  
-    double kF = 0.05; 
+    double kF = 0.05; // 0.05
     double kP = 0.005; 
     double angleError;
-    double tolerance = 5;
+    double tolerance = 3;
 
     angleError = intendedHeading - driveTrain.getGyroAngle();
     while (Math.abs(angleError) > tolerance) {      
