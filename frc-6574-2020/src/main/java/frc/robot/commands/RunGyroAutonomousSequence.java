@@ -134,9 +134,9 @@ public class RunGyroAutonomousSequence extends InstantCommand {
    // }
 
       while (Math.abs(distanceError) > tolerance){
-        driveSpeed = (distanceError / EncoderUnitsPerFeet / 5 * kP + kF*direction);
+        driveSpeed = distanceError / EncoderUnitsPerFeet / 5 * kP + Math.copySign(kF,distanceError);
         // make sure we go no faster than MaxDriveSpeed
-        driveSpeed = (driveSpeed > MaxDriveSpeed) ? MaxDriveSpeed :  driveSpeed)
+        driveSpeed = ((Math.abs(driveSpeed) > MaxDriveSpeed) ? Math.copySign(MaxDriveSpeed, driveSpeed) :  driveSpeed);
         angleError = alongAngle-driveTrain.getGyroAngle();
         driveTrain.arcadeDrive(driveSpeed,angleError*angleKP);
         distanceError = endPosition-driveTrain.getPosition();
@@ -156,7 +156,7 @@ public class RunGyroAutonomousSequence extends InstantCommand {
     while (Math.abs(angleError) > tolerance) {    
         turnSpeed = angleError * kP + Math.copySign(kF, angleError);
         // make sure turnSpeed is not greater than MaxTurnSpeed
-        turnSpeed = (Math.abs(turnSpeed) > MaxTurnSpeed ? Math.copySign(MaxTurnSpeed, angleError): turnSpeed);
+        turnSpeed = ((Math.abs(turnSpeed) > MaxTurnSpeed ? Math.copySign(MaxTurnSpeed, angleError): turnSpeed));
         driveTrain.arcadeDrive(0, turnSpeed);
         angleError = intendedHeading - driveTrain.getGyroAngle();
       }
