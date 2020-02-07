@@ -120,7 +120,7 @@ public class RunGyroAutonomousSequence extends InstantCommand {
     double kP = 0.75;
     double tolerance = 750; // this would be roughly 1 inch
 
-    double angleKP = .01;
+    double angleKP = .005;
     
     double driveSpeed;
     double distanceError = distanceInFeet * EncoderUnitsPerFeet * direction;    
