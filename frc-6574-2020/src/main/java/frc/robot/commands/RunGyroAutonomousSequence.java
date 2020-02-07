@@ -26,11 +26,11 @@ public class RunGyroAutonomousSequence extends InstantCommand {
   // need to decide if we want to pick up last two balls in trench
   // drive to target, shoot 3-5 balls
   final char PlanA = 'A';
-  final double PlanAHeading1 = -40.0;
+  final double PlanAHeading1 = -35.0;
   final double PlanAHeading2 = -23.0;
-  final double PlanASideA = 10.0;  //10.0
-  final double PlanASideB = 7.0;  //7.0
-  final double PlanASideC = 12.5; //12.5
+  final double PlanASideA = 8.0;  //10.0
+  final double PlanASideB = 6.0;  //7.0
+  final double PlanASideC = 15; //12.5
  
   // PlanB constants:  Plan B starts in front of outside ball near opponents trench;
   // retrieve outside ball, retrieve inside ball, drive to target, shoot 5 balls
@@ -56,7 +56,7 @@ public class RunGyroAutonomousSequence extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    char autonomousPlan = TestPlan;
+    char autonomousPlan = PlanA;
     double startTime = Timer.getFPGATimestamp();
     System.out.println("Running Autonomous Plan " + TestPlan);
     System.out.println("Starting Time:" + Timer.getFPGATimestamp());
@@ -116,11 +116,11 @@ public class RunGyroAutonomousSequence extends InstantCommand {
  
   private void driveAlongAngle(double distanceInFeet, int direction, double alongAngle)
   {
-    double kF = 0.05;
+    double kF = 0.25;
     double kP = 0.75;
     double tolerance = 750; // this would be roughly 1 inch
 
-    double angleKP = .005;
+    double angleKP = .01;
     
     double driveSpeed;
     double distanceError = distanceInFeet * EncoderUnitsPerFeet * direction;    
@@ -147,7 +147,7 @@ public class RunGyroAutonomousSequence extends InstantCommand {
 
   private void turnToHeading(double intendedHeading) {  
     double kF = 0.05;
-    double kP = 0.01; 
+    double kP = 0.02; 
     double angleError;
     double turnSpeed;
     double tolerance = 3;
