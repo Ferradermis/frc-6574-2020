@@ -7,12 +7,17 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.RobotMap;
 
 public class Shooter extends SubsystemBase {
@@ -21,7 +26,7 @@ public class Shooter extends SubsystemBase {
    */
 
   // CREATE and connect to motors
-  // shooter is two falcons -- built in encoder talonFX
+  // shooter/spinner is two falcons -- built in encoder talonFX
   private WPI_TalonFX spinner1 = new WPI_TalonFX(RobotMap.SPINNER1_CAN_ID);
   private WPI_TalonFX spinner2 = new WPI_TalonFX(RobotMap.SPINNER2_CAN_ID);
 
@@ -29,10 +34,17 @@ public class Shooter extends SubsystemBase {
   private CANSparkMax loader = new CANSparkMax(RobotMap.LOADER_CAN_ID, MotorType.kBrushless);
  
   // rotator vexPro775
-  // 
-  private VictorSPX turretRotator = new VictorSPX(RobotMap.TURRET_CAN_ID);
+  private TalonSRX turretRotator = new TalonSRX(RobotMap.TURRET_CAN_ID);
+  
  
+  public DoubleSolenoid hoodController = new DoubleSolenoid(2, 3);
+  // public Solenoid hoodController = new Solenoid(3);
+
   private double MAXROTATION = 45;
+
+  Limelight limelight = new Limelight();
+
+  private boolean shooting = false;
 
   public Shooter() {
     // Set up motors
@@ -43,34 +55,154 @@ public class Shooter extends SubsystemBase {
     spinner2.configFactoryDefault();
     spinner1.configOpenloopRamp(rampRate);
     spinner2.configOpenloopRamp(rampRate);
+    spinner1.setNeutralMode(NeutralMode.Coast); // MAKE SURE WE ARE IN COAST MODE
+    spinner2.setNeutralMode(NeutralMode.Coast); // MAKE SURE WE ARE IN COAST MODE
+
+    // SEE CODE FROM: https://github.com/CrossTheRoadElec/Phoenix-Examples-Languages/blob/master/Java/VelocityClosedLoop/src/main/java/frc/robot/Robot.java
+
+    /* Config sensor used for Primary PID [Velocity] */
+    spinner1.configSelectedFeedbackSensor(TalonFXFeedbackDevice.RemoteSensor0,
+    0, Constants.kTimeoutMs);
+
+    /**
+    * Phase sensor accordingly. 
+    * Positive Sensor Reading should match Green (blinking) Leds on Talon
+    */
+    spinner1.setSensorPhase(true);
+
+    /* Config the peak and nominal outputs */
+    spinner1.configNominalOutputForward(0, Constants.kTimeoutMs);
+    spinner1.configNominalOutputReverse(0, Constants.kTimeoutMs);
+    spinner1.configPeakOutputForward(1, Constants.kTimeoutMs);
+    spinner1.configPeakOutputReverse(-1, Constants.kTimeoutMs);
+
+    /* Config the Velocity closed loop gains in slot0 */
+    double kF = 1023.0/7200.0; // ??
+    double kP = 0.25;
+    double kI = 0.001;
+    double kD = 20;
+    spinner1.config_kF(Constants.kPIDLoopIdx, kF, Constants.kTimeoutMs);
+    spinner1.config_kP(Constants.kPIDLoopIdx, kP, Constants.kTimeoutMs);
+    spinner1.config_kI(Constants.kPIDLoopIdx, kI, Constants.kTimeoutMs);
+    spinner1.config_kD(Constants.kPIDLoopIdx, kD, Constants.kTimeoutMs);
 
     int currentLimit = 30; 
  
     loader.setOpenLoopRampRate(rampRate);
     loader.setSmartCurrentLimit(currentLimit);
- 
+
+    //turns LED on
+    limelight.ledOn();
+
+    //Sets limelight to target powerport
+    limelight.setTarget(0);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
- /*   if (shooting == true){
-      spinUpTheWheels(distanceFromTarget);
+    if ((shooting == true)&&(limelight.hasTarget())) {
+      spin(getDistanceToTarget());
       aim();
-      if (aimed==true)
-      {
-        if (spinningFastEnough==true)
-        {
-          load();
+      if (aimed() && spinnerReady(getDistanceToTarget())) {
+          loadAndFire();
+        } else { // shooting, but not aimed or not ready
+          stopLoader();
         }
-      }
-    
-    }
-    */
+      } else { // not shooting or no target
+        stopShooting(); // stops all motors
+      }  
   }
 
-  public void shoot()
+  private void aim()
   {
-  //Timer.delay(0.5);
+    double kP = .01;
+
+    // If no target in view; stop and exit
+    if (limelight.hasTarget()) {
+      double angleX = limelight.getAngleX();
+      if (Math.abs(turretRotator.getSelectedSensorPosition())<MAXROTATION) {
+        turretRotator.set(ControlMode.PercentOutput, angleX*kP);
+      }  else {
+        stopShooting();
+      }
+    } else {
+      stopShooting();
+    }
+
+ }
+
+  private double getDistanceToTarget(){
+   //All calculations are in centimeters
+   final double h2 = 86.36; //height of target
+   final double h1 = 16.51; //height of camera
+   // NOTE in final code, just calculate h2 - h1 and set a variable    
+   final double A1 = 3.19; //Angle of camera relative to ground
+
+   double angleY = limelight.getAngleY();
+    
+   // calculate currentDistance from target
+   return (h2-h1)/Math.tan((angleY+A1)*Math.PI/180);
+
   }
+
+  private boolean aimed() {       
+    final double tolerance = 0.5;
+    return (Math.abs(limelight.getAngleX())< tolerance);
+  }
+
+  private void spin(double distance) {
+    // need to figure out this formula to set velocity based on distance
+    // see the html file linked at the top of this java file
+    double targetVelocity_UnitsPer100ms = distance * 500.0 * 4096 / 600;
+			/* 500 RPM in either direction */
+			spinner1.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
+
+  }
+
+  private boolean spinnerReady(double distance) {
+    // see if selected sensor velocity is within tolerance of the speed we want
+    double something = .9999; // need to figure out what this should be
+    double intendedVelocity = distance * something;
+    return (spinner1.getSelectedSensorVelocity() >= intendedVelocity);
+  }
+
+  private void loadAndFire()
+  {
+    loader.set(.5);
+  }
+
+  public void shoot() {
+    shooting = true;
+  }
+
+  public void stopShooting() {
+    shooting = false;
+    stopAiming();
+    stopSpinner();
+    stopLoader();
+  }
+  private void stopSpinner() {
+    spinner1.set(ControlMode.PercentOutput, 0);
+  }
+
+  private void stopAiming() {
+    turretRotator.set(ControlMode.PercentOutput, 0);
+  }
+
+  public void stopLoader()
+  {
+    loader.set(0);
+  }
+
+  public void raiseHood()
+  {
+    hoodController.set(DoubleSolenoid.Value.kForward);
+  }
+
+  public void lowerHood()
+  {
+    hoodController.set(DoubleSolenoid.Value.kForward);
+  }
+
 }
