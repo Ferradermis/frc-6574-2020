@@ -163,7 +163,7 @@ public class RunGyroAutonomousSequence extends InstantCommand {
 
     driveTrain.stop();
   }
-
+/*
   private void driveForwardInEncoderUnits(double distanceinEU, double speed)
   {  
     while (driveTrain.getPosition() < distanceinEU)
@@ -182,7 +182,7 @@ public class RunGyroAutonomousSequence extends InstantCommand {
     double distanceInEncoderUnits = distanceInFeet * EncoderUnitsPerFeet; 
     driveTrain.drivePositionControl(-distanceInEncoderUnits); 
   }
-
+*/
   private void intakeOn() {
     RobotContainer.intake.turnOn();
   }

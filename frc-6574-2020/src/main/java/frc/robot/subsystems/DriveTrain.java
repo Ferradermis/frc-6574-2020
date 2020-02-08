@@ -59,7 +59,6 @@ public class DriveTrain extends SubsystemBase {
     backRight.config_kP(0, kP);
 
     frontRight.setInverted(true);
-
     backRight.setInverted(true);
    
    //gyro.calibrate();
