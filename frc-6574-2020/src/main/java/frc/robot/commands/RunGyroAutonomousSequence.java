@@ -44,7 +44,7 @@ public class RunGyroAutonomousSequence extends InstantCommand {
   //
   
   final double MaxDriveSpeed = 0.5;
-  final double MaxTurnSpeed = 0.34;
+  final double MaxTurnSpeed = 0.25;
   final double EncoderUnitsPerFeet = 14500;
 
   public RunGyroAutonomousSequence(DriveTrain driveTrain) {
@@ -72,8 +72,9 @@ public class RunGyroAutonomousSequence extends InstantCommand {
       System.out.println("Should be 45; " + driveTrain.getGyroAngle());
       Timer.delay(2);
       turnToHeading(0);
-      driveAlongAngle(1, -1, 0);
-      driveAlongAngle(1, 1, 0);
+      simpleDriveForward(3);
+      //driveAlongAngle(1, -1, 0);
+      //driveAlongAngle(1, 1, 0);
       System.out.println("Should be 0; " + driveTrain.getGyroAngle());
       }
     else if (autonomousPlan == PlanA){
@@ -116,13 +117,14 @@ public class RunGyroAutonomousSequence extends InstantCommand {
  
   private void driveAlongAngle(double distanceInFeet, int direction, double alongAngle)
   {
-    double kF = 0.25;
+    double kF = 0.05;
     double kP = 0.75;
     double tolerance = 750; // this would be roughly 1 inch
 
     double angleKP = .005;
     
     double driveSpeed;
+    double turnSpeed = 0.0;
     double distanceError = distanceInFeet * EncoderUnitsPerFeet * direction;    
     double endPosition = driveTrain.getPosition() + distanceError;
 
@@ -138,7 +140,10 @@ public class RunGyroAutonomousSequence extends InstantCommand {
         // make sure we go no faster than MaxDriveSpeed
         driveSpeed = ((Math.abs(driveSpeed) > MaxDriveSpeed) ? Math.copySign(MaxDriveSpeed, driveSpeed) :  driveSpeed);
         angleError = alongAngle-driveTrain.getGyroAngle();
-        driveTrain.arcadeDrive(driveSpeed,angleError*angleKP);
+        turnSpeed = angleError * angleKP;
+        // make sure turnSpeed is not greater than MaxTurnSpeed
+        turnSpeed = ((Math.abs(turnSpeed) > MaxTurnSpeed ? Math.copySign(MaxTurnSpeed, angleError): turnSpeed));
+        driveTrain.arcadeDrive(driveSpeed, turnSpeed);
         distanceError = endPosition-driveTrain.getPosition();
       }
     
@@ -172,12 +177,12 @@ public class RunGyroAutonomousSequence extends InstantCommand {
     }
     driveTrain.stop();
 }
-
+*/
   private void simpleDriveForward(double distanceInFeet) {
     double distanceInEncoderUnits = distanceInFeet * EncoderUnitsPerFeet; 
     driveTrain.drivePositionControl(distanceInEncoderUnits);  
   }
-
+/*
   private void simpleDriveBackward(double distanceInFeet) {
     double distanceInEncoderUnits = distanceInFeet * EncoderUnitsPerFeet; 
     driveTrain.drivePositionControl(-distanceInEncoderUnits); 

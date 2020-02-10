@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -33,7 +34,7 @@ public class DriveTrain extends SubsystemBase {
     double kP = 0.75;
     double kI = 0;
     double kD = 0;
-    double rampRate = 0.2; //time in seconds to go from 0 to full throttle; 0.2 is selected on feel by drivers for 2019
+    double rampRate = 0.5; //time in seconds to go from 0 to full throttle
     int currentLimit = 30; //int because .setSmartCurrentLimit takes only ints, not doubles. Which makes sense programmatically. 
 
     gyro.enableLogging(false);
@@ -58,6 +59,9 @@ public class DriveTrain extends SubsystemBase {
     backLeft.config_kP(0, kP);
     backRight.config_kP(0, kP);
 
+    frontLeft.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
+    frontRight.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
+    
     frontRight.setInverted(true);
     backRight.setInverted(true);
    
@@ -130,10 +134,10 @@ public class DriveTrain extends SubsystemBase {
   }
 
   // NOTE THIS FUNCTION CALL IS NON-BLOCKING; TRY TO AVOID USING
-  public void resetPosition() {
-    frontLeft.setSelectedSensorPosition(0, 0, 50); 
-    frontRight.setSelectedSensorPosition(0, 0, 50); 
-  }
+//  public void resetPosition() {
+//    frontLeft.setSelectedSensorPosition(0, 0, 50); 
+//    frontRight.setSelectedSensorPosition(0, 0, 50); 
+//  }
 }
 
 /* SET OF CODE NO LONGER NEEDED DUE TO SIMPLIFICATIO
