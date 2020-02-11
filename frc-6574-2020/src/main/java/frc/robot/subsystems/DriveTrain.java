@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
@@ -31,7 +32,7 @@ public class DriveTrain extends SubsystemBase {
 
   public DriveTrain(){
     double kF = 0;
-    double kP = 0.75;
+    double kP = 0.05;
     double kI = 0;
     double kD = 0;
     double rampRate = 0.5; //time in seconds to go from 0 to full throttle
@@ -59,8 +60,8 @@ public class DriveTrain extends SubsystemBase {
     backLeft.config_kP(0, kP);
     backRight.config_kP(0, kP);
 
-    frontLeft.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
-    frontRight.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
+  //  frontLeft.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
+  //  frontRight.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
     
     frontRight.setInverted(true);
     backRight.setInverted(true);
@@ -104,8 +105,17 @@ public class DriveTrain extends SubsystemBase {
 
   public void drivePositionControl(double distanceInEncoderValues)
   {
-    frontLeft.set(ControlMode.Position, frontLeft.getSelectedSensorPosition()+distanceInEncoderValues);
-    frontRight.set(ControlMode.Position, frontRight.getSelectedSensorPosition()+distanceInEncoderValues);
+    System.out.println("Starting at left position: " +frontLeft.getSelectedSensorPosition());
+    System.out.println("Starting at right position: " +frontRight.getSelectedSensorPosition());
+
+    frontLeft.set(ControlMode.Position, frontLeft.getSelectedSensorPosition()+43500);
+    frontRight.set(ControlMode.Position, frontRight.getSelectedSensorPosition()+43500);
+//    Timer.delay(2);
+//    When we take out this timer delay, we get odd behavior.  Won't work, one motor will move and the other 
+//  won't, etc.
+    System.out.println("Ending at left position: " +frontLeft.getSelectedSensorPosition());
+    System.out.println("Ending at right position: " +frontRight.getSelectedSensorPosition());
+
   }
 
   /**

@@ -65,19 +65,24 @@ public class RunGyroAutonomousSequence extends InstantCommand {
     driveTrain.resetGyro();
 
     if (autonomousPlan == TestPlan) {  
+      System.out.println("Starting at position: " +driveTrain.getPosition());
+      simpleDriveForward(3);
+      System.out.println("Finishing at position: " +driveTrain.getPosition());
+
+
       // retest turnToHeading and driveAlongAngle to confirm they work
       //test simpleDriveForward(1); should driveForward 1 foot using position control
       //intakeOn();
-      turnToHeading(45);
-      System.out.println("Should be 45; " + driveTrain.getGyroAngle());
-      Timer.delay(2);
-      turnToHeading(0);
-      System.out.println("Should be 0; " + driveTrain.getGyroAngle());
-      Timer.delay(2);
+//      turnToHeading(45);
+//      System.out.println("Should be 45; " + driveTrain.getGyroAngle());
+//      Timer.delay(2);
+  //    turnToHeading(0);
+  //    System.out.println("Should be 0; " + driveTrain.getGyroAngle());
+  //    Timer.delay(2);
      //DriveForward(3);
-      driveAlongAngle(3, 1, 0);
+  //    driveAlongAngle(3, 1, 0);
       //driveAlongAngle(1, 1, 0);
-      System.out.println("Should be 0; " + driveTrain.getGyroAngle());
+     // System.out.println("Should be 0; " + driveTrain.getGyroAngle());
       }
     else if (autonomousPlan == PlanA){
       // Shoot

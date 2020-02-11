@@ -36,7 +36,7 @@ public class Shooter extends SubsystemBase {
   private TalonSRX turretRotator = new TalonSRX(RobotMap.TURRET_CAN_ID);
   
   // hood controller for raising and lowering
-  public DoubleSolenoid hoodController = new DoubleSolenoid(2, 3);
+ // public DoubleSolenoid hoodController = new DoubleSolenoid(2, 3);
   // public Solenoid hoodController = new Solenoid(3);
 
   private double MAXROTATION = 45;
@@ -145,7 +145,7 @@ public class Shooter extends SubsystemBase {
   {
     loader.set(0);
   }
-
+/*
   public void raiseHood()
   {
     hoodController.set(DoubleSolenoid.Value.kForward);
@@ -155,7 +155,7 @@ public class Shooter extends SubsystemBase {
   {
     hoodController.set(DoubleSolenoid.Value.kReverse);
   }
-
+*/
   private void configureMotors(){
     // Set up motors
     double rampRate = 0.2; //time in seconds to go from 0 to full throttle; 0.2 is selected on feel by drivers for 2019
