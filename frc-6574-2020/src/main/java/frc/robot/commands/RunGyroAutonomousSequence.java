@@ -56,7 +56,7 @@ public class RunGyroAutonomousSequence extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    char autonomousPlan = PlanA;
+    char autonomousPlan = TestPlan;
     double startTime = Timer.getFPGATimestamp();
     System.out.println("Running Autonomous Plan " + TestPlan);
     System.out.println("Starting Time:" + Timer.getFPGATimestamp());
@@ -72,8 +72,10 @@ public class RunGyroAutonomousSequence extends InstantCommand {
       System.out.println("Should be 45; " + driveTrain.getGyroAngle());
       Timer.delay(2);
       turnToHeading(0);
-      simpleDriveForward(3);
-      //driveAlongAngle(1, -1, 0);
+      System.out.println("Should be 0; " + driveTrain.getGyroAngle());
+      Timer.delay(2);
+     //DriveForward(3);
+      driveAlongAngle(3, 1, 0);
       //driveAlongAngle(1, 1, 0);
       System.out.println("Should be 0; " + driveTrain.getGyroAngle());
       }
