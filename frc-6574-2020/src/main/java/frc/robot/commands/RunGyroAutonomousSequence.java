@@ -115,7 +115,7 @@ public class RunGyroAutonomousSequence extends InstantCommand {
     // RobotContainer.shooter.shoot(); // should be shooting 5 power cells
     }
     
-    driveTrain.stop();    // make sure we are stopped at end of autonomous
+  //  driveTrain.stop();    // make sure we are stopped at end of autonomous
     double endTime = Timer.getFPGATimestamp();
     System.out.println("Ending Time:" + endTime);
     System.out.println("Run Time of Autonomous: " + (endTime - startTime));

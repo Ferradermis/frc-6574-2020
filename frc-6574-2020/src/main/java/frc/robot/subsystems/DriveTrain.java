@@ -107,9 +107,8 @@ public class DriveTrain extends SubsystemBase {
   {
     System.out.println("Starting at left position: " +frontLeft.getSelectedSensorPosition());
     System.out.println("Starting at right position: " +frontRight.getSelectedSensorPosition());
-
-    frontLeft.set(ControlMode.Position, frontLeft.getSelectedSensorPosition()+43500);
-    frontRight.set(ControlMode.Position, frontRight.getSelectedSensorPosition()+43500);
+    frontLeft.set(ControlMode.Position, frontLeft.getSelectedSensorPosition()+distanceInEncoderValues);
+    frontRight.set(ControlMode.Position, frontRight.getSelectedSensorPosition()+distanceInEncoderValues);
 //    Timer.delay(2);
 //    When we take out this timer delay, we get odd behavior.  Won't work, one motor will move and the other 
 //  won't, etc.
