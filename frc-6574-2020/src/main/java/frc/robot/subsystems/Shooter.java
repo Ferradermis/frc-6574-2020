@@ -15,7 +15,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
@@ -34,10 +34,13 @@ public class Shooter extends SubsystemBase {
  
   // rotator vexPro775
   private TalonSRX turretRotator = new TalonSRX(RobotMap.TURRET_CAN_ID);
+
+
   
   // hood controller for raising and lowering
  // public DoubleSolenoid hoodController = new DoubleSolenoid(2, 3);
-  // public Solenoid hoodController = new Solenoid(3);
+   public Solenoid hoodTrench = new Solenoid(3);
+   public Solenoid hoodAngle = new Solenoid(10);
 
   private double MAXROTATION = 45;
 
@@ -131,6 +134,7 @@ public class Shooter extends SubsystemBase {
     stopAiming();
     stopLauncher();
     stopLoader();
+    // lower the hood controllers
   }
 
   private void stopLauncher() {
@@ -145,17 +149,28 @@ public class Shooter extends SubsystemBase {
   {
     loader.set(0);
   }
-/*
+
   public void raiseHood()
   {
-    hoodController.set(DoubleSolenoid.Value.kForward);
+    hoodTrench.set(true);
   }
 
-  public void lowerHood()
+  public void lowerHoodForTrench()
   {
-    hoodController.set(DoubleSolenoid.Value.kReverse);
+    hoodTrench.set(false);
   }
-*/
+
+    public void raiseHoodForDistance()
+  {
+    hoodAngle.set(true);
+  }
+
+  public void lowerHoodForDistance()
+  {
+    hoodAngle.set(false);
+  }
+
+
   private void configureMotors(){
     // Set up motors
     double rampRate = 0.2; //time in seconds to go from 0 to full throttle; 0.2 is selected on feel by drivers for 2019
