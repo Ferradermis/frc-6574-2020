@@ -54,10 +54,19 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    oi.l_xButton.whileHeld(new MoveToHighTarget(driveTrain));
+    // Driver Buttons
+    oi.l_xButton.whenPressed(()->shooter.raiseHoodForShooting())
+                .whenReleased(()->shooter.lowerHoodForTrench());
+                
     oi.l_yButton.whenPressed(new RunGyroAutonomousSequence(driveTrain));  // remove for gameplay
-    oi.l_bButton.whenPressed(()->intake.turnOn())
+
+    // Operator Buttons
+    oi.x_bButton.whenPressed(()->intake.turnOn())
                 .whenReleased(()->intake.turnOff());
+    oi.x_aButton.whenPressed(()->intake.deployOrRetract());
+    oi.x_yButton.whenPressed(()->intake.reverseOn())
+                .whenReleased(()->intake.reverseOff());
+
   }
 
 
