@@ -24,27 +24,30 @@ public class RobotMap {
     CAN ID values
   */
   /** Front left drive train motor CAN ID. */
-  public static final int FRONT_LEFT_CAN_ID = 2;
+  public static final int FRONT_LEFT_CAN_ID = 3;
   /** Back left drive train motor CAN ID. */
-  public static final int BACK_LEFT_CAN_ID = 3;
+  public static final int BACK_LEFT_CAN_ID = 1;
   /** Front right drive train motor CAN ID. */
-  public static final int FRONT_RIGHT_CAN_ID = 0;
+  public static final int FRONT_RIGHT_CAN_ID = 4;
   /** Back right drive train motor CAN ID. */
-  public static final int BACK_RIGHT_CAN_ID = 1;
+  public static final int BACK_RIGHT_CAN_ID = 2;
 
-  /** Spinner motors CAN ID */
-  public static final int SPINNER1_CAN_ID = 6;
-  public static final int SPINNER2_CAN_ID = 7;
+  /** Shooter motors CAN ID */
+  public static final int SHOOTERLEFT_CAN_ID = 5;
+  public static final int SHOOTERRIGHT_CAN_ID = 6;
 
   /** Intake motor CAN ID. */
   public static final int INTAKE_MOTOR_CAN_ID = 8;
   
-  /** Loader motor CAN ID. */
-  public static final int LOADER_CAN_ID = 5;  
+  /** Hopper motor CAN ID. */
+  public static final int HOPPER_CAN_ID = 10;  
+  public static final int FEEDER_CAN_ID = 12;
+ /**  Turret motor CAN ID. */
+ public static final int TURRET_CAN_ID = 11;  
 
- /** Loader motor CAN ID. */
- public static final int TURRET_CAN_ID = 4;  
-
+ /** Climb motor CAN ID. */
+ public static final int CLIMB1_CAN_ID = 7;  
+ public static final int CLIMB2_CAN_ID = 8;
 
   /*
     PCM ID values
@@ -55,6 +58,7 @@ public class RobotMap {
   public static final int SHIFTER_ID_FORWARD = 1;
 
   /** Hatch intake solenoid ID. */
-  public static final int HATCH_EXTENDER_ID = -1;
-
+  public static final int HOOD_TRENCH_ID = -1;
+  public static final int HOOD_ANGLE_ID = -1;
+  public static final int INTAKE_EXTENDER_ID = -1;
 }

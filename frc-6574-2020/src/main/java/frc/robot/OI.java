@@ -27,22 +27,22 @@ public class OI {
 
   //  STILL NEED TO FIGURE OUT TRIGGERS
   // xBox Variables
-  public Button l_xButton = new JoystickButton(driver, 3);
-  public Button l_aButton = new JoystickButton(driver, 1);
-  public Button l_bButton = new JoystickButton(driver, 2);
-  public Button l_yButton = new JoystickButton(driver, 4);
-  public Button l_leftBumper = new JoystickButton(driver, 5);
-  public Button l_rightBumper = new JoystickButton(driver, 6);
-  //public Button l_leftTrigger = new JoystickButton(driver, 7);
-  public Button l_backButton = new JoystickButton(driver, 7);
-  //public Button l_startButton = new JoystickButton(driver, 8);
-  //public Button l_rightTrigger = new JoystickButton(driver, 8);
-  //public Button l_backButton = new JoystickButton(driver, 9);
-  //public Button l_startButton = new JoystickButton(driver, 10);
-  public POVButton l_upDpad = new POVButton(driver, 0);
-  public POVButton l_rightDpad = new POVButton(driver, 90);
-  public POVButton l_downDpad = new POVButton(driver, 180);
-  public POVButton l_leftDpad = new POVButton(driver, 270);
+  public Button driver_xButton = new JoystickButton(driver, 3);
+  public Button driver_aButton = new JoystickButton(driver, 1);
+  public Button driver_bButton = new JoystickButton(driver, 2);
+  public Button driver_yButton = new JoystickButton(driver, 4);
+  public Button driver_leftBumper = new JoystickButton(driver, 5);
+  public Button driver_rightBumper = new JoystickButton(driver, 6);
+  //public Button driver_leftTrigger = new JoystickButton(driver, 7);
+  public Button driver_backButton = new JoystickButton(driver, 7);
+  //public Button driver_startButton = new JoystickButton(driver, 8);
+  //public Button driver_rightTrigger = new JoystickButton(driver, 8);
+  //public Button driver_backButton = new JoystickButton(driver, 9);
+  //public Button driver_startButton = new JoystickButton(driver, 10);
+  public POVButton driver_upDpad = new POVButton(driver, 0);
+  public POVButton driver_rightDpad = new POVButton(driver, 90);
+  public POVButton driver_downDpad = new POVButton(driver, 180);
+  public POVButton driver_leftDpad = new POVButton(driver, 270);
 
   public double getDriverLeftX() {
     return driver.getRawAxis(0);
@@ -77,22 +77,22 @@ public class OI {
   }
 
   // operator Variables
-  public Button x_xButton = new JoystickButton(operator, 3);
-  public Button x_aButton = new JoystickButton(operator, 1);
-  public Button x_bButton = new JoystickButton(operator, 2);
-  public Button x_yButton = new JoystickButton(operator, 4);
-  public Button x_leftBumper = new JoystickButton(operator, 5);
-  public Button x_rightBumper = new JoystickButton(operator, 6);
-  public Button x_backButton = new JoystickButton(operator, 7);
-  public Button x_startButton = new JoystickButton(operator, 8);
-  //public Button x_leftTrigger = new JoystickButton(operator, 7);
-  //public Button x_rightTrigger = new JoystickButton(operator, 8);
-  //public Button x_backButton = new JoystickButton(operator, 9);
-  //public Button x_startButton = new JoystickButton(operator, 10);
-  public POVButton x_upDpad = new POVButton(operator, 0);
-  public POVButton x_rightDpad = new POVButton(operator, 90);
-  public POVButton x_downDpad = new POVButton(operator, 180);
-  public POVButton x_leftDpad = new POVButton(operator, 270);
+  public Button operator_xButton = new JoystickButton(operator, 3);
+  public Button operator_aButton = new JoystickButton(operator, 1);
+  public Button operator_bButton = new JoystickButton(operator, 2);
+  public Button operator_yButton = new JoystickButton(operator, 4);
+  public Button operator_leftBumper = new JoystickButton(operator, 5);
+  public Button operator_rightBumper = new JoystickButton(operator, 6);
+  public Button operator_backButton = new JoystickButton(operator, 7);
+  public Button operator_startButton = new JoystickButton(operator, 8);
+  //public Button operator_leftTrigger = new JoystickButton(operator, 7);
+  //public Button operator_rightTrigger = new JoystickButton(operator, 8);
+  //public Button operator_backButton = new JoystickButton(operator, 9);
+  //public Button operator_startButton = new JoystickButton(operator, 10);
+  public POVButton operator_upDpad = new POVButton(operator, 0);
+  public POVButton operator_rightDpad = new POVButton(operator, 90);
+  public POVButton operator_downDpad = new POVButton(operator, 180);
+  public POVButton operator_leftDpad = new POVButton(operator, 270);
 
   public double getOperatorLeftX() {
     return operator.getRawAxis(0);

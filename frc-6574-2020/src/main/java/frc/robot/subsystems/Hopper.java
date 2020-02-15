@@ -14,47 +14,36 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
-public class Intake extends SubsystemBase {
+public class Hopper extends SubsystemBase {
   /**
-   * Creates a new Intake.
+   * Creates a new Hopper.
    */
-  final double MaxIntakeSpeed = 0.25;
+  final double MaxHopperSpeed = 0.25;
 
-  public CANSparkMax intakeMotor = new CANSparkMax(RobotMap.INTAKE_MOTOR_CAN_ID, MotorType.kBrushless);
-  public Solenoid intakeDeploy = new Solenoid(RobotMap.INTAKE_EXTENDER_ID);
+  public CANSparkMax hopperMotor = new CANSparkMax(RobotMap.HOPPER_CAN_ID, MotorType.kBrushless);
+
 
   
-  public Intake() {
+  public Hopper() {
     double rampRate = 0.2;
     int currentLimit = 30; 
  
-    intakeMotor.setOpenLoopRampRate(rampRate);
-    intakeMotor.setSmartCurrentLimit(currentLimit);
+    hopperMotor.setOpenLoopRampRate(rampRate);
+    hopperMotor.setSmartCurrentLimit(currentLimit);
   }
 
   public void turnOn() {
-    intakeMotor.set(MaxIntakeSpeed);
+    hopperMotor.set(MaxHopperSpeed);
   }
 
   public void turnOff() {
-    intakeMotor.set(0);
+    hopperMotor.set(0);
   }
 
   public void reverseOn() {
-    intakeMotor.set(-MaxIntakeSpeed);
+    hopperMotor.set(-MaxHopperSpeed);
   }
 
-  public void deployOrRetract() {
-    intakeDeploy.set(!intakeDeploy.get());
-  }
-
-  public void deploy() {
-    intakeDeploy.set(true);
-  }
-
-  public void retract() {
-    intakeDeploy.set(false);
-  }
   /*
   @Override
   public void periodic() {

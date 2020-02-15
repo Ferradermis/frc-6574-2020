@@ -26,12 +26,12 @@ public class Shooter extends SubsystemBase {
    * Creates a new Shooter.
    */
 
-  // shooter/launcher is two falcons -- built in encoder talonFX
-  private WPI_TalonFX launcher1 = new WPI_TalonFX(RobotMap.SPINNER1_CAN_ID);
-  private WPI_TalonFX launcher2 = new WPI_TalonFX(RobotMap.SPINNER2_CAN_ID);
+  // shooter/shooter is two falcons -- built in encoder talonFX
+  private WPI_TalonFX shooterLeft = new WPI_TalonFX(RobotMap.SHOOTERLEFT_CAN_ID);
+  private WPI_TalonFX shooterRight = new WPI_TalonFX(RobotMap.SHOOTERRIGHT_CAN_ID);
 
-  // loader neo550's
-  private CANSparkMax loader = new CANSparkMax(RobotMap.LOADER_CAN_ID, MotorType.kBrushless);
+  // feeder neo550's
+  private CANSparkMax feeder = new CANSparkMax(RobotMap.FEEDER_CAN_ID, MotorType.kBrushless);
  
   // rotator vexPro775
   private TalonSRX turretRotator = new TalonSRX(RobotMap.TURRET_CAN_ID);
@@ -39,8 +39,8 @@ public class Shooter extends SubsystemBase {
 
   
   // hood controller for raising and lowering
-   public Solenoid hoodTrench = new Solenoid(3);
-   public Solenoid hoodAngle = new Solenoid(10);
+   public Solenoid hoodTrench = new Solenoid(RobotMap.HOOD_TRENCH_ID);
+   public Solenoid hoodAngle = new Solenoid(RobotMap.HOOD_ANGLE_ID);
 
   private double MAXROTATION = 45;
 
@@ -70,10 +70,10 @@ public class Shooter extends SubsystemBase {
         retractHoodforShortDistance();
       }
 
-      if (aimed() && launcherReady(getDistanceToTarget())) {
-          loadAndFire();
+      if (aimed() && shooterReady(getDistanceToTarget())) {
+          feedAndFire();
         } else { // shooting, but not aimed or not ready
-          stopLoader();
+          stopFeeder();
         }
 
     } else { // not shooting or no target
@@ -131,18 +131,25 @@ public class Shooter extends SubsystemBase {
     // 600 = converts those units to units per 100ms
     double targetVelocity_UnitsPer100ms = distance * 250.0 * 2048 / 600;
 
-		launcher1.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
+		shooterLeft.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
   }
 
-  private boolean launcherReady(double distance) {
+  public void testspin(){
+    shooterLeft.set(ControlMode.PercentOutput,.25);
+  }
+  public void teststop(){
+    shooterLeft.set(ControlMode.PercentOutput,0);
+    
+  }
+  private boolean shooterReady(double distance) {
     double targetVelocity_UnitsPer100ms = distance * 250.0 * 2048 / 600;
     double tolerance = 10;
-    return (launcher1.getSelectedSensorVelocity() >= targetVelocity_UnitsPer100ms - tolerance);
+    return (shooterLeft.getSelectedSensorVelocity() >= targetVelocity_UnitsPer100ms - tolerance);
   }
 
-  private void loadAndFire()
+  public void feedAndFire()
   {
-    loader.set(.5);
+    feeder.set(.5);
     Timer.delay(.25);
   }
 
@@ -153,25 +160,25 @@ public class Shooter extends SubsystemBase {
   public void stopShooting() {
     shooting = false;
     stopAiming();
-    stopLauncher();
-    stopLoader();
+    stopShooter();
+    stopFeeder();
     retractHoodforShortDistance();
     lowerHoodForTrench();
     resetTurretForward();
     // lower the hood controllers
   }
 
-  private void stopLauncher() {
-    launcher1.set(ControlMode.Velocity, 0);
+  private void stopShooter() {
+    shooterLeft.set(ControlMode.Velocity, 0);
   }
 
-  private void stopAiming() {
+  public void stopAiming() {
     turretRotator.set(ControlMode.PercentOutput, 0);
   }
 
-  public void stopLoader()
+  public void stopFeeder()
   {
-    loader.set(0);
+    feeder.set(0);
   }
 
   public void raiseHoodForShooting()
@@ -198,49 +205,57 @@ public class Shooter extends SubsystemBase {
     hoodAngle.set(false);
   }
 
+  public void testTurnTurret()
+  {
+    System.out.println(turretRotator.getSelectedSensorPosition());
+    turretRotator.set(ControlMode.PercentOutput,.1);
+    Timer.delay(1);
+    turretRotator.set(ControlMode.PercentOutput,0);
+    System.out.println(turretRotator.getSelectedSensorPosition());
+  }
 
   private void configureMotors(){
     // Set up motors
     double rampRate = 0.2; //time in seconds to go from 0 to full throttle; 0.2 is selected on feel by drivers for 2019
     int currentLimit = 30; 
 
-    launcher2.setInverted(true);
-    launcher2.follow(launcher1);
-    launcher1.configFactoryDefault();
-    launcher2.configFactoryDefault();
-    launcher1.configOpenloopRamp(rampRate);
-    launcher2.configOpenloopRamp(rampRate);
-    launcher1.setNeutralMode(NeutralMode.Coast); // MAKE SURE WE ARE IN COAST MODE
-    launcher2.setNeutralMode(NeutralMode.Coast); // MAKE SURE WE ARE IN COAST MODE
+    shooterRight.setInverted(true);
+    shooterRight.follow(shooterLeft);
+    shooterLeft.configFactoryDefault();
+    shooterRight.configFactoryDefault();
+    shooterLeft.configOpenloopRamp(rampRate);
+    shooterRight.configOpenloopRamp(rampRate);
+    shooterLeft.setNeutralMode(NeutralMode.Coast); // MAKE SURE WE ARE IN COAST MODE
+    shooterRight.setNeutralMode(NeutralMode.Coast); // MAKE SURE WE ARE IN COAST MODE
 
     // SEE CODE FROM: https://github.com/CrossTheRoadElec/Phoenix-Examples-Languages/blob/master/Java/VelocityClosedLoop/src/main/java/frc/robot/Robot.java
 
     /* Config sensor used for Primary PID [Velocity] */
-    launcher1.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, Constants.kTimeoutMs);
+    shooterLeft.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, Constants.kTimeoutMs);
 
     /**
     * Phase sensor accordingly. 
     * Positive Sensor Reading should match Green (blinking) Leds on Talon
     */
-    launcher1.setSensorPhase(true);
+    shooterLeft.setSensorPhase(true);
 
     /* Config the peak and nominal outputs */
-    launcher1.configNominalOutputForward(0, Constants.kTimeoutMs);
-    launcher1.configNominalOutputReverse(0, Constants.kTimeoutMs);
-    launcher1.configPeakOutputForward(1, Constants.kTimeoutMs);
-    launcher1.configPeakOutputReverse(-1, Constants.kTimeoutMs);
+    shooterLeft.configNominalOutputForward(0, Constants.kTimeoutMs);
+    shooterLeft.configNominalOutputReverse(0, Constants.kTimeoutMs);
+    shooterLeft.configPeakOutputForward(1, Constants.kTimeoutMs);
+    shooterLeft.configPeakOutputReverse(-1, Constants.kTimeoutMs);
 
     /* Config the Velocity closed loop gains in slot0 */
     double kF = 2048.0/6380.0; // why this
     double kP = 0.25;
     double kI = 0.001;
     double kD = 20;
-    launcher1.config_kF(Constants.kPIDLoopIdx, kF, Constants.kTimeoutMs);
-    launcher1.config_kP(Constants.kPIDLoopIdx, kP, Constants.kTimeoutMs);
-    launcher1.config_kI(Constants.kPIDLoopIdx, kI, Constants.kTimeoutMs);
-    launcher1.config_kD(Constants.kPIDLoopIdx, kD, Constants.kTimeoutMs);
+    shooterLeft.config_kF(Constants.kPIDLoopIdx, kF, Constants.kTimeoutMs);
+    shooterLeft.config_kP(Constants.kPIDLoopIdx, kP, Constants.kTimeoutMs);
+    shooterLeft.config_kI(Constants.kPIDLoopIdx, kI, Constants.kTimeoutMs);
+    shooterLeft.config_kD(Constants.kPIDLoopIdx, kD, Constants.kTimeoutMs);
 
-    loader.setOpenLoopRampRate(rampRate);
-    loader.setSmartCurrentLimit(currentLimit);
+    feeder.setOpenLoopRampRate(rampRate);
+    feeder.setSmartCurrentLimit(currentLimit);
   }
 }
