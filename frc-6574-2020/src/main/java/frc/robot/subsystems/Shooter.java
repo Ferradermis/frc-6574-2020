@@ -207,11 +207,11 @@ public class Shooter extends SubsystemBase {
 
   public void testTurnTurret()
   {
-    System.out.println(turretRotator.getSelectedSensorPosition());
-    turretRotator.set(ControlMode.PercentOutput,.1);
-    Timer.delay(1);
+    System.out.println("Turret Rotator sensor at start: " + turretRotator.getSelectedSensorPosition());
+    turretRotator.set(ControlMode.PercentOutput,.35);
+    Timer.delay(.5);
     turretRotator.set(ControlMode.PercentOutput,0);
-    System.out.println(turretRotator.getSelectedSensorPosition());
+    System.out.println("Turret Rotator sensor at end: " + turretRotator.getSelectedSensorPosition());
   }
 
   private void configureMotors(){
