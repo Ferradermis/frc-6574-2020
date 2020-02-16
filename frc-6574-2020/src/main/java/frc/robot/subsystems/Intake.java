@@ -10,7 +10,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
@@ -18,10 +18,10 @@ public class Intake extends SubsystemBase {
   /**
    * Creates a new Intake.
    */
-  final double MaxIntakeSpeed = 0.25;
+  final double MaxIntakeSpeed = 1.0;
 
   public CANSparkMax intakeMotor = new CANSparkMax(RobotMap.INTAKE_MOTOR_CAN_ID, MotorType.kBrushless);
-  public Solenoid intakeDeploy = new Solenoid(RobotMap.INTAKE_EXTENDER_ID);
+  public DoubleSolenoid intakeDeploy = new DoubleSolenoid(RobotMap.INTAKE_EXTENDER_ID2, RobotMap.INTAKE_EXTENDER_ID1);
 
   
   public Intake() {
@@ -45,15 +45,20 @@ public class Intake extends SubsystemBase {
   }
 
   public void deployOrRetract() {
-    intakeDeploy.set(!intakeDeploy.get());
+    DoubleSolenoid.Value currentState = intakeDeploy.get();
+    if (currentState == DoubleSolenoid.Value.kForward) {
+      intakeDeploy.set(DoubleSolenoid.Value.kReverse);
+    } else {
+      intakeDeploy.set(DoubleSolenoid.Value.kForward);
+    }
   }
 
   public void deploy() {
-    intakeDeploy.set(true);
+    intakeDeploy.set(DoubleSolenoid.Value.kForward);
   }
 
   public void retract() {
-    intakeDeploy.set(false);
+    intakeDeploy.set(DoubleSolenoid.Value.kReverse);
   }
   /*
   @Override

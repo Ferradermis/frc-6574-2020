@@ -17,6 +17,9 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     robotContainer = new RobotContainer();
+    RobotContainer.compressor.start(); //compressor init code
+    // documentation says this is "true" by default, so commenting out
+    // RobotContainer.compressor.setClosedLoopControl(true);
   }
 
   @Override

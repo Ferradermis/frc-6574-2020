@@ -37,7 +37,7 @@ public class RobotMap {
   public static final int SHOOTERRIGHT_CAN_ID = 6;
 
   /** Intake motor CAN ID. */
-  public static final int INTAKE_MOTOR_CAN_ID = 8;
+  public static final int INTAKE_MOTOR_CAN_ID = 9;
   
   /** Hopper motor CAN ID. */
   public static final int HOPPER_CAN_ID = 10;  
@@ -58,7 +58,10 @@ public class RobotMap {
   public static final int SHIFTER_ID_FORWARD = 1;
 
   /** Hatch intake solenoid ID. */
-  public static final int HOOD_TRENCH_ID = 0;
-  public static final int HOOD_ANGLE_ID = 1;
-  public static final int INTAKE_EXTENDER_ID = 2;
+  public static final int HOOD_TRENCH_ID1 = 2;
+  public static final int HOOD_TRENCH_ID2 = 3;
+  public static final int HOOD_ANGLE_ID1 = 4;
+  public static final int HOOD_ANGLE_ID2 = 5;
+  public static final int INTAKE_EXTENDER_ID1 = 0;  
+  public static final int INTAKE_EXTENDER_ID2 = 1;
 }
