@@ -33,7 +33,7 @@ public class Intake extends SubsystemBase {
   }
 
   public void turnOn() {
-    intakeMotor.set(MaxIntakeSpeed);
+    intakeMotor.set(-MaxIntakeSpeed);
   }
 
   public void turnOff() {
@@ -41,7 +41,7 @@ public class Intake extends SubsystemBase {
   }
 
   public void reverseOn() {
-    intakeMotor.set(-MaxIntakeSpeed);
+    intakeMotor.set(MaxIntakeSpeed);
   }
 
   public void deployOrRetract() {

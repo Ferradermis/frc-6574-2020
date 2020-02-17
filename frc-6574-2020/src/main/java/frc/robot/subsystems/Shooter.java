@@ -184,19 +184,19 @@ public class Shooter extends SubsystemBase {
 
   public void raiseHoodForShooting()
   {
-    hoodTrench.set(DoubleSolenoid.Value.kReverse);
+    hoodTrench.set(DoubleSolenoid.Value.kForward);
   }
 
   public void lowerHoodForTrench()
   {
     hoodAngle.set(DoubleSolenoid.Value.kReverse);
-    hoodTrench.set(DoubleSolenoid.Value.kForward);
+    hoodTrench.set(DoubleSolenoid.Value.kReverse);
   }
 
     public void extendHoodForLongDistance()
   {
     // only extend distance hood if trenchHood raised
-    if (hoodTrench.get() == DoubleSolenoid.Value.kReverse) {
+    if (hoodTrench.get() == DoubleSolenoid.Value.kForward) {
       hoodAngle.set(DoubleSolenoid.Value.kForward);
     }
   }

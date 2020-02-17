@@ -39,6 +39,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    CommandScheduler.getInstance().cancelAll();
     RobotContainer.driveTrain.stop();
     if (!CommandScheduler.getInstance().isScheduled(robotContainer.arcadeDrive)) {
       CommandScheduler.getInstance().schedule(robotContainer.arcadeDrive);

@@ -66,7 +66,11 @@ public class RunGyroAutonomousSequence extends InstantCommand {
 
     if (autonomousPlan == TestPlan) {  
       System.out.println("Starting at position: " +driveTrain.getPosition());
-      simpleDriveForward(3);
+      turnToHeading(PlanAHeading1);
+      driveAlongAngle(PlanASideA, 1, PlanAHeading1); 
+      turnToHeading(0.0); 
+    
+    //  simpleDriveForward(3);
       System.out.println("Finishing at position: " +driveTrain.getPosition());
 
 
@@ -124,7 +128,7 @@ public class RunGyroAutonomousSequence extends InstantCommand {
  
   private void driveAlongAngle(double distanceInFeet, int direction, double alongAngle)
   {
-    double kF = 0.05;
+    double kF = 0.1;
     double kP = 0.75;
     double tolerance = 750; // this would be roughly 1 inch
 

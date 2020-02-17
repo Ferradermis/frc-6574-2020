@@ -59,31 +59,31 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Driver Buttons
-    oi.driver_xButton.whenPressed(()->shooter.raiseHoodForShooting())
+    oi.operator_xButton.whenPressed(()->shooter.raiseHoodForShooting())
                 .whenReleased(()->shooter.lowerHoodForTrench());
                 
     oi.driver_yButton.whenPressed(new RunGyroAutonomousSequence(driveTrain));  // remove for gameplay
 
-    oi.driver_bButton.whenPressed(()->shooter.extendHoodForLongDistance())
+    oi.operator_bButton.whenPressed(()->shooter.extendHoodForLongDistance())
     .whenReleased(()->shooter.retractHoodforShortDistance());
 
-    oi.driver_aButton.whenPressed(()->shooter.testspin())
-    .whenReleased(()->shooter.teststop());
+ //   oi.driver_aButton.whenPressed(()->shooter.testspin())
+ //   .whenReleased(()->shooter.teststop());
 
-    oi.driver_leftBumper.whenPressed(()->shooter.testTurnTurret());
+  //  oi.driver_leftBumper.whenPressed(()->shooter.testTurnTurret());
 
     // Operator Buttons
-    oi.operator_bButton.whenPressed(()->intake.turnOn())
-                .whenReleased(()->intake.turnOff());
+   // oi.operator_bButton.whenPressed(()->intake.turnOn())
+     //           .whenReleased(()->intake.turnOff());
     oi.operator_aButton.whenPressed(()->intake.deployOrRetract());
-    oi.operator_yButton.whenPressed(()->intake.reverseOn())
-                .whenReleased(()->intake.turnOff()); 
-     oi.operator_xButton.whenPressed(()->shooter.feedAndFire())
-     .whenReleased(()->shooter.stopFeeder());
-     oi.operator_leftBumper.whenPressed(()->hopper.turnOn())
-     .whenReleased(()->hopper.turnOff());
-     oi.operator_rightBumper.whenPressed(()->hopper.reverseOn())
-     .whenReleased(()->hopper.turnOff());
+//    oi.operator_yButton.whenPressed(()->intake.reverseOn())
+//                .whenReleased(()->intake.turnOff()); 
+//     oi.operator_xButton.whenPressed(()->shooter.feedAndFire())
+//     .whenReleased(()->shooter.stopFeeder());
+//     oi.operator_leftBumper.whenPressed(()->hopper.turnOn())
+//     .whenReleased(()->hopper.turnOff());
+//     oi.operator_rightBumper.whenPressed(()->hopper.reverseOn())
+//     .whenReleased(()->hopper.turnOff());
 
      
   }

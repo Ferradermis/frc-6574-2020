@@ -24,23 +24,23 @@ public class RobotMap {
     CAN ID values
   */
   /** Front left drive train motor CAN ID. */
-  public static final int FRONT_LEFT_CAN_ID = 3;
+  public static final int FRONT_LEFT_CAN_ID = 1;
   /** Back left drive train motor CAN ID. */
-  public static final int BACK_LEFT_CAN_ID = 1;
+  public static final int BACK_LEFT_CAN_ID = 2;
   /** Front right drive train motor CAN ID. */
-  public static final int FRONT_RIGHT_CAN_ID = 4;
+  public static final int FRONT_RIGHT_CAN_ID =3;
   /** Back right drive train motor CAN ID. */
-  public static final int BACK_RIGHT_CAN_ID = 2;
+  public static final int BACK_RIGHT_CAN_ID = 4;
 
   /** Shooter motors CAN ID */
   public static final int SHOOTERLEFT_CAN_ID = 5;
   public static final int SHOOTERRIGHT_CAN_ID = 6;
 
   /** Intake motor CAN ID. */
-  public static final int INTAKE_MOTOR_CAN_ID = 9;
+  public static final int INTAKE_MOTOR_CAN_ID = 8;
   
   /** Hopper motor CAN ID. */
-  public static final int HOPPER_CAN_ID = 10;  
+  public static final int HOPPER_CAN_ID = 9;  
   public static final int FEEDER_CAN_ID = 12;
  /**  Turret motor CAN ID. */
  public static final int TURRET_CAN_ID = 11;  
@@ -58,10 +58,10 @@ public class RobotMap {
   public static final int SHIFTER_ID_FORWARD = 1;
 
   /** Hatch intake solenoid ID. */
-  public static final int HOOD_TRENCH_ID1 = 2;
-  public static final int HOOD_TRENCH_ID2 = 3;
-  public static final int HOOD_ANGLE_ID1 = 4;
-  public static final int HOOD_ANGLE_ID2 = 5;
+  public static final int HOOD_TRENCH_ID1 = 5;
+  public static final int HOOD_TRENCH_ID2 = 4;
+  public static final int HOOD_ANGLE_ID1 = 2;
+  public static final int HOOD_ANGLE_ID2 = 3;
   public static final int INTAKE_EXTENDER_ID1 = 0;  
   public static final int INTAKE_EXTENDER_ID2 = 1;
 }

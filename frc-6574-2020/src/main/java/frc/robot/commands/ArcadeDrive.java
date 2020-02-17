@@ -14,7 +14,7 @@ import frc.robot.subsystems.DriveTrain;
 public class ArcadeDrive extends CommandBase {
 
   private DriveTrain driveTrain;
-  final double THROTTLE = .5; // controls speed via joystick; useful for test driving
+  final double THROTTLE = 1; // controls speed via joystick; useful for test driving
                               // set to 1 for normal drive speed
 
   public ArcadeDrive(DriveTrain driveTrain) {
@@ -36,11 +36,11 @@ public class ArcadeDrive extends CommandBase {
     double drive_cmd=0;
 
     // Read data from joystick and drive per joystick positioning
-    double y = -RobotContainer.oi.getDriverLeftY();
+    double y = RobotContainer.oi.getDriverLeftY();
     double x = RobotContainer.oi.getDriverRightX();
   
     drive_cmd = Math.pow(y, 3);       // cubing y makes it more "sensitive"
-    steer_cmd = Math.pow(x, 3); // cubing x and /2 makes it more "sensitive"
+    steer_cmd = Math.pow(x, 3) / 2; // cubing x and /2 makes it more "sensitive"
   
     // throttle is constant that controls "speed" of robot; helpful in testing in small areas
     driveTrain.arcadeDrive(drive_cmd*THROTTLE, steer_cmd*THROTTLE);   
