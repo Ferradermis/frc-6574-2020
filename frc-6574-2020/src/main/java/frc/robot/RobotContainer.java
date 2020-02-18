@@ -10,6 +10,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.RunGyroAutonomousSequence;
@@ -49,6 +51,11 @@ public class RobotContainer {
   public RobotContainer() {
     configureButtonBindings();
     driveTrain.setDefaultCommand(arcadeDrive);
+    SendableChooser<String> autochooser = new SendableChooser<String>();
+    autochooser.setDefaultOption("Test Plan", new String("Test"));
+    autochooser.addOption("front of target 3 balls", "Plan A");
+    autochooser.addOption("front of opponent port 2 balls", "Plan B");
+    SmartDashboard.putData("Autonomous Chooser", autochooser);
   }
 
   /**
@@ -70,7 +77,7 @@ public class RobotContainer {
  //   oi.driver_aButton.whenPressed(()->shooter.testspin())
  //   .whenReleased(()->shooter.teststop());
 
-  //  oi.driver_leftBumper.whenPressed(()->shooter.testTurnTurret());
+    oi.driver_leftBumper.whenPressed(()->shooter.testTurnTurret());
 
     // Operator Buttons
    // oi.operator_bButton.whenPressed(()->intake.turnOn())

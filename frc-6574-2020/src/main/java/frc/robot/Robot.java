@@ -8,19 +8,23 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
 
   private RobotContainer robotContainer;
-
+    private SendableChooser autoChooser;
   @Override
   public void robotInit() {
-    robotContainer = new RobotContainer();
+
     RobotContainer.compressor.start(); //compressor init code
     // documentation says this is "true" by default, so commenting out
     // RobotContainer.compressor.setClosedLoopControl(true);
-  }
+  
+
+      }
 
   @Override
   public void robotPeriodic() {
