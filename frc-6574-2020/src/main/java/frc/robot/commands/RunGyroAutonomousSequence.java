@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
@@ -20,12 +21,12 @@ public class RunGyroAutonomousSequence extends InstantCommand {
   DriveTrain driveTrain;
   
   // TestPlan constants:  Use TestPlan to run simple tests
-  final char TestPlan = 'T';
+  final String TestPlan = "Test Plan";
 
   // PlanA constants: Plan A starts in front of target, shoots 3 balls, retrieves first 3 balls in trench
   // need to decide if we want to pick up last two balls in trench
   // drive to target, shoot 3-5 balls
-  final char PlanA = 'A';
+  final String PlanA = "Plan A";
   final double PlanAHeading1 = -35.0;
   final double PlanAHeading2 = -23.0;
   final double PlanASideA = 8.0;  //10.0
@@ -34,7 +35,7 @@ public class RunGyroAutonomousSequence extends InstantCommand {
  
   // PlanB constants:  Plan B starts in front of outside ball near opponents trench;
   // retrieve outside ball, retrieve inside ball, drive to target, shoot 5 balls
-  final char PlanB = 'B';
+  final String PlanB = "Plan B";
   final double PlanBHeading1 = -45.0;
   final double PlanBHeading2 = 61.20;
   final double PlanBSideA = 10.83;
@@ -43,10 +44,10 @@ public class RunGyroAutonomousSequence extends InstantCommand {
   final double PlanBSideD = 12.25; // 19.25
   //
   
-  final double MaxDriveSpeed = 0.5;
+/*  final double MaxDriveSpeed = 0.5;
   final double MaxTurnSpeed = 0.25;
   final double EncoderUnitsPerFeet = 14500;
-
+*/
   public RunGyroAutonomousSequence(DriveTrain driveTrain) {
     this.driveTrain = driveTrain;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -56,19 +57,19 @@ public class RunGyroAutonomousSequence extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    char autonomousPlan = TestPlan;
+    String autonomousPlan = RobotContainer.autochooser.getSelected();
     double startTime = Timer.getFPGATimestamp();
-    System.out.println("Running Autonomous Plan " + TestPlan);
+    System.out.println("Running Autonomous Plan " + autonomousPlan);
     System.out.println("Starting Time:" + Timer.getFPGATimestamp());
     
     driveTrain.stop();
     driveTrain.resetGyro();
 
-    if (autonomousPlan == TestPlan) {  
+    if (autonomousPlan.equals(TestPlan)) {  
       System.out.println("Starting at position: " +driveTrain.getPosition());
-      turnToHeading(PlanAHeading1);
-      driveAlongAngle(PlanASideA, 1, PlanAHeading1); 
-      turnToHeading(0.0); 
+      driveTrain.turnToHeading(PlanAHeading1);
+      driveTrain.driveAlongAngle(PlanASideA, 1, PlanAHeading1); 
+      driveTrain.turnToHeading(0.0); 
     
     //  simpleDriveForward(3);
       System.out.println("Finishing at position: " +driveTrain.getPosition());
@@ -88,34 +89,34 @@ public class RunGyroAutonomousSequence extends InstantCommand {
       //driveAlongAngle(1, 1, 0);
      // System.out.println("Should be 0; " + driveTrain.getGyroAngle());
       }
-    else if (autonomousPlan == PlanA){
+    else if (autonomousPlan.equals(PlanA)){
       // Shoot
       // RobotContainer.shooter.shoot(); 
    
-      turnToHeading(PlanAHeading1);
-      driveAlongAngle(PlanASideA, 1, PlanAHeading1); 
-      turnToHeading(0.0); 
-      //intakeOn(); 
-      driveAlongAngle(PlanASideB, 1, 0.0); 
-      // intakeOff(); 
-      turnToHeading(PlanAHeading2); 
-      driveAlongAngle(PlanASideC, -1, PlanAHeading2); 
-      turnToHeading(0.0);
-      //aim(); 
+      driveTrain.turnToHeading(PlanAHeading1);
+      driveTrain.driveAlongAngle(PlanASideA, 1, PlanAHeading1); 
+      driveTrain.turnToHeading(0.0); 
+      //RobotContainer.intake.intakeOn(); 
+      driveTrain.driveAlongAngle(PlanASideB, 1, 0.0); 
+      //RobotContainer.intake.intakeOff(); 
+      driveTrain.turnToHeading(PlanAHeading2); 
+      driveTrain.driveAlongAngle(PlanASideC, -1, PlanAHeading2); 
+      driveTrain.turnToHeading(0.0);
+      //robotContainer.shooter.aim(); 
       //robotContainer.shooter.shoot(); 
     }
-    else if (autonomousPlan == PlanB)  // grabbing two opponents Power Cells near their 
+    else if (autonomousPlan.equals(PlanB))  // grabbing two opponents Power Cells near their 
     {
       // START NEAR OPPONENTS LOADING BAY, 
       // drive backward to get two power cells in opponent trench run
-    driveAlongAngle(PlanBSideA, 1, 0.0);
-    driveAlongAngle(PlanBSideB, -1, 0.0);
-    turnToHeading(PlanBHeading1);
-    driveAlongAngle(PlanBSideC, 1, PlanBHeading1);
-    turnToHeading(PlanBHeading2);
-    driveAlongAngle(PlanBSideD, -1, PlanBHeading2);
-    turnToHeading(0.0);
-    // aim
+      driveTrain.driveAlongAngle(PlanBSideA, 1, 0.0);
+      driveTrain.driveAlongAngle(PlanBSideB, -1, 0.0);
+      driveTrain.turnToHeading(PlanBHeading1);
+      driveTrain.driveAlongAngle(PlanBSideC, 1, PlanBHeading1);
+      driveTrain.turnToHeading(PlanBHeading2);
+      driveTrain.driveAlongAngle(PlanBSideD, -1, PlanBHeading2);
+      driveTrain.turnToHeading(0.0);
+    // RobotContainer.shooter.aim()
     // RobotContainer.shooter.shoot(); // should be shooting 5 power cells
     }
     
@@ -126,7 +127,8 @@ public class RunGyroAutonomousSequence extends InstantCommand {
   }
   
  
-  private void driveAlongAngle(double distanceInFeet, int direction, double alongAngle)
+/* MOVED TO DRIVETRAIN  
+private void driveAlongAngle(double distanceInFeet, int direction, double alongAngle)
   {
     double kF = 0.1;
     double kP = 0.75;
@@ -160,7 +162,9 @@ public class RunGyroAutonomousSequence extends InstantCommand {
     
     driveTrain.stop();
   }
+*/
 
+/*  MOVED TO DRIVETRAIN
   private void turnToHeading(double intendedHeading) {  
     double kF = 0.05;
     double kP = 0.02; 
@@ -179,16 +183,8 @@ public class RunGyroAutonomousSequence extends InstantCommand {
 
     driveTrain.stop();
   }
-/*
-  private void driveForwardInEncoderUnits(double distanceinEU, double speed)
-  {  
-    while (driveTrain.getPosition() < distanceinEU)
-    {
-      driveTrain.arcadeDrive(speed,0);
-    }
-    driveTrain.stop();
-}
 */
+/* MOVED TO DRIVETRAIN
   private void simpleDriveForward(double distanceInFeet) {
     double distanceInEncoderUnits = distanceInFeet * EncoderUnitsPerFeet; 
     driveTrain.drivePositionControl(distanceInEncoderUnits);  
@@ -199,12 +195,4 @@ public class RunGyroAutonomousSequence extends InstantCommand {
     driveTrain.drivePositionControl(-distanceInEncoderUnits); 
   }
 */
-  private void intakeOn() {
-    RobotContainer.intake.turnOn();
-  }
-
-  private void intakeOff() {
-    RobotContainer.intake.turnOff();
-  }
-
 }

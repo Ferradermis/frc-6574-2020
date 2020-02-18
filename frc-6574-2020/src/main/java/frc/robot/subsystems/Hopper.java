@@ -32,10 +32,10 @@ public class Hopper extends SubsystemBase {
     hopperMotor.setSmartCurrentLimit(currentLimit);
   }
 
-  public void turnOnShooting() {
+  public void turnOnForShooting() {
     hopperMotor.set(HopperSpeedShooting);
   }
-  public void turnOnIntake() {
+  public void turnOnForIntake() {
     hopperMotor.set(HopperSpeedIntake);
   }
 
@@ -43,7 +43,7 @@ public class Hopper extends SubsystemBase {
     hopperMotor.set(0);
   }
 
-  public void reverseOnIntake() {
+  public void reverseForIntake() {
     hopperMotor.set(-HopperSpeedIntake);
   }
 

@@ -42,6 +42,7 @@ public class RobotContainer {
   public static final Intake intake = new Intake();
   public static final Hopper hopper = new Hopper();
   public static final Compressor compressor = new Compressor();
+  public static SendableChooser<String> autochooser = new SendableChooser<String>();
   
  // public static Spark leds = new Spark(0);
   
@@ -51,7 +52,7 @@ public class RobotContainer {
   public RobotContainer() {
     configureButtonBindings();
     driveTrain.setDefaultCommand(arcadeDrive);
-    SendableChooser<String> autochooser = new SendableChooser<String>();
+
     autochooser.setDefaultOption("Test Plan", new String("Test"));
     autochooser.addOption("front of target 3 balls", "Plan A");
     autochooser.addOption("front of opponent port 2 balls", "Plan B");
@@ -66,13 +67,13 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Driver Buttons
-    oi.operator_xButton.whenPressed(()->shooter.raiseHoodForShooting())
-                .whenReleased(()->shooter.lowerHoodForTrench());
+  //  oi.operator_xButton.whenPressed(()->shooter.raiseHoodForShooting())
+  //              .whenReleased(()->shooter.lowerHoodForTrench());
                 
     oi.driver_yButton.whenPressed(new RunGyroAutonomousSequence(driveTrain));  // remove for gameplay
 
-    oi.operator_bButton.whenPressed(()->shooter.extendHoodForLongDistance())
-    .whenReleased(()->shooter.retractHoodforShortDistance());
+  //  oi.operator_bButton.whenPressed(()->shooter.extendHoodForLongDistance())
+  //  .whenReleased(()->shooter.retractHoodforShortDistance());
 
  //   oi.driver_aButton.whenPressed(()->shooter.testspin())
  //   .whenReleased(()->shooter.teststop());
@@ -82,7 +83,9 @@ public class RobotContainer {
     // Operator Buttons
    // oi.operator_bButton.whenPressed(()->intake.turnOn())
      //           .whenReleased(()->intake.turnOff());
-    oi.operator_aButton.whenPressed(()->intake.deployOrRetract());
+
+//    oi.operator_aButton.whenPressed(()->intake.deployOrRetract());
+
 //    oi.operator_yButton.whenPressed(()->intake.reverseOn())
 //                .whenReleased(()->intake.turnOff()); 
 //     oi.operator_xButton.whenPressed(()->shooter.feedAndFire())

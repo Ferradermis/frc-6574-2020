@@ -30,6 +30,11 @@ public class DriveTrain extends SubsystemBase {
   private WPI_TalonFX frontRight = new WPI_TalonFX(RobotMap.FRONT_RIGHT_CAN_ID);
   private WPI_TalonFX backRight = new WPI_TalonFX(RobotMap.BACK_RIGHT_CAN_ID);
 
+  // following variable are used in turnToHeading and driveAlongAngle
+  final double MaxDriveSpeed = 0.5;
+  final double MaxTurnSpeed = 0.25;
+  final double EncoderUnitsPerFeet = 14500;
+
   public DriveTrain(){
     double kF = 0;
     double kP = 0.05;
@@ -141,6 +146,66 @@ public class DriveTrain extends SubsystemBase {
 	public double getPosition() {
       return ((frontLeft.getSelectedSensorPosition()+frontRight.getSelectedSensorPosition())/2); 
   }
+
+  public void driveAlongAngle(double distanceInFeet, int direction, double alongAngle)
+  {
+    double kF = 0.1;
+    double kP = 0.75;
+    double tolerance = 750; // this would be roughly 1 inch
+
+    double angleKP = .005;
+    
+    double driveSpeed;
+    double turnSpeed = 0.0;
+    double distanceError = distanceInFeet * EncoderUnitsPerFeet * direction;    
+    double endPosition = getPosition() + distanceError;
+
+    double angleError = alongAngle-getGyroAngle();
+    
+   // this code can be uncommented if we want to make sure we turn to Heading first
+   // if (Math.abs(angleError) > 1) {
+   //   turnToHeading(alongAngle);
+   // }
+
+      while (Math.abs(distanceError) > tolerance){
+        driveSpeed = distanceError / EncoderUnitsPerFeet / 5 * kP + Math.copySign(kF,distanceError);
+        // make sure we go no faster than MaxDriveSpeed
+        driveSpeed = ((Math.abs(driveSpeed) > MaxDriveSpeed) ? Math.copySign(MaxDriveSpeed, driveSpeed) :  driveSpeed);
+        angleError = alongAngle-getGyroAngle();
+        turnSpeed = angleError * angleKP;
+        // make sure turnSpeed is not greater than MaxTurnSpeed
+        turnSpeed = ((Math.abs(turnSpeed) > MaxTurnSpeed ? Math.copySign(MaxTurnSpeed, angleError): turnSpeed));
+        arcadeDrive(driveSpeed, turnSpeed);
+        distanceError = endPosition-getPosition();
+      }
+    
+    stop();
+  }
+
+  public void turnToHeading(double intendedHeading) {  
+    double kF = 0.05;
+    double kP = 0.02; 
+    double angleError;
+    double turnSpeed;
+    double tolerance = 3;
+
+    angleError = intendedHeading - getGyroAngle();
+    while (Math.abs(angleError) > tolerance) {    
+        turnSpeed = angleError * kP + Math.copySign(kF, angleError);
+        // make sure turnSpeed is not greater than MaxTurnSpeed
+        turnSpeed = ((Math.abs(turnSpeed) > MaxTurnSpeed ? Math.copySign(MaxTurnSpeed, angleError): turnSpeed));
+        arcadeDrive(0, turnSpeed);
+        angleError = intendedHeading - getGyroAngle();
+      }
+
+    stop();
+  }
+
+  public void simpleDriveForward(double distanceInFeet) {
+    double distanceInEncoderUnits = distanceInFeet * EncoderUnitsPerFeet; 
+    drivePositionControl(distanceInEncoderUnits);  
+  }
+
 
   // NOTE THIS FUNCTION CALL IS NON-BLOCKING; TRY TO AVOID USING
 //  public void resetPosition() {
