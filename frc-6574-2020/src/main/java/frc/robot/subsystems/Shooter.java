@@ -136,7 +136,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void testspin(){
-    shooterLeft.set(ControlMode.PercentOutput,.6);
+    shooterLeft.set(ControlMode.PercentOutput,.5);
   }
   public void teststop(){
     shooterLeft.set(ControlMode.PercentOutput,0);
@@ -150,8 +150,9 @@ public class Shooter extends SubsystemBase {
 
   public void feedAndFire()
   {
-    feeder.set(.5);
-    Timer.delay(.25);
+    feeder.set(1);
+    Timer.delay(2);
+    feeder.set(0);
   }
 
   public void shoot() {
@@ -219,6 +220,7 @@ public class Shooter extends SubsystemBase {
     // Set up motors
     double rampRate = 0.2; //time in seconds to go from 0 to full throttle; 0.2 is selected on feel by drivers for 2019
     int currentLimit = 35; 
+    int feederCurrentLimit = 35; 
 
     shooterRight.setInverted(true);
     shooterRight.follow(shooterLeft);
@@ -257,6 +259,6 @@ public class Shooter extends SubsystemBase {
 //    shooterLeft.config_kD(Constants.kPIDLoopIdx, kD, Constants.kTimeoutMs);
 
     feeder.setOpenLoopRampRate(rampRate);
-    feeder.setSmartCurrentLimit(currentLimit);
+    feeder.setSmartCurrentLimit(feederCurrentLimit);
   }
 }

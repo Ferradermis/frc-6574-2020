@@ -75,8 +75,8 @@ public class RobotContainer {
   //  oi.operator_bButton.whenPressed(()->shooter.extendHoodForLongDistance())
   //  .whenReleased(()->shooter.retractHoodforShortDistance());
 
- //   oi.driver_aButton.whenPressed(()->shooter.testspin())
- //   .whenReleased(()->shooter.teststop());
+    oi.driver_aButton.whenPressed(()->shooter.testspin())
+    .whenReleased(()->shooter.teststop());
 
     oi.driver_leftBumper.whenPressed(()->shooter.testTurnTurret());
 
@@ -88,8 +88,8 @@ public class RobotContainer {
 
 //    oi.operator_yButton.whenPressed(()->intake.reverseOn())
 //                .whenReleased(()->intake.turnOff()); 
-//     oi.operator_xButton.whenPressed(()->shooter.feedAndFire())
-//     .whenReleased(()->shooter.stopFeeder());
+     oi.driver_xButton.whenPressed(()->shooter.feedAndFire())
+     .whenReleased(()->shooter.stopFeeder());
 //     oi.operator_leftBumper.whenPressed(()->hopper.turnOn())
 //     .whenReleased(()->hopper.turnOff());
 //     oi.operator_rightBumper.whenPressed(()->hopper.reverseOn())
