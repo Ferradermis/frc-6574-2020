@@ -16,8 +16,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-
-    RobotContainer.compressor.start(); //compressor init code
+    robotContainer = new RobotContainer();
+ //   RobotContainer.compressor.start(); //compressor init code
     // documentation says this is "true" by default, so commenting out
     // RobotContainer.compressor.setClosedLoopControl(true);
   
@@ -41,7 +41,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    CommandScheduler.getInstance().cancelAll();
+//    CommandScheduler.getInstance().cancelAll();
     RobotContainer.driveTrain.stop();
     if (!CommandScheduler.getInstance().isScheduled(robotContainer.arcadeDrive)) {
       CommandScheduler.getInstance().schedule(robotContainer.arcadeDrive);

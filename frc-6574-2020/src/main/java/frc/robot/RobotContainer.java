@@ -41,13 +41,13 @@ public class RobotContainer {
   public static final Shooter shooter = new Shooter();
   public static final Intake intake = new Intake();
   public static final Hopper hopper = new Hopper();
-  public static final Compressor compressor = new Compressor();
-  public static SendableChooser<String> autochooser = new SendableChooser<String>();
+//  public static final Compressor compressor = new Compressor();
   
  // public static Spark leds = new Spark(0);
   
   //Commands
   public final ArcadeDrive arcadeDrive = new ArcadeDrive(driveTrain);
+  public static SendableChooser<String> autochooser = new SendableChooser<String>();
 
   public RobotContainer() {
     configureButtonBindings();
