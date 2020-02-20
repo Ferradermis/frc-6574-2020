@@ -9,16 +9,15 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.RobotMap;
 
 public class Shooter extends SubsystemBase {
@@ -139,6 +138,7 @@ public class Shooter extends SubsystemBase {
     shooterLeft.set(ControlMode.PercentOutput,.5);
   }
   public void teststop(){
+    SmartDashboard.putNumber("Shooter Velocity: ", shooterLeft.getSensorCollection().getIntegratedSensorVelocity());
     shooterLeft.set(ControlMode.PercentOutput,0);
     
   }
@@ -154,6 +154,12 @@ public class Shooter extends SubsystemBase {
     Timer.delay(2);
     feeder.set(0);
   }
+
+  public void stopFeeder()
+  {
+    feeder.set(0);
+  }
+
 
   public void shoot() {
     shooting = true;
@@ -178,11 +184,7 @@ public class Shooter extends SubsystemBase {
     turretRotator.set(ControlMode.PercentOutput, 0);
   }
 
-  public void stopFeeder()
-  {
-    feeder.set(0);
-  }
-
+ 
   public void raiseHoodForShooting()
   {
     hoodTrench.set(DoubleSolenoid.Value.kForward);
@@ -210,10 +212,15 @@ public class Shooter extends SubsystemBase {
   public void testTurnTurret()
   {
     System.out.println("Turret Rotator sensor at start: " + turretRotator.getSelectedSensorPosition());
+    System.out.println("Turret Rotator PWM  at start: " + turretRotator.getSensorCollection().getPulseWidthRiseToFallUs());
+    
     turretRotator.set(ControlMode.PercentOutput,.35);
     Timer.delay(.5);
     turretRotator.set(ControlMode.PercentOutput,0);
+
     System.out.println("Turret Rotator sensor at end: " + turretRotator.getSelectedSensorPosition());
+    System.out.println("Turret Rotator PWM  at end: " + turretRotator.getSensorCollection().getPulseWidthRiseToFallUs());
+
   }
 
   private void configureMotors(){
