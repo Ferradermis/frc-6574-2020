@@ -55,14 +55,18 @@ public class RobotContainer {
   public static SendableChooser<CommandBase> autochooser = new SendableChooser<CommandBase>();
 
   public RobotContainer() {
+
     configureButtonBindings();
     driveTrain.setDefaultCommand(arcadeDrive);
 
+    SmartDashboard.putNumber("Delay Start of Auto: ", 0.0);
     autochooser.setDefaultOption("Test Plan", new AutoTest(driveTrain));
-    autochooser.addOption("front of target 3 balls", new AutoPlanAShoots6(driveTrain));
-    autochooser.addOption("front of opponent port 2 balls", new AutoPlanBShoots5(driveTrain));
+    autochooser.addOption("Front of target 3 balls", new AutoPlanAShoots6(driveTrain));
+    autochooser.addOption("Front of opponent port 2 balls", new AutoPlanBShoots5(driveTrain));
     autochooser.addOption("Moves off Initiation line", new AutoPlanCMovesOffLine(driveTrain));
     SmartDashboard.putData("Autonomous Chooser", autochooser);
+
+    SmartDashboard.putNumber("Shooter Speed", 0.5);
   }
 
   /**

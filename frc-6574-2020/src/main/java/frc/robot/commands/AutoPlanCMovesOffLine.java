@@ -8,21 +8,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
 
 
 public class AutoPlanCMovesOffLine extends InstantCommand {
-  /**
-   * Creates a new RunAutonomousSequence.
-   */
+
   DriveTrain driveTrain;
 
   public AutoPlanCMovesOffLine(DriveTrain driveTrain) {
     this.driveTrain = driveTrain;
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrain);
   }
 
@@ -37,10 +33,9 @@ public class AutoPlanCMovesOffLine extends InstantCommand {
 
     driveTrain.driveAlongAngle(3, 1, 0); //CODE
 
-  //  driveTrain.stop();    // make sure we are stopped at end of autonomous
+    //  driveTrain.stop();    // make sure we are stopped at end of autonomous
     double endTime = Timer.getFPGATimestamp();
     System.out.println("Ending Time:" + endTime);
     System.out.println("Run Time of Autonomous: " + (endTime - startTime));
-  }
-  
+  } 
 }

@@ -8,9 +8,11 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -35,7 +37,7 @@ public class Shooter extends SubsystemBase {
   // rotator vexPro775
   private TalonSRX turretRotator = new TalonSRX(RobotMap.TURRET_CAN_ID);
 
-
+  private final AS5600EncoderPwm encoder = new AS5600EncoderPwm(turretRotator.getSensorCollection());
   
   // hood controller for raising and lowering
    public DoubleSolenoid hoodTrench = new DoubleSolenoid(RobotMap.HOOD_TRENCH_ID1, RobotMap.HOOD_TRENCH_ID2);
@@ -135,7 +137,8 @@ public class Shooter extends SubsystemBase {
   }
 
   public void testspin(){
-    shooterLeft.set(ControlMode.PercentOutput,.5);
+  {}
+    shooterLeft.set(ControlMode.PercentOutput, SmartDashboard.getNumber("Shooter Speed", .5));
   }
   public void teststop(){
     SmartDashboard.putNumber("Shooter Velocity: ", shooterLeft.getSensorCollection().getIntegratedSensorVelocity());
@@ -209,11 +212,34 @@ public class Shooter extends SubsystemBase {
     hoodAngle.set(DoubleSolenoid.Value.kReverse);
   }
 
+/** * Reads PWM values from the AS5600. */
+public class AS5600EncoderPwm {    
+  private final SensorCollection sensors;    
+  private volatile int lastValue = Integer.MIN_VALUE;    
+  public AS5600EncoderPwm(SensorCollection sensors) {        
+    this.sensors = sensors;
+  }    
+  public int getPwmPosition() {
+    int raw = sensors.getPulseWidthRiseToFallUs();
+    if (raw == 0) {
+      int lastValue = this.lastValue;
+      if (lastValue == Integer.MIN_VALUE) {
+        return 0;
+      }
+      return lastValue;
+    }
+    int actualValue = Math.min(4096, raw - 128);
+    lastValue = actualValue;
+    return actualValue;    
+  }
+}
+
   public void testTurnTurret()
   {
   //  turretRotator.getSensorCollection().setPulseWidthPosition(0, 60);
     System.out.println("Turret Rotator sensor at start: " + turretRotator.getSelectedSensorPosition());
     System.out.println("Turret Rotator PWM  at start: " + turretRotator.getSensorCollection().getPulseWidthRiseToFallUs());
+    System.out.println("Turret Rotator using AS5800  at start: " + encoder.getPwmPosition());
     
     turretRotator.set(ControlMode.PercentOutput,-.35);
     Timer.delay(.5);
@@ -221,6 +247,7 @@ public class Shooter extends SubsystemBase {
     Timer.delay(.5);
     System.out.println("Turret Rotator sensor at end: " + turretRotator.getSelectedSensorPosition());
     System.out.println("Turret Rotator PWM  at end: " + turretRotator.getSensorCollection().getPulseWidthRiseToFallUs());
+    System.out.println("Turret Rotator using AS5800  at end: " + encoder.getPwmPosition());
 
   }
 
@@ -268,5 +295,7 @@ public class Shooter extends SubsystemBase {
 
     feeder.setOpenLoopRampRate(rampRate);
     feeder.setSmartCurrentLimit(feederCurrentLimit);
+
+    turretRotator.configSelectedFeedbackSensor(FeedbackDevice.RemoteSensor0);
   }
 }

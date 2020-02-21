@@ -206,37 +206,9 @@ public class DriveTrain extends SubsystemBase {
     drivePositionControl(distanceInEncoderUnits);  
   }
 
-
   // NOTE THIS FUNCTION CALL IS NON-BLOCKING; TRY TO AVOID USING
 //  public void resetPosition() {
 //    frontLeft.setSelectedSensorPosition(0, 0, 50); 
 //    frontRight.setSelectedSensorPosition(0, 0, 50); 
 //  }
 }
-
-/* SET OF CODE NO LONGER NEEDED DUE TO SIMPLIFICATIO
-    private void spin(double leftSpeed, double rightSpeed){
-    spinLeft(leftSpeed);
-    spinRight(rightSpeed);
-  }
-  private void spinLeft(double speed) {
-    frontLeft.set(ControlMode.PercentOutput,speed);
-  }
-
-  private void stopLeft() {
-    spinLeft(0);
-  }
-
-  private void spinRight(double speed) {
-    frontRight.set(ControlMode.PercentOutput,speed);
-  }
-
-  private void stopRight() {
-    spinRight(0);
-  }
-
-  public void stop() {
-    stopLeft();
-    stopRight();
-  }
-  **/
