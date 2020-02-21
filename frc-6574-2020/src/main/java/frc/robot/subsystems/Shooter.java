@@ -101,9 +101,9 @@ public class Shooter extends SubsystemBase {
   private double getDistanceToTarget() {
     //All calculations are in centimeters
     final double h2 = 86.36; //height of target
-    final double h1 = 16.51; //height of camera
+    final double h1 = 21; //height of camera
     // NOTE in final code, just calculate h2 - h1 and set a variable    
-    final double A1 = 3.19; //Angle of camera relative to ground
+    final double A1 = 10; //Angle of camera relative to ground
 
     double angleY = limelight.getAngleY();
     
@@ -211,13 +211,14 @@ public class Shooter extends SubsystemBase {
 
   public void testTurnTurret()
   {
+  //  turretRotator.getSensorCollection().setPulseWidthPosition(0, 60);
     System.out.println("Turret Rotator sensor at start: " + turretRotator.getSelectedSensorPosition());
     System.out.println("Turret Rotator PWM  at start: " + turretRotator.getSensorCollection().getPulseWidthRiseToFallUs());
     
-    turretRotator.set(ControlMode.PercentOutput,.35);
+    turretRotator.set(ControlMode.PercentOutput,-.35);
     Timer.delay(.5);
     turretRotator.set(ControlMode.PercentOutput,0);
-
+    Timer.delay(.5);
     System.out.println("Turret Rotator sensor at end: " + turretRotator.getSelectedSensorPosition());
     System.out.println("Turret Rotator PWM  at end: " + turretRotator.getSensorCollection().getPulseWidthRiseToFallUs());
 

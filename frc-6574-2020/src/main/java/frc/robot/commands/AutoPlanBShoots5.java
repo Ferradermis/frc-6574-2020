@@ -1,0 +1,79 @@
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
+
+package frc.robot.commands;
+
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.DriveTrain;
+
+
+public class AutoPlanBShoots5 extends InstantCommand {
+  /**
+   * Creates a new RunAutonomousSequence.
+   */
+  DriveTrain driveTrain;
+  
+  // TestPlan constants:  Use TestPlan to run simple tests
+  final String TestPlan = "Test Plan";
+
+  // PlanB constants:  Plan B starts in front of outside ball near opponents trench;
+  // retrieve outside ball, retrieve inside ball, drive to target, shoot 5 balls
+  final String PlanB = "Plan B";
+  final double PlanBHeading1 = -45.0;
+  final double PlanBHeading2 = 61.20;
+  final double PlanBSideA = 10.83;
+  final double PlanBSideB = 2.25;
+  final double PlanBSideC = 3.25;
+  final double PlanBSideD = 12.25; // 19.25
+  //
+  
+/*  final double MaxDriveSpeed = 0.5;
+  final double MaxTurnSpeed = 0.25;
+  final double EncoderUnitsPerFeet = 14500;
+*/
+  public AutoPlanBShoots5(DriveTrain driveTrain) {
+    this.driveTrain = driveTrain;
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(driveTrain);
+  }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+    double startTime = Timer.getFPGATimestamp();
+    System.out.println("Running Autonomous Plan ");
+    System.out.println("Starting Time:" + Timer.getFPGATimestamp());
+    
+    driveTrain.stop();
+    driveTrain.resetGyro();
+
+   
+    
+    
+      // START NEAR OPPONENTS LOADING BAY, 
+      // drive backward to get two power cells in opponent trench run
+      driveTrain.driveAlongAngle(PlanBSideA, 1, 0.0);
+      driveTrain.driveAlongAngle(PlanBSideB, -1, 0.0);
+      driveTrain.turnToHeading(PlanBHeading1);
+      driveTrain.driveAlongAngle(PlanBSideC, 1, PlanBHeading1);
+      driveTrain.turnToHeading(PlanBHeading2);
+      driveTrain.driveAlongAngle(PlanBSideD, -1, PlanBHeading2);
+      driveTrain.turnToHeading(0.0);
+    // RobotContainer.shooter.aim()
+    // RobotContainer.shooter.shoot(); // should be shooting 5 power cells
+    
+    
+  //  driveTrain.stop();    // make sure we are stopped at end of autonomous
+    double endTime = Timer.getFPGATimestamp();
+    System.out.println("Ending Time:" + endTime);
+    System.out.println("Run Time of Autonomous: " + (endTime - startTime));
+  }
+  
+}

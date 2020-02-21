@@ -13,7 +13,12 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.AutoPlanAShoots6;
+import frc.robot.commands.AutoPlanBShoots5;
+import frc.robot.commands.AutoPlanCMovesOffLine;
+import frc.robot.commands.AutoTest;
 import frc.robot.commands.RunGyroAutonomousSequence;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Hopper;
@@ -47,15 +52,16 @@ public class RobotContainer {
   
   //Commands
   public final ArcadeDrive arcadeDrive = new ArcadeDrive(driveTrain);
-  public static SendableChooser<String> autochooser = new SendableChooser<String>();
+  public static SendableChooser<CommandBase> autochooser = new SendableChooser<CommandBase>();
 
   public RobotContainer() {
     configureButtonBindings();
     driveTrain.setDefaultCommand(arcadeDrive);
 
-    autochooser.setDefaultOption("Test Plan", new String("Test"));
-    autochooser.addOption("front of target 3 balls", "Plan A");
-    autochooser.addOption("front of opponent port 2 balls", "Plan B");
+    autochooser.setDefaultOption("Test Plan", new AutoTest(driveTrain));
+    autochooser.addOption("front of target 3 balls", new AutoPlanAShoots6(driveTrain));
+    autochooser.addOption("front of opponent port 2 balls", new AutoPlanBShoots5(driveTrain));
+    autochooser.addOption("Moves off Initiation line", new AutoPlanCMovesOffLine(driveTrain));
     SmartDashboard.putData("Autonomous Chooser", autochooser);
   }
 
@@ -70,7 +76,7 @@ public class RobotContainer {
   //  oi.operator_xButton.whenPressed(()->shooter.raiseHoodForShooting())
   //              .whenReleased(()->shooter.lowerHoodForTrench());
                 
-    oi.driver_yButton.whenPressed(new RunGyroAutonomousSequence(driveTrain));  // remove for gameplay
+    oi.driver_yButton.whenPressed(autochooser.getSelected());  // remove for gameplay
 
   //  oi.operator_bButton.whenPressed(()->shooter.extendHoodForLongDistance())
   //  .whenReleased(()->shooter.retractHoodforShortDistance());
@@ -105,6 +111,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new RunGyroAutonomousSequence(driveTrain);
+    return autochooser.getSelected();
   }
 }

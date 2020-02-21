@@ -57,7 +57,7 @@ public class RunGyroAutonomousSequence extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    String autonomousPlan = RobotContainer.autochooser.getSelected();
+    String autonomousPlan = "Test Plan"; //delete when new code works
     double startTime = Timer.getFPGATimestamp();
     System.out.println("Running Autonomous Plan " + autonomousPlan);
     System.out.println("Starting Time:" + Timer.getFPGATimestamp());
