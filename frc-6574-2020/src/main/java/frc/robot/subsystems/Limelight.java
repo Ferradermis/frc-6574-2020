@@ -69,4 +69,22 @@ public class Limelight extends SubsystemBase {
         return limelight.getEntry("ty").getDouble(0);
     }
 
+    public double getDistanceToTarget() {
+        //All calculations are in centimeters
+        final double h2 = 86.36; //height of target
+        final double h1 = 21; //height of camera
+        // NOTE in final code, just calculate h2 - h1 and set a variable    
+        final double A1 = 10; //Angle of camera relative to ground
+    
+        double angleY = getAngleY();
+        
+        // calculate currentDistance from target
+        return (h2-h1)/Math.tan((angleY+A1)*Math.PI/180);
+      }
+    
+      public boolean aimedAtTarget() {       
+        final double tolerance = 1;
+        return (Math.abs(getAngleX()) < tolerance);
+      }
+    
 }

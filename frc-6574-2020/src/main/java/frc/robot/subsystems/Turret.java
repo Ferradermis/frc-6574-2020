@@ -25,12 +25,10 @@ public class Turret extends SubsystemBase {
 
  // private final AS5600EncoderPwm encoder = new AS5600EncoderPwm(turretRotator.getSensorCollection());
   
-  private double MAXROTATION = 45;
+
 
   public Limelight limelight = new Limelight();
   
-  private boolean aiming = false;
-
   public Turret() {
     configureMotors();
     limelight.ledOn();
@@ -42,49 +40,20 @@ public class Turret extends SubsystemBase {
   public void periodic() {
   }
 
-  public void aim()
-  {
-    aiming = true;
-    double kP = .01;
-
-    // If no target in view; stop and exit
-    if (limelight.hasTarget()) {
-      double angleX = limelight.getAngleX();
-      if (Math.abs(turretRotator.getSelectedSensorPosition())<MAXROTATION) {
-        turretRotator.set(ControlMode.PercentOutput, angleX*kP);
-      }  else {
-        //stopShooting();
-      }
-    } else {
-     // stopShooting();
-    }
-  }
-
-  public double getDistanceToTarget() {
-    //All calculations are in centimeters
-    final double h2 = 86.36; //height of target
-    final double h1 = 21; //height of camera
-    // NOTE in final code, just calculate h2 - h1 and set a variable    
-    final double A1 = 10; //Angle of camera relative to ground
-
-    double angleY = limelight.getAngleY();
-    
-    // calculate currentDistance from target
-    return (h2-h1)/Math.tan((angleY+A1)*Math.PI/180);
-  }
-
-  public boolean aimed() {       
-    final double tolerance = 0.5;
-    return (Math.abs(limelight.getAngleX()) < tolerance);
-  }
-
   public void resetTurretForward() {
     turretRotator.set(ControlMode.Position, 0);
   }
 
-  public void stopAiming() {
+  public void stopTurning() {
     turretRotator.set(ControlMode.PercentOutput, 0);
-    aiming = false;
+  }
+
+  public void turn(double speed){
+    turretRotator.set(ControlMode.PercentOutput, speed);
+  }
+
+  public int currentDirection() {
+    return turretRotator.getSelectedSensorPosition();
   }
 
 /** * Reads PWM values from the AS5600. 

@@ -182,7 +182,6 @@ public class DriveTrain extends SubsystemBase {
 
   /**
 	 * Gets the angle of drive train from its initial position.
-	 * 
 	 * @return	a double containing the drive train's current heading
 	 */
 	public double getGyroAngle() {

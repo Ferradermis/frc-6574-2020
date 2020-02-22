@@ -19,6 +19,8 @@ import frc.robot.commands.AutoPlanAShoots6;
 import frc.robot.commands.AutoPlanBShoots5;
 import frc.robot.commands.AutoPlanCMovesOffLine;
 import frc.robot.commands.AutoTest;
+import frc.robot.commands.AimTurret;
+import frc.robot.commands.Shoot;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Intake;
@@ -53,6 +55,9 @@ public class RobotContainer {
   
   //Commands
   public final ArcadeDrive arcadeDrive = new ArcadeDrive(driveTrain);
+  public static final AimTurret aimTurret = new AimTurret(turret);
+  public static final Shoot shoot = new Shoot(shooter);
+
   public static SendableChooser<CommandBase> autochooser = new SendableChooser<CommandBase>();
 
   public RobotContainer() {

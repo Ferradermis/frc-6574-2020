@@ -15,6 +15,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
@@ -104,7 +105,7 @@ public class Shooter extends SubsystemBase {
  
   public void raiseHoodForShooting()
   {
-    hoodTrench.set(DoubleSolenoid.Value.kForward);
+      hoodTrench.set(DoubleSolenoid.Value.kForward);
   }
 
   public void lowerHoodForTrench()
@@ -115,15 +116,19 @@ public class Shooter extends SubsystemBase {
 
   public void extendHoodForLongDistance()
   {
-    // only extend distance hood if trenchHood raised
-    if (hoodTrench.get() == DoubleSolenoid.Value.kForward) {
+    // only extend distance hood if trenchHood raised and hoodAngle is down
+    if ((hoodTrench.get() == DoubleSolenoid.Value.kForward) && 
+              (hoodAngle.get() == DoubleSolenoid.Value.kReverse)) {
       hoodAngle.set(DoubleSolenoid.Value.kForward);
     }
   }
 
   public void retractHoodforShortDistance()
   {
-    hoodAngle.set(DoubleSolenoid.Value.kReverse);
+    // only retractHood if already extended
+    if (hoodAngle.get() == DoubleSolenoid.Value.kForward) {
+      hoodAngle.set(DoubleSolenoid.Value.kReverse);
+    }
   }
 
   private void configureMotors(){
