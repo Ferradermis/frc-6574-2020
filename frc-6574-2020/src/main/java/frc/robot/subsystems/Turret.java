@@ -30,11 +30,11 @@ public class Turret extends SubsystemBase {
   // rotator vexPro775
   private TalonSRX turretRotator = new TalonSRX(RobotMap.TURRET_CAN_ID);
 
-  private final AS5600EncoderPwm encoder = new AS5600EncoderPwm(turretRotator.getSensorCollection());
+ // private final AS5600EncoderPwm encoder = new AS5600EncoderPwm(turretRotator.getSensorCollection());
   
   private double MAXROTATION = 45;
 
-  Limelight limelight = new Limelight();
+  public Limelight limelight = new Limelight();
   
   private boolean aiming = false;
 
@@ -49,7 +49,7 @@ public class Turret extends SubsystemBase {
   public void periodic() {
   }
 
-  private void aim()
+  public void aim()
   {
     aiming = true;
     double kP = .01;
@@ -60,10 +60,10 @@ public class Turret extends SubsystemBase {
       if (Math.abs(turretRotator.getSelectedSensorPosition())<MAXROTATION) {
         turretRotator.set(ControlMode.PercentOutput, angleX*kP);
       }  else {
-        stopShooting();
+        //stopShooting();
       }
     } else {
-      stopShooting();
+     // stopShooting();
     }
   }
 

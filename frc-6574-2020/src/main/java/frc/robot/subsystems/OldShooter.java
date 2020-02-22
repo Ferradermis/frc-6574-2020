@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
-public class Shooter extends SubsystemBase {
+public class OldShooter extends SubsystemBase {
   /**
    * Creates a new Shooter.
    */
@@ -50,7 +50,7 @@ public class Shooter extends SubsystemBase {
   private boolean shooting = false;
   private double hoodNeededDistance = 360.0; // distance at which we raise hood
 
-  public Shooter() {
+  public OldShooter() {
     configureMotors();
     limelight.ledOn();
     limelight.setTarget(0);

@@ -43,11 +43,11 @@ public class RobotContainer {
   /** */ 
   public static final DriveTrain driveTrain = new DriveTrain();
   public static final OI oi = new OI(); //Phase out
-  public static final Limelight limelight = new Limelight();
+
   public static final Shooter shooter = new Shooter();
   public static final Intake intake = new Intake();
   public static final Hopper hopper = new Hopper();
-  public static final Hopper turret = new Turret();
+  public static final Turret turret = new Turret();
 
   //  public static final Compressor compressor = new Compressor();
   
@@ -91,7 +91,7 @@ public class RobotContainer {
     oi.driver_aButton.whenPressed(()->shooter.testspin())
     .whenReleased(()->shooter.teststop());
 
-    oi.driver_leftBumper.whenPressed(()->shooter.testTurnTurret());
+    oi.driver_leftBumper.whenPressed(()->turret.testTurnTurret());
 
     // Operator Buttons
    // oi.operator_bButton.whenPressed(()->intake.turnOn())

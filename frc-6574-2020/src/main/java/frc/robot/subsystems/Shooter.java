@@ -34,95 +34,32 @@ public class Shooter extends SubsystemBase {
   // feeder neo550's
   private CANSparkMax feeder = new CANSparkMax(RobotMap.FEEDER_CAN_ID, MotorType.kBrushless);
  
-  // rotator vexPro775
-  private TalonSRX turretRotator = new TalonSRX(RobotMap.TURRET_CAN_ID);
-
-  private final AS5600EncoderPwm encoder = new AS5600EncoderPwm(turretRotator.getSensorCollection());
-  
   // hood controller for raising and lowering
    public DoubleSolenoid hoodTrench = new DoubleSolenoid(RobotMap.HOOD_TRENCH_ID1, RobotMap.HOOD_TRENCH_ID2);
    public DoubleSolenoid hoodAngle = new DoubleSolenoid(RobotMap.HOOD_ANGLE_ID2, RobotMap.HOOD_ANGLE_ID1);
 
   private double MAXROTATION = 45;
 
-  Limelight limelight = new Limelight();
 
   private boolean shooting = false;
-  private double hoodNeededDistance = 360.0; // distance at which we raise hood
+  public double hoodNeededDistance = 360.0; // distance at which we raise hood
 
   public Shooter() {
     configureMotors();
-    limelight.ledOn();
-    limelight.setTarget(0);
-    turretRotator.setSelectedSensorPosition(0); // need to think of best way to do this
+
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-  /*  if ((shooting == true)&&(limelight.hasTarget())) {
-      raiseHoodForShooting();
-      spin(getDistanceToTarget());
-      aim();
-    
-      if (getDistanceToTarget()>hoodNeededDistance) {
-        extendHoodForLongDistance();
-      } else {
-        retractHoodforShortDistance();
-      }
-
-      if (aimed() && shooterReady(getDistanceToTarget())) {
-          feedAndFire();
-        } else { // shooting, but not aimed or not ready
-          stopFeeder();
-        }
-
-    } else { // not shooting or no target
-        stopShooting(); // stops all motors
-    }
+  /*  
     */  
   }
 
-  private void aim()
-  {
-    double kP = .01;
 
-    // If no target in view; stop and exit
-    if (limelight.hasTarget()) {
-      double angleX = limelight.getAngleX();
-      if (Math.abs(turretRotator.getSelectedSensorPosition())<MAXROTATION) {
-        turretRotator.set(ControlMode.PercentOutput, angleX*kP);
-      }  else {
-        stopShooting();
-      }
-    } else {
-      stopShooting();
-    }
-  }
 
-  private double getDistanceToTarget() {
-    //All calculations are in centimeters
-    final double h2 = 86.36; //height of target
-    final double h1 = 21; //height of camera
-    // NOTE in final code, just calculate h2 - h1 and set a variable    
-    final double A1 = 10; //Angle of camera relative to ground
 
-    double angleY = limelight.getAngleY();
-    
-    // calculate currentDistance from target
-    return (h2-h1)/Math.tan((angleY+A1)*Math.PI/180);
-  }
-
-  private boolean aimed() {       
-    final double tolerance = 0.5;
-    return (Math.abs(limelight.getAngleX()) < tolerance);
-  }
-
-  private void resetTurretForward() {
-    turretRotator.set(ControlMode.Position, 0);
-  }
-
-  private void spin(double distance) {
+  public void spin(double distance) {
     // need to figure out this formula to set velocity based on distance
     // see the html file linked at the top of this java file
     // distance = parameter passed in; 
@@ -145,7 +82,7 @@ public class Shooter extends SubsystemBase {
     shooterLeft.set(ControlMode.PercentOutput,0);
     
   }
-  private boolean shooterReady(double distance) {
+  public boolean shooterReady(double distance) {
     double targetVelocity_UnitsPer100ms = distance * 250.0 * 2048 / 600;
     double tolerance = 10;
     return (shooterLeft.getSelectedSensorVelocity() >= targetVelocity_UnitsPer100ms - tolerance);
@@ -168,24 +105,12 @@ public class Shooter extends SubsystemBase {
     shooting = true;
   }
 
-  public void stopShooting() {
-    shooting = false;
-    stopAiming();
-    stopShooter();
-    stopFeeder();
-    retractHoodforShortDistance();
-    lowerHoodForTrench();
-    resetTurretForward();
-    // lower the hood controllers
-  }
 
-  private void stopShooter() {
+  public void stopShooter() {
+    shooting = false;
     shooterLeft.set(ControlMode.Velocity, 0);
   }
 
-  public void stopAiming() {
-    turretRotator.set(ControlMode.PercentOutput, 0);
-  }
 
  
   public void raiseHoodForShooting()
@@ -199,7 +124,7 @@ public class Shooter extends SubsystemBase {
     hoodTrench.set(DoubleSolenoid.Value.kReverse);
   }
 
-    public void extendHoodForLongDistance()
+  public void extendHoodForLongDistance()
   {
     // only extend distance hood if trenchHood raised
     if (hoodTrench.get() == DoubleSolenoid.Value.kForward) {
@@ -210,45 +135,6 @@ public class Shooter extends SubsystemBase {
   public void retractHoodforShortDistance()
   {
     hoodAngle.set(DoubleSolenoid.Value.kReverse);
-  }
-
-/** * Reads PWM values from the AS5600. */
-public class AS5600EncoderPwm {    
-  private final SensorCollection sensors;    
-  private volatile int lastValue = Integer.MIN_VALUE;    
-  public AS5600EncoderPwm(SensorCollection sensors) {        
-    this.sensors = sensors;
-  }    
-  public int getPwmPosition() {
-    int raw = sensors.getPulseWidthRiseToFallUs();
-    if (raw == 0) {
-      int lastValue = this.lastValue;
-      if (lastValue == Integer.MIN_VALUE) {
-        return 0;
-      }
-      return lastValue;
-    }
-    int actualValue = Math.min(4096, raw - 128);
-    lastValue = actualValue;
-    return actualValue;    
-  }
-}
-
-  public void testTurnTurret()
-  {
-  //  turretRotator.getSensorCollection().setPulseWidthPosition(0, 60);
-    System.out.println("Turret Rotator sensor at start: " + turretRotator.getSelectedSensorPosition());
-    System.out.println("Turret Rotator PWM  at start: " + turretRotator.getSensorCollection().getPulseWidthRiseToFallUs());
-    System.out.println("Turret Rotator using AS5800  at start: " + encoder.getPwmPosition());
-    
-    turretRotator.set(ControlMode.PercentOutput,-.35);
-    Timer.delay(.5);
-    turretRotator.set(ControlMode.PercentOutput,0);
-    Timer.delay(.5);
-    System.out.println("Turret Rotator sensor at end: " + turretRotator.getSelectedSensorPosition());
-    System.out.println("Turret Rotator PWM  at end: " + turretRotator.getSensorCollection().getPulseWidthRiseToFallUs());
-    System.out.println("Turret Rotator using AS5800  at end: " + encoder.getPwmPosition());
-
   }
 
   private void configureMotors(){
@@ -296,6 +182,5 @@ public class AS5600EncoderPwm {
     feeder.setOpenLoopRampRate(rampRate);
     feeder.setSmartCurrentLimit(feederCurrentLimit);
 
-    turretRotator.configSelectedFeedbackSensor(FeedbackDevice.RemoteSensor0);
   }
 }
