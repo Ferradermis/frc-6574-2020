@@ -15,7 +15,6 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
@@ -36,10 +35,6 @@ public class Shooter extends SubsystemBase {
    public DoubleSolenoid hoodTrench = new DoubleSolenoid(RobotMap.HOOD_TRENCH_ID1, RobotMap.HOOD_TRENCH_ID2);
    public DoubleSolenoid hoodAngle = new DoubleSolenoid(RobotMap.HOOD_ANGLE_ID2, RobotMap.HOOD_ANGLE_ID1);
 
-  private double MAXROTATION = 45;
-
-
-  private boolean shooting = false;
   public double hoodNeededDistance = 360.0; // distance at which we raise hood
 
   public Shooter() {
@@ -48,9 +43,7 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-  /*  
-    */  
+    // This method will be called once per scheduler run 
   }
 
   public void spin(double distance) {
@@ -63,59 +56,47 @@ public class Shooter extends SubsystemBase {
     // so 500 x 2048 is encoder units per minute
     // 600 = converts those units to units per 100ms
     double targetVelocity_UnitsPer100ms = distance * 250.0 * 2048 / 600;
-
 		shooterLeft.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
   }
 
   public void testspin(){
-  {}
     shooterLeft.set(ControlMode.PercentOutput, SmartDashboard.getNumber("Shooter Speed", .5));
   }
   public void teststop(){
     SmartDashboard.putNumber("Shooter Velocity: ", shooterLeft.getSensorCollection().getIntegratedSensorVelocity());
-    shooterLeft.set(ControlMode.PercentOutput,0);
-    
+    shooterLeft.set(ControlMode.PercentOutput,0);  
   }
+
   public boolean shooterReady(double distance) {
     double targetVelocity_UnitsPer100ms = distance * 250.0 * 2048 / 600;
     double tolerance = 10;
     return (shooterLeft.getSelectedSensorVelocity() >= targetVelocity_UnitsPer100ms - tolerance);
   }
 
-  public void feedAndFire()
-  {
+  public void feedAndFire() {
     feeder.set(1);
     Timer.delay(2);
     feeder.set(0);
   }
 
-  public void stopFeeder()
-  {
+  public void stopFeeder() {
     feeder.set(0);
   }
 
-  public void shoot() {
-    shooting = true;
-  }
-
   public void stopShooter() {
-    shooting = false;
     shooterLeft.set(ControlMode.Velocity, 0);
   }
  
-  public void raiseHoodForShooting()
-  {
+  public void raiseHoodForShooting() {
       hoodTrench.set(DoubleSolenoid.Value.kForward);
   }
 
-  public void lowerHoodForTrench()
-  {
+  public void lowerHoodForTrench() {
     hoodAngle.set(DoubleSolenoid.Value.kReverse);
     hoodTrench.set(DoubleSolenoid.Value.kReverse);
   }
 
-  public void extendHoodForLongDistance()
-  {
+  public void extendHoodForLongDistance() {
     // only extend distance hood if trenchHood raised and hoodAngle is down
     if ((hoodTrench.get() == DoubleSolenoid.Value.kForward) && 
               (hoodAngle.get() == DoubleSolenoid.Value.kReverse)) {
@@ -123,15 +104,14 @@ public class Shooter extends SubsystemBase {
     }
   }
 
-  public void retractHoodforShortDistance()
-  {
+  public void retractHoodforShortDistance() {
     // only retractHood if already extended
     if (hoodAngle.get() == DoubleSolenoid.Value.kForward) {
       hoodAngle.set(DoubleSolenoid.Value.kReverse);
     }
   }
 
-  private void configureMotors(){
+  private void configureMotors() {
     // Set up motors
     double rampRate = 0.2; //time in seconds to go from 0 to full throttle; 0.2 is selected on feel by drivers for 2019
     int currentLimit = 35; 
