@@ -25,6 +25,7 @@ import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Turret;
 
 
 /**
@@ -46,7 +47,9 @@ public class RobotContainer {
   public static final Shooter shooter = new Shooter();
   public static final Intake intake = new Intake();
   public static final Hopper hopper = new Hopper();
-//  public static final Compressor compressor = new Compressor();
+  public static final Hopper turret = new Turret();
+
+  //  public static final Compressor compressor = new Compressor();
   
  // public static Spark leds = new Spark(0);
   
