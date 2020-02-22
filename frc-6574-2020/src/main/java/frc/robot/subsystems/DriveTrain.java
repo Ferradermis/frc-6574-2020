@@ -8,12 +8,10 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
@@ -122,31 +120,6 @@ public class DriveTrain extends SubsystemBase {
 
   }
 
-  /**
-	 * Gets the angle of drive train from its initial position.
-	 * 
-	 * @return	a double containing the drive train's current heading
-	 */
-	public double getGyroAngle() {
-		return gyro.getAngle();
-	}
-	
-	/**
-	 * Resets the drive train's gyroscope position to the zero value.
-	 */
-	public void resetGyro() {
-		gyro.reset();
-	}
-  
-  /**
-	 * Gets the current position of the drive train 
-	 * @return	a double containing the drive train's current position;
-   *                        as an average of left and right position.
-	 */
-	public double getPosition() {
-      return ((frontLeft.getSelectedSensorPosition()+frontRight.getSelectedSensorPosition())/2); 
-  }
-
   public void driveAlongAngle(double distanceInFeet, int direction, double alongAngle)
   {
     double kF = 0.1;
@@ -204,6 +177,32 @@ public class DriveTrain extends SubsystemBase {
   public void simpleDriveForward(double distanceInFeet) {
     double distanceInEncoderUnits = distanceInFeet * EncoderUnitsPerFeet; 
     drivePositionControl(distanceInEncoderUnits);  
+  }
+
+
+  /**
+	 * Gets the angle of drive train from its initial position.
+	 * 
+	 * @return	a double containing the drive train's current heading
+	 */
+	public double getGyroAngle() {
+		return gyro.getAngle();
+	}
+	
+	/**
+	 * Resets the drive train's gyroscope position to the zero value.
+	 */
+	public void resetGyro() {
+		gyro.reset();
+	}
+  
+  /**
+	 * Gets the current position of the drive train 
+	 * @return	a double containing the drive train's current position;
+   *                        as an average of left and right position.
+	 */
+	public double getPosition() {
+      return ((frontLeft.getSelectedSensorPosition()+frontRight.getSelectedSensorPosition())/2); 
   }
 
   // NOTE THIS FUNCTION CALL IS NON-BLOCKING; TRY TO AVOID USING

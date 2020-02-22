@@ -13,14 +13,14 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class MoveToHighTarget extends CommandBase {
+public class OldMoveToHighTarget extends CommandBase {
   DriveTrain driveTrain;
   boolean finished = false;
   
   /**
    * Creates a new MoveToHighTarget.
    */
-  public MoveToHighTarget(DriveTrain driveTrain) {
+  public OldMoveToHighTarget(DriveTrain driveTrain) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.driveTrain = driveTrain;
     addRequirements(driveTrain);
@@ -37,7 +37,7 @@ public class MoveToHighTarget extends CommandBase {
     double steer_cmd=0;
     double drive_cmd=0;
 
-    Limelight limelight = RobotContainer.limelight;
+    Limelight limelight = RobotContainer.turret.limelight;
 
     //turns LED on
     limelight.ledOn();

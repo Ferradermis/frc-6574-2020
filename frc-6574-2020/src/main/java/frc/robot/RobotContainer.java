@@ -19,11 +19,9 @@ import frc.robot.commands.AutoPlanAShoots6;
 import frc.robot.commands.AutoPlanBShoots5;
 import frc.robot.commands.AutoPlanCMovesOffLine;
 import frc.robot.commands.AutoTest;
-import frc.robot.commands.RunGyroAutonomousSequence;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Turret;
 
@@ -49,7 +47,7 @@ public class RobotContainer {
   public static final Hopper hopper = new Hopper();
   public static final Turret turret = new Turret();
 
-  //  public static final Compressor compressor = new Compressor();
+  public static final Compressor compressor = new Compressor();
   
  // public static Spark leds = new Spark(0);
   

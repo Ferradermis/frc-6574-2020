@@ -9,11 +9,10 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
 
 
-public class RunGyroAutonomousSequence extends InstantCommand {
+public class OldRunGyroAutonomousSequence extends InstantCommand {
   /**
    * Creates a new RunAutonomousSequence.
    */
@@ -47,7 +46,7 @@ public class RunGyroAutonomousSequence extends InstantCommand {
   final double MaxTurnSpeed = 0.25;
   final double EncoderUnitsPerFeet = 14500;
 */
-  public RunGyroAutonomousSequence(DriveTrain driveTrain) {
+  public OldRunGyroAutonomousSequence(DriveTrain driveTrain) {
     this.driveTrain = driveTrain;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrain);

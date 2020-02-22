@@ -8,11 +8,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -46,7 +43,6 @@ public class Shooter extends SubsystemBase {
 
   public Shooter() {
     configureMotors();
-
   }
 
   @Override
@@ -55,9 +51,6 @@ public class Shooter extends SubsystemBase {
   /*  
     */  
   }
-
-
-
 
   public void spin(double distance) {
     // need to figure out this formula to set velocity based on distance
@@ -100,18 +93,14 @@ public class Shooter extends SubsystemBase {
     feeder.set(0);
   }
 
-
   public void shoot() {
     shooting = true;
   }
-
 
   public void stopShooter() {
     shooting = false;
     shooterLeft.set(ControlMode.Velocity, 0);
   }
-
-
  
   public void raiseHoodForShooting()
   {
