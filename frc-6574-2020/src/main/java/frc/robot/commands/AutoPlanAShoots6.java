@@ -7,7 +7,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.DriveTrain;
 
@@ -34,13 +33,8 @@ public class AutoPlanAShoots6 extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    double startTime = Timer.getFPGATimestamp();
-    System.out.println("Running Autonomous Plan A");
-    System.out.println("Starting Time:" + Timer.getFPGATimestamp());
+    HelperMethods.allAutoStart();
     
-    driveTrain.stop();
-    driveTrain.resetGyro();
-
     // Shoot
     // RobotContainer.shooter.shoot();    
     driveTrain.turnToHeading(PlanAHeading1);
@@ -54,8 +48,6 @@ public class AutoPlanAShoots6 extends InstantCommand {
     driveTrain.turnToHeading(0.0);
     //robotContainer.shooter.shoot(); 
     
-    double endTime = Timer.getFPGATimestamp();
-    System.out.println("Ending Time:" + endTime);
-    System.out.println("Run Time of Autonomous: " + (endTime - startTime));
+    HelperMethods.allAutoEnd();
   }
 }

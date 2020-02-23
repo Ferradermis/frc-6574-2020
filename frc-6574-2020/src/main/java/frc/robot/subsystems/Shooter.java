@@ -44,6 +44,7 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run 
+    SmartDashboard.putNumber("Actual Shooter Velocity: ", shooterLeft.getSelectedSensorVelocity());
   }
 
   public void spin(double distance) {
@@ -59,17 +60,10 @@ public class Shooter extends SubsystemBase {
 		shooterLeft.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
   }
 
-  public void testspin(){
-    shooterLeft.set(ControlMode.PercentOutput, SmartDashboard.getNumber("Shooter Speed", .5));
-  }
-  public void teststop(){
-    SmartDashboard.putNumber("Shooter Velocity: ", shooterLeft.getSensorCollection().getIntegratedSensorVelocity());
-    shooterLeft.set(ControlMode.PercentOutput,0);  
-  }
-
   public boolean shooterReady(double distance) {
-    double targetVelocity_UnitsPer100ms = distance * 250.0 * 2048 / 600;
     double tolerance = 10;
+    double targetVelocity_UnitsPer100ms = distance * 250.0 * 2048 / 600;
+    
     return (shooterLeft.getSelectedSensorVelocity() >= targetVelocity_UnitsPer100ms - tolerance);
   }
 
@@ -111,16 +105,27 @@ public class Shooter extends SubsystemBase {
     }
   }
 
+
+  public void testspin(){
+    shooterLeft.set(ControlMode.PercentOutput, SmartDashboard.getNumber("Shooter Speed", .5));
+  }
+  
+  public void teststop(){
+    shooterLeft.set(ControlMode.PercentOutput,0);  
+  }
+
   private void configureMotors() {
     // Set up motors
     double rampRate = 0.2; //time in seconds to go from 0 to full throttle; 0.2 is selected on feel by drivers for 2019
     int currentLimit = 35; 
     int feederCurrentLimit = 35; 
 
-    shooterRight.setInverted(true);
-    shooterRight.follow(shooterLeft);
     shooterLeft.configFactoryDefault();
     shooterRight.configFactoryDefault();
+
+    shooterRight.setInverted(true);
+    shooterRight.follow(shooterLeft);
+
     shooterLeft.configOpenloopRamp(rampRate);
     shooterRight.configOpenloopRamp(rampRate);
     shooterLeft.setNeutralMode(NeutralMode.Coast); // MAKE SURE WE ARE IN COAST MODE

@@ -12,6 +12,8 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
@@ -38,6 +40,10 @@ public class Turret extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("Actual Turret Position: ", turretRotator.getSelectedSensorPosition());
+    if (limelight.hasTarget()) {
+      SmartDashboard.putNumber("Actual Distance to Target: ", limelight.getDistanceToTarget());
+    }
   }
 
   public void resetTurretForward() {
@@ -55,33 +61,6 @@ public class Turret extends SubsystemBase {
   public int currentDirection() {
     return turretRotator.getSelectedSensorPosition();
   }
-
-/** * Reads PWM values from the AS5600. 
- * 
- * THIS DOES NOT WORK - digital encoder sends random values
- */
-/*
-public class AS5600EncoderPwm {    
-  private final SensorCollection sensors;    
-  private volatile int lastValue = Integer.MIN_VALUE;    
-  public AS5600EncoderPwm(SensorCollection sensors) {        
-    this.sensors = sensors;
-  }    
-  public int getPwmPosition() {
-    int raw = sensors.getPulseWidthRiseToFallUs();
-    if (raw == 0) {
-      int lastValue = this.lastValue;
-      if (lastValue == Integer.MIN_VALUE) {
-        return 0;
-      }
-      return lastValue;
-    }
-    int actualValue = Math.min(4096, raw - 128);
-    lastValue = actualValue;
-    return actualValue;    
-  }
-}
-*/
   public void testTurnTurret()
   {
   //  turretRotator.getSensorCollection().setPulseWidthPosition(0, 60);
@@ -109,4 +88,33 @@ public class AS5600EncoderPwm {
 
     turretRotator.configSelectedFeedbackSensor(FeedbackDevice.RemoteSensor0);
   }
+
+
+/** * Reads PWM values from the AS5600. 
+ * 
+ * THIS DOES NOT WORK - digital encoder sends random values
+ */
+/*
+public class AS5600EncoderPwm {    
+  private final SensorCollection sensors;    
+  private volatile int lastValue = Integer.MIN_VALUE;    
+  public AS5600EncoderPwm(SensorCollection sensors) {        
+    this.sensors = sensors;
+  }    
+  public int getPwmPosition() {
+    int raw = sensors.getPulseWidthRiseToFallUs();
+    if (raw == 0) {
+      int lastValue = this.lastValue;
+      if (lastValue == Integer.MIN_VALUE) {
+        return 0;
+      }
+      return lastValue;
+    }
+    int actualValue = Math.min(4096, raw - 128);
+    lastValue = actualValue;
+    return actualValue;    
+  }
+}
+*/
+
 }

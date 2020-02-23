@@ -15,17 +15,15 @@ public class Robot extends TimedRobot {
 
   private RobotContainer robotContainer;
   private String gameData;
-  private char gameDataChar;
 
   @Override
   public void robotInit() {
     robotContainer = new RobotContainer();
     RobotContainer.compressor.start(); //compressor init code
+
     // documentation says this is "true" by default, so commenting out
     // RobotContainer.compressor.setClosedLoopControl(true);
-  
-
-      }
+  }
 
   @Override
   public void robotPeriodic() {
@@ -44,24 +42,22 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-//    CommandScheduler.getInstance().cancelAll();
+    CommandScheduler.getInstance().cancelAll(); // make sure auto's are stopped
+
+    // make sure default commands are scheduled
     RobotContainer.driveTrain.stop();
     if (!CommandScheduler.getInstance().isScheduled(robotContainer.arcadeDrive)) {
       CommandScheduler.getInstance().schedule(robotContainer.arcadeDrive);
-
-  
-    //  RobotContainer.limelight.ledOff();
+    }
+    if (!CommandScheduler.getInstance().isScheduled(robotContainer.turnTurret)) {
+        CommandScheduler.getInstance().schedule(robotContainer.turnTurret);  
     }
   }
 
   @Override
   public void teleopPeriodic() {
+    // listen to DriverStation to get data for Control Panel color
     gameData = DriverStation.getInstance().getGameSpecificMessage();
-    if(gameData.length() > 0) {
-      gameDataChar = gameData.charAt(0);
-    }
-    
-
   }
 
 }

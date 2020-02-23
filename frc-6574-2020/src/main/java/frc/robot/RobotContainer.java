@@ -21,6 +21,7 @@ import frc.robot.commands.AutoPlanCMovesOffLine;
 import frc.robot.commands.AutoTest;
 import frc.robot.commands.AimTurret;
 import frc.robot.commands.Shoot;
+import frc.robot.commands.TurnTurret;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Intake;
@@ -55,6 +56,7 @@ public class RobotContainer {
   
   //Commands
   public final ArcadeDrive arcadeDrive = new ArcadeDrive(driveTrain);
+  public final TurnTurret turnTurret = new TurnTurret(turret);
   public static final AimTurret aimTurret = new AimTurret(turret);
   public static final Shoot shoot = new Shoot(shooter);
 
@@ -64,12 +66,13 @@ public class RobotContainer {
 
     configureButtonBindings();
     driveTrain.setDefaultCommand(arcadeDrive);
+    turret.setDefaultCommand(turnTurret);
 
     SmartDashboard.putNumber("Delay Start of Auto: ", 0.0);
     autochooser.setDefaultOption("Test Plan", new AutoTest(driveTrain));
-    autochooser.addOption("Front of target 3 balls", new AutoPlanAShoots6(driveTrain));
-    autochooser.addOption("Front of opponent port 2 balls", new AutoPlanBShoots5(driveTrain));
-    autochooser.addOption("Moves off Initiation line", new AutoPlanCMovesOffLine(driveTrain));
+    autochooser.addOption("Target S3 + I3 Trench + S3 balls", new AutoPlanAShoots6(driveTrain));
+    autochooser.addOption("Opponent trench I2 S5 balls", new AutoPlanBShoots5(driveTrain));
+    autochooser.addOption("Move off Initiation line", new AutoPlanCMovesOffLine(driveTrain));
     SmartDashboard.putData("Autonomous Chooser", autochooser);
 
     SmartDashboard.putNumber("Shooter Speed", 0.5);
@@ -82,6 +85,31 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    /*
+    * INTENDED MAPPINGS:
+    Driver joystick LEFT = drivetrain forward and reverse
+    Driver joystick RIGHT  = drivetrain left and right
+    Driver button X = start shoot sequence
+    Driver button Y = cancel shoot sequence
+    Driver button B = 
+    Driver button A = // may want a button to start the shooter motors??
+
+    WE CAN TRY TO RUMBLE ON CERTAIN CONDITIONS:
+    (e.g. end game, shooting, no target, etc..)
+
+    Operator joystick LEFT = raise and lower climber
+    Operator joystick RIGHT  = turn turret counterclockwise and clockwise
+    Operator button X = deploy and retract intake
+    Operator button Y = reverse spin intake on press; forward spin on release
+    Operator button B = 
+    Operator button A =
+
+    Could use operator POV to control velocity of shooter; turn hopper, etc..
+
+    */
+
+
+
     // Driver Buttons
   //  oi.operator_xButton.whenPressed(()->shooter.raiseHoodForShooting())
   //              .whenReleased(()->shooter.lowerHoodForTrench());
@@ -93,8 +121,8 @@ public class RobotContainer {
 
     oi.driver_aButton.whenPressed(()->shooter.testspin())
     .whenReleased(()->shooter.teststop());
-
-    oi.driver_leftBumper.whenPressed(()->turret.testTurnTurret());
+    oi.driver_xButton.whenPressed(()->shooter.feedAndFire())
+    .whenReleased(()->shooter.stopFeeder());
 
     // Operator Buttons
    // oi.operator_bButton.whenPressed(()->intake.turnOn())
@@ -104,8 +132,6 @@ public class RobotContainer {
 
 //    oi.operator_yButton.whenPressed(()->intake.reverseOn())
 //                .whenReleased(()->intake.turnOff()); 
-     oi.driver_xButton.whenPressed(()->shooter.feedAndFire())
-     .whenReleased(()->shooter.stopFeeder());
 //     oi.operator_leftBumper.whenPressed(()->hopper.turnOn())
 //     .whenReleased(()->hopper.turnOff());
 //     oi.operator_rightBumper.whenPressed(()->hopper.reverseOn())

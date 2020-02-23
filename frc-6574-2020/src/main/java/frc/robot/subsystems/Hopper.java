@@ -25,11 +25,7 @@ public class Hopper extends SubsystemBase {
 
   
   public Hopper() {
-    double rampRate = 0.2;
-    int currentLimit = 30; 
- 
-    hopperMotor.setOpenLoopRampRate(rampRate);
-    hopperMotor.setSmartCurrentLimit(currentLimit);
+    configureMotors();
   }
 
   public void turnOnForShooting() {
@@ -47,6 +43,13 @@ public class Hopper extends SubsystemBase {
     hopperMotor.set(-HopperSpeedIntake);
   }
 
+  private void configureMotors() {
+    double rampRate = 0.2;
+    int currentLimit = 30; 
+ 
+    hopperMotor.setOpenLoopRampRate(rampRate);
+    hopperMotor.setSmartCurrentLimit(currentLimit);
+  }
   /*
   @Override
   public void periodic() {

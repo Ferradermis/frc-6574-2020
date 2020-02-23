@@ -7,7 +7,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.DriveTrain;
 
@@ -24,17 +23,10 @@ public class AutoPlanCMovesOffLine extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    double startTime = Timer.getFPGATimestamp();
-    System.out.println("Running Autonomous Plan ");
-    System.out.println("Starting Time:" + Timer.getFPGATimestamp());
-    driveTrain.stop();
-    driveTrain.resetGyro();
+    HelperMethods.allAutoStart();
 
     driveTrain.driveAlongAngle(3, 1, 0); //CODE
 
-    //  driveTrain.stop();    // make sure we are stopped at end of autonomous
-    double endTime = Timer.getFPGATimestamp();
-    System.out.println("Ending Time:" + endTime);
-    System.out.println("Run Time of Autonomous: " + (endTime - startTime));
+    HelperMethods.allAutoEnd();
   } 
 }
