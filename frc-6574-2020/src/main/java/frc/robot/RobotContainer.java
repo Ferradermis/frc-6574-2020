@@ -64,7 +64,6 @@ public class RobotContainer {
 
   public RobotContainer() {
 
-    configureButtonBindings();
     driveTrain.setDefaultCommand(arcadeDrive);
     turret.setDefaultCommand(turnTurret);
 
@@ -76,6 +75,8 @@ public class RobotContainer {
     SmartDashboard.putData("Autonomous Chooser", autochooser);
 
     SmartDashboard.putNumber("Shooter Speed", 0.5);
+    configureButtonBindings();
+
   }
 
   /**
@@ -123,6 +124,10 @@ public class RobotContainer {
     .whenReleased(()->shooter.teststop());
     oi.driver_xButton.whenPressed(()->shooter.feedAndFire())
     .whenReleased(()->shooter.stopFeeder());
+     oi.driver_leftBumper.whenPressed(()->hopper.turnOnForIntake())
+     .whenReleased(()->hopper.turnOff());
+     oi.driver_leftBumper.whenPressed(()->shooter.feedAndFire())
+     .whenReleased(()->shooter.stopFeeder());
 
     // Operator Buttons
    // oi.operator_bButton.whenPressed(()->intake.turnOn())

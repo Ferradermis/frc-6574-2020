@@ -69,8 +69,6 @@ public class Shooter extends SubsystemBase {
 
   public void feedAndFire() {
     feeder.set(1);
-    Timer.delay(2);
-    feeder.set(0);
   }
 
   public void stopFeeder() {
