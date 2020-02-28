@@ -90,20 +90,28 @@ public class RobotContainer {
     * INTENDED MAPPINGS:
     Driver joystick LEFT = drivetrain forward and reverse
     Driver joystick RIGHT  = drivetrain left and right
-    Driver button X = start automatic shoot sequence
-    Driver button Y = cancel automatic shoot sequence
-    Driver button B = run feed and fire when pressed, stop when released
-    Driver button A = AVAILABLE
+    Right Trigger  = start automatic shoot sequence
+    Driver button B = AVAILABLE
+    Driver button A = run feed and fire when pressed, stop when released
+    Driver button X = AVAILABLE
+    Driver button Y = AVAILABLE
+
     Driver POV's = AVAILABLE
     
     WE CAN TRY TO RUMBLE ON CERTAIN CONDITIONS:
     (e.g. end game, shooting, no target, etc..)
+*/
+  oi.driver_rightTrigger.whenPressed(shoot).whenReleased(()->shoot.cancel());
+  oi.driver_aButton.whenPressed(()->shooter.feedAndFire())
+  .whenReleased(()->shooter.stopFeeder());
 
+
+/*
     Operator joystick LEFT = raise and lower climber
     Operator joystick RIGHT  = turn turret counterclockwise and clockwise
     Operator button X = deploy intake, spin (& spin hopper) and retract intake
     Operator button Y = reverse spin intake on press; forward spin on release
-    Operator button B = spin shooter on press; stop shooter on release
+    Operator button B = AVAILABLE
     Operator button A = AVAILABLE
     Operator POV up = raise trench hood (assumes not auto-shooting)
     Operator POV right = extend distance hood (assumes not auto-shooting)
@@ -111,45 +119,27 @@ public class RobotContainer {
     Operator POV down = retract distance hood and lower trench hood (assumes not auto-shooting)
     Operator right bumper = spin hopper forward (for testing or unjamming balls in game play)
     Operator left bumper = spin hopper backward (for testing or unjamming balls in game play)
+    Operator right trigger = spin shooter on press; stop shooter on release
 
     Could use operator POV to control velocity of shooter; turn hopper, etc..
 
     */
 
+    oi.operator_xButton.whenPressed(()->intake.deployOrRetract());
+    oi.operator_yButton.whenPressed(()->intake.reverseOn())
+                .whenReleased(()->intake.turnOff()); 
+    oi.operator_rightTrigger.whenPressed(()->shooter.testspin())
+                .whenReleased(()->shooter.teststop());
+    oi.operator_rightBumper.whenPressed(()->hopper.turnOnForIntake())
+                .whenReleased(()->hopper.turnOff());
+    oi.operator_leftBumper.whenPressed(()->hopper.reverseForIntake())
+                .whenReleased(()->hopper.turnOff());
+    oi.operator_upDpad.whenPressed(()->shooter.raiseHoodForShooting());
+    oi.operator_downDpad.whenPressed(()->shooter.lowerHoodForTrench());
+    oi.operator_rightDpad.whenPressed(()->shooter.extendHoodForLongDistance());
+    oi.operator_upDpad.whenPressed(()->shooter.retractHoodforShortDistance());
+    
 
-
-    // Driver Buttons
-  //  oi.operator_xButton.whenPressed(()->shooter.raiseHoodForShooting())
-  //              .whenReleased(()->shooter.lowerHoodForTrench());
-                
-//    oi.driver_yButton.whenPressed(autochooser.getSelected());  // remove for gameplay
-
-  //  oi.operator_bButton.whenPressed(()->shooter.extendHoodForLongDistance())
-  //  .whenReleased(()->shooter.retractHoodforShortDistance());
-
-  oi.driver_bButton.whenPressed(()->shooter.feedAndFire())
-  .whenReleased(()->shooter.stopFeeder());
-
-
-    oi.operator_bButton.whenPressed(()->shooter.testspin())
-    .whenReleased(()->shooter.teststop());
-     oi.operator_rightBumper.whenPressed(()->hopper.turnOnForIntake())
-     .whenReleased(()->hopper.turnOff());
-     oi.operator_leftBumper.whenPressed(()->hopper.reverseForIntake())
-     .whenReleased(()->hopper.turnOff());
-
-    // Operator Buttons
-//    oi.operator_bButton.whenPressed(()->shooter.testspin())
-//                .whenReleased(()->shooter.teststop());
-
-//    oi.operator_aButton.whenPressed(()->intake.deployOrRetract());
-
-//    oi.operator_yButton.whenPressed(()->intake.reverseOn())
-//                .whenReleased(()->intake.turnOff()); 
-//     oi.operator_leftBumper.whenPressed(()->hopper.turnOn())
-//     .whenReleased(()->hopper.turnOff());
-//     oi.operator_rightBumper.whenPressed(()->hopper.reverseOn())
-//     .whenReleased(()->hopper.turnOff());
 
      
   }

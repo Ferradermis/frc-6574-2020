@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
+import frc.robot.RobotContainer;
 
 public class Shooter extends SubsystemBase {
   /**
@@ -69,8 +70,8 @@ public class Shooter extends SubsystemBase {
 
   public void feedAndFire() {
     feeder.set(1);
+    RobotContainer.hopper.turnOnForShooting();
   }
-
   public void stopFeeder() {
     feeder.set(0);
   }

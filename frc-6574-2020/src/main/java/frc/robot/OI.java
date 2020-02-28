@@ -36,7 +36,7 @@ public class OI {
   //public Button driver_leftTrigger = new JoystickButton(driver, 7);
   public Button driver_backButton = new JoystickButton(driver, 7);
   //public Button driver_startButton = new JoystickButton(driver, 8);
-  //public Button driver_rightTrigger = new JoystickButton(driver, 8);
+  public Button driver_rightTrigger = new JoystickButton(driver, 8);
   //public Button driver_backButton = new JoystickButton(driver, 9);
   //public Button driver_startButton = new JoystickButton(driver, 10);
   public POVButton driver_upDpad = new POVButton(driver, 0);
@@ -86,7 +86,7 @@ public class OI {
   public Button operator_backButton = new JoystickButton(operator, 7);
   public Button operator_startButton = new JoystickButton(operator, 8);
   //public Button operator_leftTrigger = new JoystickButton(operator, 7);
-  //public Button operator_rightTrigger = new JoystickButton(operator, 8);
+  public Button operator_rightTrigger = new JoystickButton(operator, 8);
   //public Button operator_backButton = new JoystickButton(operator, 9);
   //public Button operator_startButton = new JoystickButton(operator, 10);
   public POVButton operator_upDpad = new POVButton(operator, 0);
