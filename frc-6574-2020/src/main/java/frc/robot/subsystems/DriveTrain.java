@@ -14,6 +14,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 
@@ -69,7 +70,15 @@ public class DriveTrain extends SubsystemBase {
     frontRight.setInverted(true);
     backRight.setInverted(true);
    
+    resetPosition();
    //gyro.calibrate();
+  }
+
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Actual Gyro Heading: ", gyro.getAngle());
+    SmartDashboard.putNumber("Acual Drive Position: ", getPosition());
   }
 
   /**
@@ -182,7 +191,6 @@ public class DriveTrain extends SubsystemBase {
 
   /**
 	 * Gets the angle of drive train from its initial position.
-	 * 
 	 * @return	a double containing the drive train's current heading
 	 */
 	public double getGyroAngle() {
@@ -206,8 +214,8 @@ public class DriveTrain extends SubsystemBase {
   }
 
   // NOTE THIS FUNCTION CALL IS NON-BLOCKING; TRY TO AVOID USING
-//  public void resetPosition() {
-//    frontLeft.setSelectedSensorPosition(0, 0, 50); 
-//    frontRight.setSelectedSensorPosition(0, 0, 50); 
-//  }
+  private void resetPosition() {
+    frontLeft.setSelectedSensorPosition(0, 0, 50); 
+    frontRight.setSelectedSensorPosition(0, 0, 50); 
+  }
 }

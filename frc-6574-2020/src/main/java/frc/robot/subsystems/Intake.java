@@ -19,17 +19,15 @@ public class Intake extends SubsystemBase {
    * Creates a new Intake.
    */
   final double MaxIntakeSpeed = 1.0;
+  final DoubleSolenoid.Value DEPLOYED = DoubleSolenoid.Value.kForward;
+  final DoubleSolenoid.Value RETRACTED = DoubleSolenoid.Value.kReverse;
 
   public CANSparkMax intakeMotor = new CANSparkMax(RobotMap.INTAKE_MOTOR_CAN_ID, MotorType.kBrushless);
   public DoubleSolenoid intakeDeploy = new DoubleSolenoid(RobotMap.INTAKE_EXTENDER_ID2, RobotMap.INTAKE_EXTENDER_ID1);
 
   
   public Intake() {
-    double rampRate = 0.2;
-    int currentLimit = 30; 
- 
-    intakeMotor.setOpenLoopRampRate(rampRate);
-    intakeMotor.setSmartCurrentLimit(currentLimit);
+    configureMotors();
   }
 
   public void turnOn() {
@@ -46,19 +44,29 @@ public class Intake extends SubsystemBase {
 
   public void deployOrRetract() {
     DoubleSolenoid.Value currentState = intakeDeploy.get();
-    if (currentState == DoubleSolenoid.Value.kForward) {
-      intakeDeploy.set(DoubleSolenoid.Value.kReverse);
+    if (currentState == DEPLOYED) {
+      retract();
     } else {
-      intakeDeploy.set(DoubleSolenoid.Value.kForward);
+      deploy();
     }
   }
 
   public void deploy() {
-    intakeDeploy.set(DoubleSolenoid.Value.kForward);
+    intakeDeploy.set(DEPLOYED);
+    turnOn();
   }
 
   public void retract() {
-    intakeDeploy.set(DoubleSolenoid.Value.kReverse);
+    turnOff();
+    intakeDeploy.set(RETRACTED);
+  }
+
+  private void configureMotors() {
+    double rampRate = 0.2;
+    int currentLimit = 30; 
+ 
+    intakeMotor.setOpenLoopRampRate(rampRate);
+    intakeMotor.setSmartCurrentLimit(currentLimit);
   }
   /*
   @Override

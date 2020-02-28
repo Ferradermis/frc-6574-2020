@@ -12,6 +12,8 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
@@ -25,12 +27,10 @@ public class Turret extends SubsystemBase {
 
  // private final AS5600EncoderPwm encoder = new AS5600EncoderPwm(turretRotator.getSensorCollection());
   
-  private double MAXROTATION = 45;
+
 
   public Limelight limelight = new Limelight();
   
-  private boolean aiming = false;
-
   public Turret() {
     configureMotors();
     limelight.ledOn();
@@ -40,79 +40,27 @@ public class Turret extends SubsystemBase {
 
   @Override
   public void periodic() {
-  }
-
-  public void aim()
-  {
-    aiming = true;
-    double kP = .01;
-
-    // If no target in view; stop and exit
+    SmartDashboard.putNumber("Actual Turret Position: ", turretRotator.getSelectedSensorPosition());
     if (limelight.hasTarget()) {
-      double angleX = limelight.getAngleX();
-      if (Math.abs(turretRotator.getSelectedSensorPosition())<MAXROTATION) {
-        turretRotator.set(ControlMode.PercentOutput, angleX*kP);
-      }  else {
-        //stopShooting();
-      }
-    } else {
-     // stopShooting();
+      SmartDashboard.putNumber("Actual Distance to Target: ", limelight.getDistanceToTarget());
     }
-  }
-
-  public double getDistanceToTarget() {
-    //All calculations are in centimeters
-    final double h2 = 86.36; //height of target
-    final double h1 = 21; //height of camera
-    // NOTE in final code, just calculate h2 - h1 and set a variable    
-    final double A1 = 10; //Angle of camera relative to ground
-
-    double angleY = limelight.getAngleY();
-    
-    // calculate currentDistance from target
-    return (h2-h1)/Math.tan((angleY+A1)*Math.PI/180);
-  }
-
-  public boolean aimed() {       
-    final double tolerance = 0.5;
-    return (Math.abs(limelight.getAngleX()) < tolerance);
   }
 
   public void resetTurretForward() {
     turretRotator.set(ControlMode.Position, 0);
   }
 
-  public void stopAiming() {
+  public void stopTurning() {
     turretRotator.set(ControlMode.PercentOutput, 0);
-    aiming = false;
   }
 
-/** * Reads PWM values from the AS5600. 
- * 
- * THIS DOES NOT WORK - digital encoder sends random values
- */
-/*
-public class AS5600EncoderPwm {    
-  private final SensorCollection sensors;    
-  private volatile int lastValue = Integer.MIN_VALUE;    
-  public AS5600EncoderPwm(SensorCollection sensors) {        
-    this.sensors = sensors;
-  }    
-  public int getPwmPosition() {
-    int raw = sensors.getPulseWidthRiseToFallUs();
-    if (raw == 0) {
-      int lastValue = this.lastValue;
-      if (lastValue == Integer.MIN_VALUE) {
-        return 0;
-      }
-      return lastValue;
-    }
-    int actualValue = Math.min(4096, raw - 128);
-    lastValue = actualValue;
-    return actualValue;    
+  public void turn(double speed){
+    turretRotator.set(ControlMode.PercentOutput, speed);
   }
-}
-*/
+
+  public int currentDirection() {
+    return turretRotator.getSelectedSensorPosition();
+  }
   public void testTurnTurret()
   {
   //  turretRotator.getSensorCollection().setPulseWidthPosition(0, 60);
@@ -140,4 +88,33 @@ public class AS5600EncoderPwm {
 
     turretRotator.configSelectedFeedbackSensor(FeedbackDevice.RemoteSensor0);
   }
+
+
+/** * Reads PWM values from the AS5600. 
+ * 
+ * THIS DOES NOT WORK - digital encoder sends random values
+ */
+/*
+public class AS5600EncoderPwm {    
+  private final SensorCollection sensors;    
+  private volatile int lastValue = Integer.MIN_VALUE;    
+  public AS5600EncoderPwm(SensorCollection sensors) {        
+    this.sensors = sensors;
+  }    
+  public int getPwmPosition() {
+    int raw = sensors.getPulseWidthRiseToFallUs();
+    if (raw == 0) {
+      int lastValue = this.lastValue;
+      if (lastValue == Integer.MIN_VALUE) {
+        return 0;
+      }
+      return lastValue;
+    }
+    int actualValue = Math.min(4096, raw - 128);
+    lastValue = actualValue;
+    return actualValue;    
+  }
+}
+*/
+
 }
