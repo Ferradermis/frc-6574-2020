@@ -122,23 +122,25 @@ public class RobotContainer {
   //  oi.operator_xButton.whenPressed(()->shooter.raiseHoodForShooting())
   //              .whenReleased(()->shooter.lowerHoodForTrench());
                 
-    oi.driver_yButton.whenPressed(autochooser.getSelected());  // remove for gameplay
+//    oi.driver_yButton.whenPressed(autochooser.getSelected());  // remove for gameplay
 
   //  oi.operator_bButton.whenPressed(()->shooter.extendHoodForLongDistance())
   //  .whenReleased(()->shooter.retractHoodforShortDistance());
 
-    oi.driver_aButton.whenPressed(()->shooter.testspin())
+  oi.driver_bButton.whenPressed(()->shooter.feedAndFire())
+  .whenReleased(()->shooter.stopFeeder());
+
+
+    oi.operator_bButton.whenPressed(()->shooter.testspin())
     .whenReleased(()->shooter.teststop());
-    oi.driver_xButton.whenPressed(()->shooter.feedAndFire())
-    .whenReleased(()->shooter.stopFeeder());
-     oi.driver_leftBumper.whenPressed(()->hopper.turnOnForIntake())
+     oi.operator_rightBumper.whenPressed(()->hopper.turnOnForIntake())
      .whenReleased(()->hopper.turnOff());
-     oi.driver_leftBumper.whenPressed(()->shooter.feedAndFire())
-     .whenReleased(()->shooter.stopFeeder());
+     oi.operator_leftBumper.whenPressed(()->hopper.reverseForIntake())
+     .whenReleased(()->hopper.turnOff());
 
     // Operator Buttons
-   // oi.operator_bButton.whenPressed(()->intake.turnOn())
-     //           .whenReleased(()->intake.turnOff());
+//    oi.operator_bButton.whenPressed(()->shooter.testspin())
+//                .whenReleased(()->shooter.teststop());
 
 //    oi.operator_aButton.whenPressed(()->intake.deployOrRetract());
 
