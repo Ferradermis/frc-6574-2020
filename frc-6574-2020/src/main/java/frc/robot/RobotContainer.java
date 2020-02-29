@@ -128,6 +128,8 @@ public class RobotContainer {
                 .whenReleased(()->intake.turnOff()); 
     oi.operator_aButton.whenPressed(()->shooter.testspin())
                 .whenReleased(()->shooter.teststop());
+   oi.operator_rightTrigger.whenPressed(()->shooter.testspin())
+                .whenReleased(()->shooter.teststop());
     oi.operator_rightBumper.whenPressed(()->hopper.turnOnForIntake())
                 .whenReleased(()->hopper.turnOff());
     oi.operator_leftBumper.whenPressed(()->hopper.reverseForIntake())

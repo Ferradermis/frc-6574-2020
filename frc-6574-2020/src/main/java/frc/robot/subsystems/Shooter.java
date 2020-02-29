@@ -112,7 +112,7 @@ public class Shooter extends SubsystemBase {
 
   public void testspin(){
     shooterLeft.set(ControlMode.PercentOutput, SmartDashboard.getNumber("Shooter Speed", .5));
-//   shooterLeft.set(ControlMode.Velocity, 1000);
+//   shooterLeft.set(ControlMode.Velocity, 5000);
 }
   
   public void teststop(){
@@ -154,7 +154,7 @@ public class Shooter extends SubsystemBase {
 //    shooterLeft.configPeakOutputReverse(-1, Constants.kTimeoutMs);
 
     /* Config the Velocity closed loop gains in slot0 */
-    double kF = 0.025; //2048.0/6380.0; // why this
+    double kF = 0.8; //2048.0/6380.0; // why this
     double kP = 0.025;
     double kI = 0.0;
     double kD = 0.0;
