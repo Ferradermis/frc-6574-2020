@@ -101,9 +101,9 @@ public class RobotContainer {
     WE CAN TRY TO RUMBLE ON CERTAIN CONDITIONS:
     (e.g. end game, shooting, no target, etc..)
 */
-  oi.driver_rightTrigger.whenPressed(shoot).whenReleased(()->shoot.cancel());
+  oi.driver_bButton.whenPressed(shoot).whenReleased(()->shoot.cancel());
   oi.driver_aButton.whenPressed(()->shooter.feedAndFire())
-  .whenReleased(()->shooter.stopFeeder());
+  .whenReleased(()->shooter.stopFiring());
 
 
 /*
@@ -128,7 +128,7 @@ public class RobotContainer {
     oi.operator_xButton.whenPressed(()->intake.deployOrRetract());
     oi.operator_yButton.whenPressed(()->intake.reverseOn())
                 .whenReleased(()->intake.turnOff()); 
-    oi.operator_rightTrigger.whenPressed(()->shooter.testspin())
+    oi.operator_aButton.whenPressed(()->shooter.testspin())
                 .whenReleased(()->shooter.teststop());
     oi.operator_rightBumper.whenPressed(()->hopper.turnOnForIntake())
                 .whenReleased(()->hopper.turnOff());

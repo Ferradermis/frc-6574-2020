@@ -17,7 +17,7 @@ public class Hopper extends SubsystemBase {
   /**
    * Creates a new Hopper.
    */
-  final double HopperSpeedShooting = 0.50;
+  final double HopperSpeedShooting = -1.0;
   final double HopperSpeedIntake = -0.25;
 
   public CANSparkMax hopperMotor = new CANSparkMax(RobotMap.HOPPER_CAN_ID, MotorType.kBrushless);
