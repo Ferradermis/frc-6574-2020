@@ -8,7 +8,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -21,24 +20,21 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
  * 
  */
 public class OI {
-
   public Joystick driver = new Joystick(0);
   public Joystick operator = new Joystick(1);
 
   //  STILL NEED TO FIGURE OUT TRIGGERS
   // xBox Variables
-  public Button driver_xButton = new JoystickButton(driver, 3);
   public Button driver_aButton = new JoystickButton(driver, 1);
   public Button driver_bButton = new JoystickButton(driver, 2);
+  public Button driver_xButton = new JoystickButton(driver, 3);
   public Button driver_yButton = new JoystickButton(driver, 4);
   public Button driver_leftBumper = new JoystickButton(driver, 5);
   public Button driver_rightBumper = new JoystickButton(driver, 6);
-  //public Button driver_leftTrigger = new JoystickButton(driver, 7);
+  public Button driver_leftTrigger = new XBoxLeftTrigger(driver);
+  public Button driver_rightTrigger = new XBoxRightTrigger(driver);
   public Button driver_backButton = new JoystickButton(driver, 7);
-  //public Button driver_startButton = new JoystickButton(driver, 8);
-  public Button driver_rightTrigger = new JoystickButton(driver, 8);
-  //public Button driver_backButton = new JoystickButton(driver, 9);
-  //public Button driver_startButton = new JoystickButton(driver, 10);
+  public Button driver_startButton = new JoystickButton(driver, 8);
   public POVButton driver_upDpad = new POVButton(driver, 0);
   public POVButton driver_rightDpad = new POVButton(driver, 90);
   public POVButton driver_downDpad = new POVButton(driver, 180);
@@ -77,18 +73,16 @@ public class OI {
   }
 
   // operator Variables
-  public Button operator_xButton = new JoystickButton(operator, 3);
   public Button operator_aButton = new JoystickButton(operator, 1);
   public Button operator_bButton = new JoystickButton(operator, 2);
+  public Button operator_xButton = new JoystickButton(operator, 3);
   public Button operator_yButton = new JoystickButton(operator, 4);
   public Button operator_leftBumper = new JoystickButton(operator, 5);
   public Button operator_rightBumper = new JoystickButton(operator, 6);
   public Button operator_backButton = new JoystickButton(operator, 7);
   public Button operator_startButton = new JoystickButton(operator, 8);
-  //public Button operator_leftTrigger = new JoystickButton(operator, 7);
-  public Button operator_rightTrigger = new JoystickButton(operator, 8);
-  //public Button operator_backButton = new JoystickButton(operator, 9);
-  //public Button operator_startButton = new JoystickButton(operator, 10);
+  public Button operator_leftTrigger = new XBoxLeftTrigger(operator);
+  public Button operator_rightTrigger = new XBoxRightTrigger(operator);
   public POVButton operator_upDpad = new POVButton(operator, 0);
   public POVButton operator_rightDpad = new POVButton(operator, 90);
   public POVButton operator_downDpad = new POVButton(operator, 180);
@@ -126,21 +120,28 @@ public class OI {
     return operator.getRawButton(6);
   }
 
+  public class XBoxRightTrigger extends Button {
 
-  public static double createSmartDashboardNumber(String key, double defValue) {
-
-    // See if already on dashboard, and if so, fetch current value
-    double value = SmartDashboard.getNumber(key, defValue);
+    private final Joystick joystick;
   
-    // Make sure value is on dashboard, puts back current value if already set
-    // otherwise puts back default value
-    SmartDashboard.putNumber(key, value);
+    public XBoxRightTrigger(Joystick joystick) {
+      this.joystick = joystick;
+    }
   
-    return value;
+    public boolean get() {
+      return joystick.getRawAxis(3) > .25;
+    } 
   }
+  public class XBoxLeftTrigger extends Button {
 
-  public OI() {
-  createSmartDashboardNumber("Test Variable", 0.0);
+    private final Joystick joystick;
+  
+    public XBoxLeftTrigger(Joystick joystick) {
+      this.joystick = joystick;
+    }
+  
+    public boolean get() {
+      return joystick.getRawAxis(2) > .25;
+    }  
   }
-
 }

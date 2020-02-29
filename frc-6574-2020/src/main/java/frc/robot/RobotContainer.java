@@ -102,9 +102,8 @@ public class RobotContainer {
     (e.g. end game, shooting, no target, etc..)
 */
   oi.driver_bButton.whenPressed(shoot).whenReleased(()->shoot.cancel());
-  oi.driver_aButton.whenPressed(()->shooter.feedAndFire())
+  oi.driver_rightTrigger.whenPressed(()->shooter.feedAndFire())
   .whenReleased(()->shooter.stopFiring());
-
 
 /*
     Operator joystick LEFT = raise and lower climber
@@ -122,7 +121,6 @@ public class RobotContainer {
     Operator right trigger = spin shooter on press; stop shooter on release
 
     Could use operator POV to control velocity of shooter; turn hopper, etc..
-
     */
 
     oi.operator_xButton.whenPressed(()->intake.deployOrRetract());

@@ -9,12 +9,12 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
@@ -110,11 +110,9 @@ public class Shooter extends SubsystemBase {
     }
   }
 
-
   public void testspin(){
     shooterLeft.set(ControlMode.PercentOutput, SmartDashboard.getNumber("Shooter Speed", .5));
 //   shooterLeft.set(ControlMode.Velocity, 1000);
-  
 }
   
   public void teststop(){
@@ -141,7 +139,7 @@ public class Shooter extends SubsystemBase {
     // SEE CODE FROM: https://github.com/CrossTheRoadElec/Phoenix-Examples-Languages/blob/master/Java/VelocityClosedLoop/src/main/java/frc/robot/Robot.java
 
     /* Config sensor used for Primary PID [Velocity] */
-//    shooterLeft.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, Constants.kTimeoutMs);
+    shooterLeft.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 20);
 
     /**
     * Phase sensor accordingly. 
@@ -156,7 +154,7 @@ public class Shooter extends SubsystemBase {
 //    shooterLeft.configPeakOutputReverse(-1, Constants.kTimeoutMs);
 
     /* Config the Velocity closed loop gains in slot0 */
-    double kF = 2048/6380; //2048.0/6380.0; // why this
+    double kF = 0.025; //2048.0/6380.0; // why this
     double kP = 0.025;
     double kI = 0.0;
     double kD = 0.0;
