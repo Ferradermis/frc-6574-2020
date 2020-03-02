@@ -41,6 +41,8 @@ public class RobotMap {
   
   /** Hopper motor CAN ID. */
   public static final int HOPPER_CAN_ID = 10;  
+  public static final int AGITATOR_CAN_ID = 14;
+
   public static final int FEEDER_CAN_ID = 12;
  /**  Turret motor CAN ID. */
  public static final int TURRET_CAN_ID = 11;  

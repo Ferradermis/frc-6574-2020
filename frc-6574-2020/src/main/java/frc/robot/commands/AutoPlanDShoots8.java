@@ -11,21 +11,13 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.DriveTrain;
 
 
-public class AutoPlanAShoots6 extends InstantCommand {
+public class AutoPlanDShoots8 extends InstantCommand {
   
   DriveTrain driveTrain;
   
-  // PlanA constants: Plan A starts in front of target, shoots 3 balls, retrieves first 3 balls in trench
-  // need to decide if we want to pick up last two balls in trench
-  // drive to target, shoot 3-5 balls
-  final double PlanAHeading1 = -35.0;
-  final double PlanAHeading2 = -23.0;
-  final double PlanASideA = 8.0;  //10.0
-  final double PlanASideB = 6.0;  //7.0
-  final double PlanASideC = 15; //12.5
+  // PLAN D Shoots 3; picks up 5 balls from trench, drives forward and shoots.
 
-
-  public AutoPlanAShoots6(DriveTrain driveTrain) {
+  public AutoPlanDShoots8(DriveTrain driveTrain) {
     this.driveTrain = driveTrain;
     addRequirements(driveTrain);
   }
@@ -37,15 +29,16 @@ public class AutoPlanAShoots6 extends InstantCommand {
     
     // Shoot
 //    RobotContainer.shoot.schedule();    
-    driveTrain.turnToHeading(PlanAHeading1);
-    driveTrain.driveAlongAngle(PlanASideA, 1, PlanAHeading1); 
-    driveTrain.turnToHeading(0.0); 
-    //RobotContainer.intake.intakeOn(); 
-    driveTrain.driveAlongAngle(PlanASideB, 1, 0.0); 
-    //RobotContainer.intake.intakeOff(); 
-    driveTrain.turnToHeading(PlanAHeading2); 
-    driveTrain.driveAlongAngle(PlanASideC, -1, PlanAHeading2); 
     driveTrain.turnToHeading(0.0);
+    //RobotContainer.intake.intakeOn(); 
+    driveTrain.driveAlongAngle(16, 0); 
+    //RobotContainer.intake.intakeOff(); 
+    driveTrain.turnToHeading(-45); 
+    driveTrain.driveAlongAngle(3, -27); 
+    driveTrain.driveAlongAngle(-3, -27); 
+    driveTrain.turnToHeading(45);
+    driveTrain.driveAlongAngle(3, 27); 
+    driveTrain.driveAlongAngle(-14, 0);
 //    RobotContainer.shoot.schedule();    
     
     HelperMethods.allAutoEnd();

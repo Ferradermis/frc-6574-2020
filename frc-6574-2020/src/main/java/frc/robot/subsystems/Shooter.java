@@ -111,7 +111,8 @@ public class Shooter extends SubsystemBase {
   }
 
   public void testspin(){
-    shooterLeft.set(ControlMode.PercentOutput, SmartDashboard.getNumber("Shooter Speed", .5));
+//    shooterLeft.set(ControlMode.PercentOutput, SmartDashboard.getNumber("User Entered Shooter % Speed", .5));
+    shooterLeft.set(ControlMode.Velocity, 6000);
 //   shooterLeft.set(ControlMode.Velocity, 5000);
 }
   
@@ -122,7 +123,7 @@ public class Shooter extends SubsystemBase {
   private void configureMotors() {
     // Set up motors
     double rampRate = 0.2; //time in seconds to go from 0 to full throttle; 0.2 is selected on feel by drivers for 2019
-    int currentLimit = 35; 
+    //int currentLimit = 35; 
     int feederCurrentLimit = 35; 
 
     shooterLeft.configFactoryDefault();
@@ -154,8 +155,15 @@ public class Shooter extends SubsystemBase {
 //    shooterLeft.configPeakOutputReverse(-1, Constants.kTimeoutMs);
 
     /* Config the Velocity closed loop gains in slot0 */
-    double kF = 0.8; //2048.0/6380.0; // why this
-    double kP = 0.025;
+// PEAK SENSOR VELOCITY on 2020 ROBOT is:
+// (kMaxRPM  / 600) * (kSensorUnitsPerRotation)
+// PEAK RPM of Motor = 6380 RPM
+// PEAK SENSOR VELOCITY = 6380 / 600 * 2048  = 21,777
+// CURRENT Gear Ratio = 1.25 : 1
+// PEAK RPM of Wheel = 7975 RPM
+
+    double kF = 0.25; //2048.0/6380.0; // why this
+    double kP = 0.125;
     double kI = 0.0;
     double kD = 0.0;
     shooterLeft.config_kF(0, kF, 20);
@@ -165,6 +173,8 @@ public class Shooter extends SubsystemBase {
 
     feeder.setOpenLoopRampRate(rampRate);
     feeder.setSmartCurrentLimit(feederCurrentLimit);
+
+    // no current limit on the shooter right now
 
   }
 }

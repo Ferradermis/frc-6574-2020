@@ -46,7 +46,7 @@ public class AutoPlanBShoots5 extends InstantCommand {
     driveTrain.turnToHeading(PlanBHeading2);
     driveTrain.driveAlongAngle(PlanBSideD, -1, PlanBHeading2);
     driveTrain.turnToHeading(0.0);
-    // RobotContainer.shooter.shoot(); // should be shooting 5 power cells
+//    RobotContainer.shoot.schedule();    
 
     HelperMethods.allAutoEnd();
   } 

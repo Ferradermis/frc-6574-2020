@@ -14,19 +14,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.commands.ArcadeDrive;
-import frc.robot.commands.AutoPlanAShoots6;
-import frc.robot.commands.AutoPlanBShoots5;
-import frc.robot.commands.AutoPlanCMovesOffLine;
-import frc.robot.commands.AutoTest;
-import frc.robot.commands.AimTurret;
-import frc.robot.commands.Shoot;
-import frc.robot.commands.TurnTurret;
-import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Hopper;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Turret;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
 
 
 /**
@@ -72,9 +61,11 @@ public class RobotContainer {
     autochooser.addOption("Target S3 + I3 Trench + S3 balls", new AutoPlanAShoots6(driveTrain));
     autochooser.addOption("Opponent trench I2 S5 balls", new AutoPlanBShoots5(driveTrain));
     autochooser.addOption("Move off Initiation line", new AutoPlanCMovesOffLine(driveTrain));
+    autochooser.addOption("Front of Trench S3 + I5 + S5", new AutoPlanDShoots8(driveTrain));
     SmartDashboard.putData("Autonomous Chooser", autochooser);
 
-    SmartDashboard.putNumber("Shooter Speed", 0.5);
+    SmartDashboard.putNumber("User entered Shooter % Speed", 0.5);
+    SmartDashboard.putNumber("User entered Shooter Velocity", 8000);
     configureButtonBindings();
 
   }
@@ -126,8 +117,6 @@ public class RobotContainer {
     oi.operator_xButton.whenPressed(()->intake.deployOrRetract());
     oi.operator_yButton.whenPressed(()->intake.reverseOn())
                 .whenReleased(()->intake.turnOff()); 
-    oi.operator_aButton.whenPressed(()->shooter.testspin())
-                .whenReleased(()->shooter.teststop());
    oi.operator_rightTrigger.whenPressed(()->shooter.testspin())
                 .whenReleased(()->shooter.teststop());
     oi.operator_rightBumper.whenPressed(()->hopper.turnOnForIntake())
@@ -138,10 +127,6 @@ public class RobotContainer {
     oi.operator_downDpad.whenPressed(()->shooter.lowerHoodForTrench());
     oi.operator_rightDpad.whenPressed(()->shooter.extendHoodForLongDistance());
     oi.operator_upDpad.whenPressed(()->shooter.retractHoodforShortDistance());
-    
-
-
-     
   }
 
 

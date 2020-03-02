@@ -35,41 +35,7 @@ public class DriveTrain extends SubsystemBase {
   final double EncoderUnitsPerFeet = 14500;
 
   public DriveTrain(){
-    double kF = 0;
-    double kP = 0.05;
-    double kI = 0;
-    double kD = 0;
-    double rampRate = 0.5; //time in seconds to go from 0 to full throttle
-    int currentLimit = 30; //int because .setSmartCurrentLimit takes only ints, not doubles. Which makes sense programmatically. 
-
-    gyro.enableLogging(false);
-
-    backLeft.follow(frontLeft);
-    backRight.follow(frontRight);
-
-    frontLeft.configFactoryDefault();
-    frontRight.configFactoryDefault();
-    backLeft.configFactoryDefault();
-    backRight.configFactoryDefault();
-
-    frontLeft.configOpenloopRamp(rampRate);
-    backLeft.configOpenloopRamp(rampRate);
-    frontRight.configOpenloopRamp(rampRate);
-    backRight.configOpenloopRamp(rampRate);
-
-//    frontLeft.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(enable, currentLimit, triggerThresholdCurrent, triggerThresholdTime));
-
-    frontLeft.config_kP(0, kP);
-    frontRight.config_kP(0, kP);
-    backLeft.config_kP(0, kP);
-    backRight.config_kP(0, kP);
-
-  //  frontLeft.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
-  //  frontRight.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
-    
-    frontRight.setInverted(true);
-    backRight.setInverted(true);
-   
+    configureMotors();
     resetPosition();
    //gyro.calibrate();
   }
@@ -115,18 +81,11 @@ public class DriveTrain extends SubsystemBase {
     frontRight.set(ControlMode.PercentOutput,0);
   }
 
-  public void drivePositionControl(double distanceInEncoderValues)
+  //functions to support 
+  public void driveAlongAngle(double distance, double alongAngle)
   {
-    System.out.println("Starting at left position: " +frontLeft.getSelectedSensorPosition());
-    System.out.println("Starting at right position: " +frontRight.getSelectedSensorPosition());
-    frontLeft.set(ControlMode.Position, frontLeft.getSelectedSensorPosition()+distanceInEncoderValues);
-    frontRight.set(ControlMode.Position, frontRight.getSelectedSensorPosition()+distanceInEncoderValues);
-//    Timer.delay(2);
-//    When we take out this timer delay, we get odd behavior.  Won't work, one motor will move and the other 
-//  won't, etc.
-    System.out.println("Ending at left position: " +frontLeft.getSelectedSensorPosition());
-    System.out.println("Ending at right position: " +frontRight.getSelectedSensorPosition());
-
+    int direction = (distance > 0) ? 1 : -1;
+    driveAlongAngle(Math.abs(distance), direction, alongAngle);
   }
 
   public void driveAlongAngle(double distanceInFeet, int direction, double alongAngle)
@@ -183,11 +142,6 @@ public class DriveTrain extends SubsystemBase {
     stop();
   }
 
-  public void simpleDriveForward(double distanceInFeet) {
-    double distanceInEncoderUnits = distanceInFeet * EncoderUnitsPerFeet; 
-    drivePositionControl(distanceInEncoderUnits);  
-  }
-
 
   /**
 	 * Gets the angle of drive train from its initial position.
@@ -217,5 +171,69 @@ public class DriveTrain extends SubsystemBase {
   private void resetPosition() {
     frontLeft.setSelectedSensorPosition(0, 0, 50); 
     frontRight.setSelectedSensorPosition(0, 0, 50); 
+  }
+
+  
+/*  POSITION CONTROL DRIVING UNUSED CURRENTLY
+  public void drivePositionControl(double distanceInEncoderValues)
+  {
+    System.out.println("Starting at left position: " +frontLeft.getSelectedSensorPosition());
+    System.out.println("Starting at right position: " +frontRight.getSelectedSensorPosition());
+    frontLeft.set(ControlMode.Position, frontLeft.getSelectedSensorPosition()+distanceInEncoderValues);
+    frontRight.set(ControlMode.Position, frontRight.getSelectedSensorPosition()+distanceInEncoderValues);
+//    Timer.delay(2);
+//    When we take out this timer delay, we get odd behavior.  Won't work, one motor will move and the other 
+//  won't, etc.
+    System.out.println("Ending at left position: " +frontLeft.getSelectedSensorPosition());
+    System.out.println("Ending at right position: " +frontRight.getSelectedSensorPosition());
+  }
+*/
+
+  /*  public void simpleDriveForward(double distanceInFeet) {
+    double distanceInEncoderUnits = distanceInFeet * EncoderUnitsPerFeet; 
+    drivePositionControl(distanceInEncoderUnits);  
+  }
+*/
+
+  private void configureMotors() {
+
+    double rampRate = 0.5; //time in seconds to go from 0 to full throttle
+
+    gyro.enableLogging(false);
+
+    backLeft.follow(frontLeft);
+    backRight.follow(frontRight);
+
+    frontLeft.configFactoryDefault();
+    frontRight.configFactoryDefault();
+    backLeft.configFactoryDefault();
+    backRight.configFactoryDefault();
+
+    frontLeft.configOpenloopRamp(rampRate);
+    backLeft.configOpenloopRamp(rampRate);
+    frontRight.configOpenloopRamp(rampRate);
+    backRight.configOpenloopRamp(rampRate);
+
+    frontRight.setInverted(true);
+    backRight.setInverted(true);
+
+// no current limit set on drivetrain    
+// int currentLimit = 30; //int because .setSmartCurrentLimit takes only ints, not doubles. Which makes sense programmatically. 
+//    frontLeft.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, currentLimit, triggerThresholdCurrent, triggerThresholdTime));
+
+/*   Use if we start to do drive by POSITION Closed Loop
+   double kF = 0;
+    double kP = 0.05;
+    double kI = 0;
+    double kD = 0;
+    frontLeft.config_kP(0, kP);
+    frontRight.config_kP(0, kP);
+    backLeft.config_kP(0, kP);
+    backRight.config_kP(0, kP);
+
+  //  frontLeft.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
+  //  frontRight.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
+  */
+
   }
 }

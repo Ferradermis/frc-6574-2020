@@ -12,7 +12,6 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
@@ -84,9 +83,14 @@ public class Turret extends SubsystemBase {
     // should set currentLimit?
 
     double rampRate = 0.2; 
-    int currentLimit = 35; 
+    int currentLimit = 30; 
 
     turretRotator.configSelectedFeedbackSensor(FeedbackDevice.RemoteSensor0);
+    turretRotator.setInverted(true);
+
+    turretRotator.configOpenloopRamp(rampRate);
+    turretRotator.configContinuousCurrentLimit(currentLimit);
+    turretRotator.enableCurrentLimit(true);
   }
 
 

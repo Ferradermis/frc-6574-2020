@@ -33,11 +33,13 @@ public class Climber extends SubsystemBase {
 
     Climb1Motor.setSmartCurrentLimit(currentLimit); //will stop power if stuck
     Climb2Motor.setSmartCurrentLimit(currentLimit);
+
+    Climb2Motor.setInverted(true);
+    Climb2Motor.follow(Climb1Motor);
   }
 
   public void move(double y) { 
     Climb1Motor.set(ClimberSpeed);
-    Climb2Motor.set(ClimberSpeed);
   }
 
   /*

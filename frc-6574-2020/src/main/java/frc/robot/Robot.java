@@ -9,12 +9,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj.DriverStation;
 
 public class Robot extends TimedRobot {
 
   private RobotContainer robotContainer;
-  private String gameData;
+ // private String gameData;
 
   @Override
   public void robotInit() {
@@ -57,7 +56,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     // listen to DriverStation to get data for Control Panel color
-    gameData = DriverStation.getInstance().getGameSpecificMessage();
+//    gameData = DriverStation.getInstance().getGameSpecificMessage();
   }
 
 }
