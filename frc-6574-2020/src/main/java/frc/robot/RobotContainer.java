@@ -38,6 +38,7 @@ public class RobotContainer {
   public static final Intake intake = new Intake();
   public static final Hopper hopper = new Hopper();
   public static final Turret turret = new Turret();
+  public static final Climber climber = new Climber();
 
   public static final Compressor compressor = new Compressor();
   
@@ -48,6 +49,7 @@ public class RobotContainer {
   public final TurnTurret turnTurret = new TurnTurret(turret);
   public static final AimTurret aimTurret = new AimTurret(turret);
   public static final Shoot shoot = new Shoot(shooter);
+  public static final ClimberUpandDown climb = new ClimberUpandDown(climber);
 
   public static SendableChooser<CommandBase> autochooser = new SendableChooser<CommandBase>();
 
@@ -102,7 +104,7 @@ public class RobotContainer {
     Operator button X = deploy intake, spin (& spin hopper) and retract intake
     Operator button Y = reverse spin intake on press; forward spin on release
     Operator button B = AVAILABLE
-    Operator button A = AVAILABLE
+    Operator button A = ENDGAME: Climbing mode
     Operator POV up = raise trench hood (assumes not auto-shooting)
     Operator POV right = extend distance hood (assumes not auto-shooting)
     Operator POV left = retract distance hood (assume not auto-shooting)
@@ -117,7 +119,8 @@ public class RobotContainer {
     oi.operator_xButton.whenPressed(()->intake.deployOrRetract());
     oi.operator_yButton.whenPressed(()->intake.reverseOn())
                 .whenReleased(()->intake.turnOff()); 
-   oi.operator_rightTrigger.whenPressed(()->shooter.testspin())
+    oi.operator_aButton.whenPressed(climb);
+    oi.operator_rightTrigger.whenPressed(()->shooter.testspin())
                 .whenReleased(()->shooter.teststop());
     oi.operator_rightBumper.whenPressed(()->hopper.turnOnForIntake())
                 .whenReleased(()->hopper.turnOff());
@@ -127,6 +130,9 @@ public class RobotContainer {
     oi.operator_downDpad.whenPressed(()->shooter.lowerHoodForTrench());
     oi.operator_rightDpad.whenPressed(()->shooter.extendHoodForLongDistance());
     oi.operator_upDpad.whenPressed(()->shooter.retractHoodforShortDistance());
+ 
+ // just for testing
+ oi.operator_bButton.whileActiveContinuous(()->hopper.testAgitator());
   }
 
 

@@ -112,8 +112,9 @@ public class Shooter extends SubsystemBase {
 
   public void testspin(){
 //    shooterLeft.set(ControlMode.PercentOutput, SmartDashboard.getNumber("User Entered Shooter % Speed", .5));
-    shooterLeft.set(ControlMode.Velocity, 6000);
+    shooterLeft.set(ControlMode.Velocity, SmartDashboard.getNumber("User entered Shooter Velocity", 5000));
 //   shooterLeft.set(ControlMode.Velocity, 5000);
+
 }
   
   public void teststop(){
