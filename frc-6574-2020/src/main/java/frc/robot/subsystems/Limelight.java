@@ -83,7 +83,7 @@ public class Limelight extends SubsystemBase {
     public double getDistanceToTarget() {
         //All calculations are in centimeters
         final double h2 = 86.36; //height of target
-        final double h1 = 21; //height of camera
+        final double h1 = 25.4; //height of camera
         // NOTE in final code, just calculate h2 - h1 and set a variable    
         final double A1 = 10; //Angle of camera relative to ground
     

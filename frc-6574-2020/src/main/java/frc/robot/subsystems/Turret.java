@@ -86,8 +86,8 @@ public class Turret extends SubsystemBase {
 
  public void turnTurretClockwiseToTarget() {
   double startTime = Timer.getFPGATimestamp();
-  while (((Timer.getFPGATimestamp()-startTime) < 1 ) && !limelight.hasTarget()) {
-    turretRotator.set(ControlMode.PercentOutput,.35);
+  while (((Timer.getFPGATimestamp()-startTime) < .9 ) && !limelight.hasTarget()) {
+    turretRotator.set(ControlMode.PercentOutput,1);
   }
   turretRotator.set(ControlMode.PercentOutput, 0);
  }

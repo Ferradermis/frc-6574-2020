@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-
+import frc.robot.commands.ClimbUpandDown;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -118,7 +118,7 @@ public class RobotContainer {
 
     oi.operator_xButton.whenPressed(()->intake.deployOrRetract());
     oi.operator_yButton.whenPressed(()->intake.reverseOn())
-                .whenReleased(()->intake.turnOff()); 
+                .whenReleased(()->intake.turnOn()); 
                 
     oi.operator_aButton.whenPressed(climb);
 
