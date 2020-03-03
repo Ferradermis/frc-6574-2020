@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The Limelight camera aboard the robot.
@@ -22,6 +23,15 @@ public class Limelight extends SubsystemBase {
     {
         ledOff();
     }
+
+    @Override
+    public void periodic() {
+      // This method will be called once per scheduler run
+      SmartDashboard.putBoolean("Limelight has target?", hasTarget());
+      SmartDashboard.putNumber("Limelight X", getAngleX());
+      SmartDashboard.putNumber("Limelight Y", getAngleY());
+    }
+  
 
     public void setTarget(int pipeline){
         limelight.getEntry("pipeline").setNumber(pipeline);
