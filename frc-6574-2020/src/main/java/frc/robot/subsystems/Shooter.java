@@ -40,6 +40,7 @@ public class Shooter extends SubsystemBase {
 
   public Shooter() {
     configureMotors();
+    lowerHoodForTrench();
   }
 
   @Override
@@ -163,8 +164,8 @@ public class Shooter extends SubsystemBase {
 // CURRENT Gear Ratio = 1.25 : 1
 // PEAK RPM of Wheel = 7975 RPM
 
-    double kF = 0.25; //2048.0/6380.0; // why this
-    double kP = 0.125;
+    double kF = 0.001;
+    double kP = 0.75;
     double kI = 0.0;
     double kD = 0.0;
     shooterLeft.config_kF(0, kF, 20);

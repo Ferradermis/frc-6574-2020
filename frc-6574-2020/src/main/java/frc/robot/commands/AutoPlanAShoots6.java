@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.RobotContainer;
 
 
 public class AutoPlanAShoots6 extends InstantCommand {
@@ -35,8 +36,9 @@ public class AutoPlanAShoots6 extends InstantCommand {
   public void initialize() {
     HelperMethods.allAutoStart();
     
+    RobotContainer.turret.turnTurretCounterClockwiseToTarget();
     // Shoot
-//    RobotContainer.shoot.schedule();    
+    //    RobotContainer.shoot.schedule();    
     driveTrain.turnToHeading(PlanAHeading1);
     driveTrain.driveAlongAngle(PlanASideA, 1, PlanAHeading1); 
     driveTrain.turnToHeading(0.0); 

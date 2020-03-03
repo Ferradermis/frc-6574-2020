@@ -74,8 +74,23 @@ public class Turret extends SubsystemBase {
     System.out.println("Turret Rotator sensor at end: " + turretRotator.getSelectedSensorPosition());
     System.out.println("Turret Rotator PWM  at end: " + turretRotator.getSensorCollection().getPulseWidthRiseToFallUs());
  //   System.out.println("Turret Rotator using AS5800  at end: " + encoder.getPwmPosition());
+ }
 
+ public void turnTurretCounterClockwiseToTarget() {
+  double startTime = Timer.getFPGATimestamp();
+  while (((Timer.getFPGATimestamp()-startTime) < 1 ) && !limelight.hasTarget()) {
+    turretRotator.set(ControlMode.PercentOutput,-.35);
   }
+  turretRotator.set(ControlMode.PercentOutput, 0);
+ }
+
+ public void turnTurretClockwiseToTarget() {
+  double startTime = Timer.getFPGATimestamp();
+  while (((Timer.getFPGATimestamp()-startTime) < 1 ) && !limelight.hasTarget()) {
+    turretRotator.set(ControlMode.PercentOutput,.35);
+  }
+  turretRotator.set(ControlMode.PercentOutput, 0);
+ }
 
   private void configureMotors(){
     // Set up motors
