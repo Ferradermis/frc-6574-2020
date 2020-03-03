@@ -11,13 +11,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Climber;
 
-public class ClimberUpandDown extends CommandBase {
+public class ClimbUpandDown extends CommandBase {
 
   private  Climber climber;
   final double THROTTLE = 1; // controls speed via joystick; useful for test driving
                               // set to 1 for normal drive speed
 
-  public ClimberUpandDown(Climber climber) {
+  public ClimbUpandDown(Climber climber) {
     this.climber = climber;
     addRequirements(climber);
   }

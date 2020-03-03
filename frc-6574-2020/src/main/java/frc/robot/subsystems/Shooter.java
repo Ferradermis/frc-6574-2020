@@ -58,12 +58,13 @@ public class Shooter extends SubsystemBase {
     // 2048 = units per rotation
     // so 500 x 2048 is encoder units per minute
     // 600 = converts those units to units per 100ms
+    // so 10 ft would set velocity to 8533 encoder units per 100 ms
     double targetVelocity_UnitsPer100ms = distance * 250.0 * 2048 / 600;
 		shooterLeft.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
   }
 
   public boolean shooterReady(double distance) {
-    double tolerance = 10;
+    double tolerance = 50;
     double targetVelocity_UnitsPer100ms = distance * 250.0 * 2048 / 600;
     
     return (shooterLeft.getSelectedSensorVelocity() >= targetVelocity_UnitsPer100ms - tolerance);
@@ -164,10 +165,10 @@ public class Shooter extends SubsystemBase {
 // CURRENT Gear Ratio = 1.25 : 1
 // PEAK RPM of Wheel = 7975 RPM
 
-    double kF = 0.001;
-    double kP = 0.75;
-    double kI = 0.0;
-    double kD = 0.0;
+    double kF = 1023 / 21777; // This equals: 0.047
+    double kP = 0.1;
+    double kI = 0.001;
+    double kD = 5;
     shooterLeft.config_kF(0, kF, 20);
     shooterLeft.config_kP(0, kP, 20);
     shooterLeft.config_kI(0, kI, 20);
