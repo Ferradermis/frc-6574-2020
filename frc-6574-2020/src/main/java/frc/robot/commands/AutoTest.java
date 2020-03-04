@@ -30,9 +30,9 @@ public class AutoTest extends InstantCommand {
     (new TurnTurretAtStart(RobotContainer.turret)).schedule();
     
    
-    driveTrain.turnToHeading(-45);
-    driveTrain.driveAlongAngle(4, 1, -45); 
-    driveTrain.turnToHeading(0.0); 
+   // driveTrain.turnToHeading(-45);
+    driveTrain.driveAlongAngle(4, 1, 0); 
+  //  driveTrain.turnToHeading(0.0); 
     
     HelperMethods.allAutoEnd();
   }
