@@ -21,7 +21,7 @@ public class HelperMethods {
     public static void allAutoStart() {
       autoStartTime = Timer.getFPGATimestamp();     
       RobotContainer.driveTrain.stop();
-      RobotContainer.driveTrain.resetGyro();  
+      RobotContainer.driveTrain.resetGyro();
 
       double delay = SmartDashboard.getNumber("Delay", 0.0);
       if (delay > 0.0) {

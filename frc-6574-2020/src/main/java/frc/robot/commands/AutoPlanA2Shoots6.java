@@ -8,17 +8,25 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.RobotContainer;
 
 
-public class AutoPlanDShoots8 extends InstantCommand {
+public class AutoPlanA2Shoots6 extends InstantCommand {
   
   DriveTrain driveTrain;
   
-  // PLAN D Shoots 3; picks up 5 balls from trench, drives forward and shoots.
+  // PlanA constants: Plan A starts in front of target, shoots 3 balls, retrieves first 3 balls in trench
+  // need to decide if we want to pick up last two balls in trench
+  // drive to target, shoot 3-5 balls
+  final double PlanAHeading1 = -35.0;
+  final double PlanAHeading2 = -23.0;
+  final double PlanASideA = 8.0;  //10.0
+  final double PlanASideB = 6.0;  //7.0
+  final double PlanASideC = 15; //12.5
 
-  public AutoPlanDShoots8(DriveTrain driveTrain) {
+
+  public AutoPlanA2Shoots6(DriveTrain driveTrain) {
     this.driveTrain = driveTrain;
     addRequirements(driveTrain);
   }
@@ -28,19 +36,19 @@ public class AutoPlanDShoots8 extends InstantCommand {
   public void initialize() {
     HelperMethods.allAutoStart();
     (new TurnTurretAtStart(RobotContainer.turret)).schedule();
-    
+
     // Shoot
-//    RobotContainer.shoot.schedule();    
-    driveTrain.turnToHeading(0.0);
-    //RobotContainer.intake.intakeOn(); 
-    driveTrain.driveAlongAngle(16, 0); 
+    //    RobotContainer.shoot.schedule();  
+    driveTrain.driveAlongAngle(3, 0.0);  
+    driveTrain.turnToHeading(-60);
+    RobotContainer.intake.deploy();
+    driveTrain.driveAlongAngle(6, -60); 
+    driveTrain.turnToHeading(0.0);  
+    driveTrain.driveAlongAngle(6, 0.0); 
     //RobotContainer.intake.intakeOff(); 
-    driveTrain.turnToHeading(-45); 
-    driveTrain.driveAlongAngle(3, -27); 
-    driveTrain.driveAlongAngle(-3, -27); 
-    driveTrain.turnToHeading(45);
-    driveTrain.driveAlongAngle(3, 27); 
-    driveTrain.driveAlongAngle(-14, 0);
+    driveTrain.turnToHeading(-23); 
+    driveTrain.driveAlongAngle(-14, -23); 
+    driveTrain.turnToHeading(0.0);
 //    RobotContainer.shoot.schedule();    
     
     HelperMethods.allAutoEnd();

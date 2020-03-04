@@ -37,7 +37,8 @@ public class AutoPlanBShoots5 extends InstantCommand {
   @Override
   public void initialize() {
     HelperMethods.allAutoStart();
-    
+    (new TurnTurretAtStart(RobotContainer.turret)).schedule();
+
     // START NEAR OPPONENTS LOADING BAY, 
     // drive backward to get two power cells in opponent trench run
     driveTrain.driveAlongAngle(PlanBSideA, 1, 0.0);
@@ -47,7 +48,6 @@ public class AutoPlanBShoots5 extends InstantCommand {
     driveTrain.turnToHeading(PlanBHeading2);
     driveTrain.driveAlongAngle(PlanBSideD, -1, PlanBHeading2);
     
-    RobotContainer.turret.turnTurretCounterClockwiseToTarget();
     driveTrain.turnToHeading(0.0);
 //    RobotContainer.shoot.schedule();    
 

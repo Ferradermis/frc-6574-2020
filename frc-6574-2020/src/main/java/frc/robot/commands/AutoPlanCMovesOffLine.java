@@ -25,7 +25,7 @@ public class AutoPlanCMovesOffLine extends InstantCommand {
   @Override
   public void initialize() {
     HelperMethods.allAutoStart();
-    RobotContainer.turret.turnTurretCounterClockwiseToTarget();
+    (new TurnTurretAtStart(RobotContainer.turret)).schedule();
 
     driveTrain.driveAlongAngle(3, 0);
 

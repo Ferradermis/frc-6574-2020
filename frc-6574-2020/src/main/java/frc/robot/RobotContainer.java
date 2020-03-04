@@ -60,10 +60,11 @@ public class RobotContainer {
 
     SmartDashboard.putNumber("Delay Start of Auto: ", 0.0);
     autochooser.setDefaultOption("Test Plan", new AutoTest(driveTrain));
-    autochooser.addOption("Target S3 + I3 Trench + S3 balls", new AutoPlanAShoots6(driveTrain));
-    autochooser.addOption("Opponent trench I2 S5 balls", new AutoPlanBShoots5(driveTrain));
-    autochooser.addOption("Move off Initiation line", new AutoPlanCMovesOffLine(driveTrain));
-    autochooser.addOption("Front of Trench S3 + I5 + S5", new AutoPlanDShoots8(driveTrain));
+    autochooser.addOption("(A) Target S3 + I3 Trench + S3 balls", new AutoPlanAShoots6(driveTrain));
+    autochooser.addOption("(A2) Target S3, back up, + I3 Trench + S3 balls", new AutoPlanA2Shoots6(driveTrain));
+    autochooser.addOption("(B)Opponent trench I2 S5 balls", new AutoPlanBShoots5(driveTrain));
+    autochooser.addOption("(C)Move off Initiation line", new AutoPlanCMovesOffLine(driveTrain));
+    autochooser.addOption("(D)Front of Trench S3 + I5 + S5", new AutoPlanDShoots8(driveTrain));
     SmartDashboard.putData("Autonomous Chooser", autochooser);
 
     SmartDashboard.putNumber("User entered Shooter % Speed", 0.5);

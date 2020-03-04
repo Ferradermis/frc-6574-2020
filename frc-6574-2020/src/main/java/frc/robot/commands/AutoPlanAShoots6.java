@@ -21,9 +21,9 @@ public class AutoPlanAShoots6 extends InstantCommand {
   // drive to target, shoot 3-5 balls
   final double PlanAHeading1 = -35.0;
   final double PlanAHeading2 = -23.0;
-  final double PlanASideA = 8.0;  //10.0
-  final double PlanASideB = 6.0;  //7.0
-  final double PlanASideC = 15; //12.5
+  final double PlanASideA = 9.0;  //10.0
+  final double PlanASideB = 7.0;  //7.0
+  final double PlanASideC = 12.5; //12.5
 
 
   public AutoPlanAShoots6(DriveTrain driveTrain) {
@@ -35,8 +35,9 @@ public class AutoPlanAShoots6 extends InstantCommand {
   @Override
   public void initialize() {
     HelperMethods.allAutoStart();
-    
-    RobotContainer.turret.turnTurretCounterClockwiseToTarget();
+
+    (new TurnTurretAtStart(RobotContainer.turret)).schedule();
+    //).andThen(RobotContainer.shoot).schedule();
     // Shoot
     //    RobotContainer.shoot.schedule();    
     driveTrain.turnToHeading(PlanAHeading1);

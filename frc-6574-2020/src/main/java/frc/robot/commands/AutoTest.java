@@ -27,7 +27,7 @@ public class AutoTest extends InstantCommand {
   public void initialize() {
     HelperMethods.allAutoStart();
     
-    RobotContainer.turret.turnTurretCounterClockwiseToTarget();
+    (new TurnTurretAtStart(RobotContainer.turret)).schedule();
     
    
     driveTrain.turnToHeading(-45);
