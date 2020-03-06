@@ -64,7 +64,7 @@ public class Shoot extends CommandBase {
     shooter.stopShooter();
     shooter.stopFeeder();
     RobotContainer.hopper.turnOff();
-    RobotContainer.turret.resetTurretForward();
+//    RobotContainer.turret.resetTurretForward();
     shooter.lowerHoodForTrench();
   }
 

@@ -8,7 +8,6 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpiutil.net.PortForwarder;
@@ -65,9 +64,8 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     // listen to DriverStation to get data for Control Panel color
-//    gameData = DriverStation.getInstance().getGameSpecificMessage();
+    //    gameData = DriverStation.getInstance().getGameSpecificMessage();
 
-    System.out.println("anglex: " + NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0));
   }
 
 }

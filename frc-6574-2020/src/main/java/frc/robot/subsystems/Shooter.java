@@ -64,6 +64,7 @@ public class Shooter extends SubsystemBase {
     double targetVelocity_UnitsPer100ms = calculateTargetVelocity(distance);
 		shooterLeft.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
   }
+  
   public double calculateTargetVelocity(double distance) {
       return 10200 + (distance - 120)/12 * 300;
   }
@@ -80,17 +81,19 @@ public class Shooter extends SubsystemBase {
     Timer.delay(0.5);
     RobotContainer.hopper.turnOnForShooting();
   }
+
   public void stopFeeder() {
-    feeder.set(0);  
+    feeder.set(0.0);
   }
 
   public void stopFiring()
   {
-    feeder.set(0);
+    stopFeeder();
     RobotContainer.hopper.turnOff();
   }
 
   public void stopShooter() {
+    stopFeeder();
     shooterLeft.set(ControlMode.PercentOutput, 0);
   }
  
@@ -100,6 +103,7 @@ public class Shooter extends SubsystemBase {
 
   public void lowerHoodForTrench() {
     hoodAngle.set(DoubleSolenoid.Value.kReverse);
+    Timer.delay(.75);
     hoodTrench.set(DoubleSolenoid.Value.kReverse);
   }
 
@@ -120,9 +124,8 @@ public class Shooter extends SubsystemBase {
 
   public void testspin(){
 //    shooterLeft.set(ControlMode.PercentOutput, SmartDashboard.getNumber("User Entered Shooter % Speed", .5));
-    shooterLeft.set(ControlMode.Velocity, SmartDashboard.getNumber("User entered Shooter Velocity", 5000));
+    shooterLeft.set(ControlMode.Velocity, SmartDashboard.getNumber("User entered Shooter Velocity", 10000));
 //   shooterLeft.set(ControlMode.Velocity, 5000);
-
 }
   
   public void teststop(){

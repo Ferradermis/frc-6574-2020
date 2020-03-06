@@ -11,8 +11,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
@@ -25,32 +23,24 @@ public class Turret extends SubsystemBase {
   private TalonSRX turretRotator = new TalonSRX(RobotMap.TURRET_CAN_ID);
 
  // private final AS5600EncoderPwm encoder = new AS5600EncoderPwm(turretRotator.getSensorCollection());
-  
-
 
   public Limelight limelight = new Limelight();
   
   public Turret() {
     configureMotors();
-  //  limelight.ledOn();
     limelight.setTarget(0);
-    turretRotator.setSelectedSensorPosition(0); // need to think of best way to do this
+//    turretRotator.setSelectedSensorPosition(0); // need to think of best way to do this
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Actual Turret Position: ", turretRotator.getSelectedSensorPosition());
-    if (limelight.hasTarget()) {
-      SmartDashboard.putNumber("Actual Distance to Target: ", limelight.getDistanceToTarget());
-
-      System.out.println("limelight" + limelight.hasTarget());
-    }
+//    SmartDashboard.putNumber("Actual Turret Position: ", turretRotator.getSelectedSensorPosition());
   }
 
-  public void resetTurretForward() {
+/*  public void resetTurretForward() {
     turretRotator.set(ControlMode.Position, 0);
   }
-
+*/
   public void stopTurning() {
     turretRotator.set(ControlMode.PercentOutput, 0);
   }
@@ -59,10 +49,12 @@ public class Turret extends SubsystemBase {
     turretRotator.set(ControlMode.PercentOutput, speed);
   }
 
-  public int currentDirection() {
+/*  public int currentDirection() {
     return turretRotator.getSelectedSensorPosition();
   }
-  public void testTurnTurret()
+*/
+
+/*public void testTurnTurret()
   {
   //  turretRotator.getSensorCollection().setPulseWidthPosition(0, 60);
     System.out.println("Turret Rotator sensor at start: " + turretRotator.getSelectedSensorPosition());
@@ -77,6 +69,7 @@ public class Turret extends SubsystemBase {
     System.out.println("Turret Rotator PWM  at end: " + turretRotator.getSensorCollection().getPulseWidthRiseToFallUs());
  //   System.out.println("Turret Rotator using AS5800  at end: " + encoder.getPwmPosition());
  }
+ */
 
 public void setTarget(String targetName) {
   int targetNumber = 0;

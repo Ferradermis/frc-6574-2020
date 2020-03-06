@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-import frc.robot.commands.ClimbUpandDown;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -58,7 +57,7 @@ public class RobotContainer {
 
     driveTrain.setDefaultCommand(arcadeDrive);
     turret.setDefaultCommand(turnTurret);
-    climber.setDefaultCommand(climb);
+  //  climber.setDefaultCommand(climb);
 
     SmartDashboard.putNumber("Delay Start of Auto: ", 0.0);
     autochooser.setDefaultOption("Test Plan", new AutoTest(driveTrain));
@@ -67,14 +66,15 @@ public class RobotContainer {
     autochooser.addOption("(B)Opponent trench I2 S5 balls", new AutoPlanBShoots5(driveTrain));
     autochooser.addOption("(C)Move off Initiation line", new AutoPlanCMovesOffLine(driveTrain));
     autochooser.addOption("(D)Front of Trench S3 + I5 + S5", new AutoPlanDShoots8(driveTrain));
+    autochooser.addOption("(E)Move off I Line S3", new AutoPlanEMovesOffLineShoots3(driveTrain));
     SmartDashboard.putData("Autonomous Chooser", autochooser);
 
     allianceChooser.setDefaultOption("Red Alliance (pipeline)", "red");    
     allianceChooser.addOption("Blue Alliance (pipeline)", "blue");
     SmartDashboard.putData("Alliance (pipeline)", allianceChooser);    
 
-    SmartDashboard.putNumber("User entered Shooter % Speed", 0.5);
-    SmartDashboard.putNumber("User entered Shooter Velocity", 8000);
+//    SmartDashboard.putNumber("User entered Shooter % Speed", 0.5);
+    SmartDashboard.putNumber("User entered Shooter Velocity", 10000);
     configureButtonBindings();
 
   }
@@ -130,13 +130,15 @@ public class RobotContainer {
     */
 
               
-    oi.operator_aButton.whenPressed(climb);
+    oi.operator_aButton.whenPressed(climb);  // schedules ClimbUpAndDown for endgame
+
+    oi.operator_bButton.whenPressed(()->shooter.feedAndFire())
+                .whenReleased(()->shooter.stopFiring());
+
     oi.operator_rightTrigger.whenPressed(shoot).whenReleased(()->shoot.cancel());
 
     oi.operator_leftTrigger.whenPressed(()->shooter.testspin())
                 .whenReleased(()->shooter.teststop());
-    oi.operator_bButton.whenPressed(()->shooter.feedAndFire())
-                .whenReleased(()->shooter.stopFiring());
             
     oi.operator_rightBumper.whenPressed(()->hopper.turnOnForIntake())
                 .whenReleased(()->hopper.turnOff());
@@ -149,7 +151,7 @@ public class RobotContainer {
     oi.operator_leftDpad.whenPressed(()->shooter.retractHoodforShortDistance());
  
  // just for testing
- oi.operator_bButton.whileActiveContinuous(()->hopper.testAgitator());
+ // oi.operator_bButton.whileActiveContinuous(()->hopper.testAgitator());
   }
 
 

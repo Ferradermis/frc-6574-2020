@@ -10,9 +10,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
 
 public class Hopper extends SubsystemBase {
@@ -32,8 +30,9 @@ public class Hopper extends SubsystemBase {
 
   public void turnOnForShooting() {
     hopperMotor.set(HopperSpeedShooting);
-//    agitatorMotor.set(AgitatorSpeed);
+    agitatorMotor.set(-AgitatorSpeed);
   }
+
   public void turnOnForIntake() {
     hopperMotor.set(HopperSpeedIntake);
     agitatorMotor.set(AgitatorSpeed);
@@ -44,15 +43,15 @@ public class Hopper extends SubsystemBase {
     agitatorMotor.set(0);
   }
 
-  public void testAgitator(){
+/*  public void testAgitator(){
     agitatorMotor.set(RobotContainer.oi.getOperatorLeftTrigger());  
     SmartDashboard.putNumber("Agitator Speed Position: ", RobotContainer.oi.getOperatorLeftTrigger());
   }
+*/
 
   public void reverseForIntake() {
     hopperMotor.set(-HopperSpeedIntake);
     agitatorMotor.set(-AgitatorSpeed/2);
-    //hopperMotor.set(0);
   }
 
   private void configureMotors() {

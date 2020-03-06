@@ -16,7 +16,7 @@ public class AimTurret extends CommandBase {
    */
 
   private double turnKP = .05;
-  private double MAXROTATION = 45;
+//  private double MAXROTATION = 45;
 
   Turret turret;
 
@@ -37,11 +37,11 @@ public class AimTurret extends CommandBase {
   public void execute() {
     if (turret.limelight.hasTarget()) {
       double angleX = turret.limelight.getAngleX();
-      if (Math.abs(turret.currentDirection())<MAXROTATION) {
+     // if (Math.abs(turret.currentDirection())<MAXROTATION) {
         turret.turn(angleX*turnKP+.025);
-      }  else {
-        this.cancel();
-      }
+     // }  else {
+     //   this.cancel();
+     // }
     } else {
       this.cancel();
     }

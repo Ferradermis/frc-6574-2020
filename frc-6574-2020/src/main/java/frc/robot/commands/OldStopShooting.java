@@ -11,13 +11,13 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.Shooter;
 import frc.robot.RobotContainer;
 
-public class StopShooting extends InstantCommand {
+public class OldStopShooting extends InstantCommand {
   /**
    * Creates a new StopShooting Command.
    */
   Shooter shooter;
 
-  public StopShooting(Shooter shooter) {
+  public OldStopShooting(Shooter shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);
     this.shooter = shooter;
@@ -31,7 +31,7 @@ public class StopShooting extends InstantCommand {
     RobotContainer.aimTurret.cancel();
     shooter.stopShooter();
     shooter.stopFeeder();
-    RobotContainer.turret.resetTurretForward();
+//    RobotContainer.turret.resetTurretForward();
     shooter.lowerHoodForTrench();
 
   }
