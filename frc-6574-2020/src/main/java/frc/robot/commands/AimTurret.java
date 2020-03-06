@@ -15,7 +15,7 @@ public class AimTurret extends CommandBase {
    * Creates a new AimTurret command.
    */
 
-  private double turnKP = 0.01;
+  private double turnKP = .05;
   private double MAXROTATION = 45;
 
   Turret turret;
@@ -29,6 +29,7 @@ public class AimTurret extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+  
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -37,7 +38,7 @@ public class AimTurret extends CommandBase {
     if (turret.limelight.hasTarget()) {
       double angleX = turret.limelight.getAngleX();
       if (Math.abs(turret.currentDirection())<MAXROTATION) {
-        turret.turn(angleX*turnKP);
+        turret.turn(angleX*turnKP+.025);
       }  else {
         this.cancel();
       }

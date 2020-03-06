@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Timer;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
@@ -17,8 +19,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotMap;
 import frc.robot.RobotContainer;
+import frc.robot.RobotMap;
 
 public class Shooter extends SubsystemBase {
   /**
@@ -36,7 +38,7 @@ public class Shooter extends SubsystemBase {
    public DoubleSolenoid hoodTrench = new DoubleSolenoid(RobotMap.HOOD_TRENCH_ID1, RobotMap.HOOD_TRENCH_ID2);
    public DoubleSolenoid hoodAngle = new DoubleSolenoid(RobotMap.HOOD_ANGLE_ID2, RobotMap.HOOD_ANGLE_ID1);
 
-  public double hoodNeededDistance = 360.0; // distance at which we raise hood
+  public double hoodNeededDistance = 150.0; // distance at which we raise hood
 
   public Shooter() {
     configureMotors();
@@ -52,26 +54,30 @@ public class Shooter extends SubsystemBase {
   public void spin(double distance) {
     // need to figure out this formula to set velocity based on distance
     // see the html file linked at the top of this java file
-    // distance = parameter passed in; 
+    // distance = parameter passed in inches; 
     // 250 = "normal" rpm; so if distance = 10, this would set rpms to 2500
     // (note the Falcon 500 has a free speed rpm of 6380RPM/1.5A)
     // 2048 = units per rotation
     // so 500 x 2048 is encoder units per minute
     // 600 = converts those units to units per 100ms
     // so 10 ft would set velocity to 8533 encoder units per 100 ms
-    double targetVelocity_UnitsPer100ms = 10200 + (distance-10) * 300;
+    double targetVelocity_UnitsPer100ms = calculateTargetVelocity(distance);
 		shooterLeft.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
+  }
+  public double calculateTargetVelocity(double distance) {
+      return 10200 + (distance - 120)/12 * 300;
   }
 
   public boolean shooterReady(double distance) {
-    double tolerance = 50;
-    double targetVelocity_UnitsPer100ms = 10200 + (distance-10) * 300;
+    double tolerance = 150;
+    double targetVelocity_UnitsPer100ms = calculateTargetVelocity(distance);
     
     return (shooterLeft.getSelectedSensorVelocity() >= targetVelocity_UnitsPer100ms - tolerance);
   }
 
   public void feedAndFire() {
     feeder.set(1);
+    Timer.delay(0.5);
     RobotContainer.hopper.turnOnForShooting();
   }
   public void stopFeeder() {
@@ -80,12 +86,12 @@ public class Shooter extends SubsystemBase {
 
   public void stopFiring()
   {
-    stopFeeder();
+    feeder.set(0);
     RobotContainer.hopper.turnOff();
   }
 
   public void stopShooter() {
-    shooterLeft.set(ControlMode.Velocity, 0);
+    shooterLeft.set(ControlMode.PercentOutput, 0);
   }
  
   public void raiseHoodForShooting() {

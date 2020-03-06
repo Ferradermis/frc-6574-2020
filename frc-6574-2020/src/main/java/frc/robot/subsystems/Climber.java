@@ -9,6 +9,8 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 //import frc.robot.RobotContainer; //Might remove, doesn't cause errors yet
 import frc.robot.RobotMap;
@@ -35,17 +37,27 @@ public class Climber extends SubsystemBase {
     Climb2Motor.setSmartCurrentLimit(currentLimit);
 
     Climb2Motor.setInverted(true);
-    Climb2Motor.follow(Climb1Motor);
+
+//    Climb2Motor.follow(Climb1Motor);
   }
 
   public void move(double y) { 
-    Climb1Motor.set(ClimberSpeed);
+    if ((Math.abs(y) <= 0.1)) {
+       Climb1Motor.set(0);
+       Climb2Motor.set(0);
+      return;
+    }
+
+    Climb1Motor.set(y);
+    Climb2Motor.set(y);
+    SmartDashboard.putNumber("Climber speed", y);
   }
 
-  /*
+ /*  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
   }
   */
 }

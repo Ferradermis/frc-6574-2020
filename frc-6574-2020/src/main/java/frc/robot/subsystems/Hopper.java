@@ -19,9 +19,9 @@ public class Hopper extends SubsystemBase {
   /**
    * Creates a new Hopper.
    */
-  final double HopperSpeedShooting = -0.8;
+  final double HopperSpeedShooting = -0.6;
   final double HopperSpeedIntake = -0.25;
-  final double AgitatorSpeed = 0.5;
+  final double AgitatorSpeed = 0.25;
 
   public CANSparkMax hopperMotor = new CANSparkMax(RobotMap.HOPPER_CAN_ID, MotorType.kBrushless);
   public CANSparkMax agitatorMotor = new CANSparkMax(RobotMap.AGITATOR_CAN_ID, MotorType.kBrushless);
@@ -32,7 +32,7 @@ public class Hopper extends SubsystemBase {
 
   public void turnOnForShooting() {
     hopperMotor.set(HopperSpeedShooting);
-    agitatorMotor.set(AgitatorSpeed);
+//    agitatorMotor.set(AgitatorSpeed);
   }
   public void turnOnForIntake() {
     hopperMotor.set(HopperSpeedIntake);
@@ -51,7 +51,8 @@ public class Hopper extends SubsystemBase {
 
   public void reverseForIntake() {
     hopperMotor.set(-HopperSpeedIntake);
-    hopperMotor.set(0);
+    agitatorMotor.set(-AgitatorSpeed/2);
+    //hopperMotor.set(0);
   }
 
   private void configureMotors() {

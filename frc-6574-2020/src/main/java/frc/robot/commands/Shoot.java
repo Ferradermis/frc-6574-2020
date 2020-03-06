@@ -29,29 +29,31 @@ public class Shoot extends CommandBase {
   public void initialize() {
     RobotContainer.aimTurret.schedule();
     shooter.raiseHoodForShooting();
+    distanceToTarget = 144;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if ((RobotContainer.turret.limelight.hasTarget())) {
-      distanceToTarget = RobotContainer.turret.limelight.getDistanceToTarget();
-      shooter.spin(distanceToTarget);
-    
-      if (distanceToTarget > shooter.hoodNeededDistance) {
-        shooter.extendHoodForLongDistance();
-      } else {
-        shooter.retractHoodforShortDistance();
-      }
-
-      if (RobotContainer.turret.limelight.aimedAtTarget() && shooter.shooterReady(distanceToTarget)) {
-        shooter.feedAndFire();
-        } else { // shooting, but not aimed or not ready
-          shooter.stopFeeder();
-        }
-    } else { // no target
-      this.cancel();
+      distanceToTarget = RobotContainer.turret.limelight.getDistanceToTarget(); // this is in inches
     }
+
+    shooter.spin(distanceToTarget);
+      
+    
+  //  if (distanceToTarget > shooter.hoodNeededDistance) {
+  //      shooter.extendHoodForLongDistance();
+  //  } else {
+  //      shooter.retractHoodforShortDistance();
+  //  }
+
+    if (RobotContainer.turret.limelight.aimedAtTarget() && shooter.shooterReady(distanceToTarget-72)) {
+        shooter.feedAndFire();
+    } 
+    //else { // shooting, but not aimed or not ready
+    //    shooter.stopFeeder();
+   // }
   }
 
   // Called once the command ends or is interrupted.
@@ -61,6 +63,7 @@ public class Shoot extends CommandBase {
     RobotContainer.aimTurret.cancel();
     shooter.stopShooter();
     shooter.stopFeeder();
+    RobotContainer.hopper.turnOff();
     RobotContainer.turret.resetTurretForward();
     shooter.lowerHoodForTrench();
   }

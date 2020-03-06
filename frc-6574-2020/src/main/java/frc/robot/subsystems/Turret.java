@@ -32,7 +32,7 @@ public class Turret extends SubsystemBase {
   
   public Turret() {
     configureMotors();
-    limelight.ledOn();
+  //  limelight.ledOn();
     limelight.setTarget(0);
     turretRotator.setSelectedSensorPosition(0); // need to think of best way to do this
   }
@@ -42,6 +42,8 @@ public class Turret extends SubsystemBase {
     SmartDashboard.putNumber("Actual Turret Position: ", turretRotator.getSelectedSensorPosition());
     if (limelight.hasTarget()) {
       SmartDashboard.putNumber("Actual Distance to Target: ", limelight.getDistanceToTarget());
+
+      System.out.println("limelight" + limelight.hasTarget());
     }
   }
 
@@ -76,6 +78,15 @@ public class Turret extends SubsystemBase {
  //   System.out.println("Turret Rotator using AS5800  at end: " + encoder.getPwmPosition());
  }
 
+public void setTarget(String targetName) {
+  int targetNumber = 0;
+  if (targetName.equals("red")){
+    targetNumber = 0;
+  } else {
+    targetNumber = 1;
+  }
+  limelight.setTarget(targetNumber);
+}
 
   private void configureMotors(){
     // Set up motors

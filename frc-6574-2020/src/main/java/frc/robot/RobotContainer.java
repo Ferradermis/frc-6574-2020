@@ -52,11 +52,13 @@ public class RobotContainer {
   public static final ClimbUpandDown climb = new ClimbUpandDown(climber);
 
   public static SendableChooser<CommandBase> autochooser = new SendableChooser<CommandBase>();
+  public static SendableChooser<String> allianceChooser = new SendableChooser<String>();
 
   public RobotContainer() {
 
     driveTrain.setDefaultCommand(arcadeDrive);
     turret.setDefaultCommand(turnTurret);
+    climber.setDefaultCommand(climb);
 
     SmartDashboard.putNumber("Delay Start of Auto: ", 0.0);
     autochooser.setDefaultOption("Test Plan", new AutoTest(driveTrain));
@@ -66,6 +68,10 @@ public class RobotContainer {
     autochooser.addOption("(C)Move off Initiation line", new AutoPlanCMovesOffLine(driveTrain));
     autochooser.addOption("(D)Front of Trench S3 + I5 + S5", new AutoPlanDShoots8(driveTrain));
     SmartDashboard.putData("Autonomous Chooser", autochooser);
+
+    allianceChooser.setDefaultOption("Red Alliance (pipeline)", "red");    
+    allianceChooser.addOption("Blue Alliance (pipeline)", "blue");
+    SmartDashboard.putData("Alliance (pipeline)", allianceChooser);    
 
     SmartDashboard.putNumber("User entered Shooter % Speed", 0.5);
     SmartDashboard.putNumber("User entered Shooter Velocity", 8000);
@@ -95,9 +101,15 @@ public class RobotContainer {
     WE CAN TRY TO RUMBLE ON CERTAIN CONDITIONS:
     (e.g. end game, shooting, no target, etc..)
 */
-  oi.driver_bButton.whenPressed(shoot).whenReleased(()->shoot.cancel());
-  oi.driver_rightTrigger.whenPressed(()->shooter.feedAndFire())
-  .whenReleased(()->shooter.stopFiring());
+
+  oi.driver_rightBumper.whenPressed(()->intake.deployOrRetract());
+  oi.driver_leftTrigger.whenPressed(()->intake.reverseOn())
+              .whenReleased(()->intake.turnOn()); 
+
+  oi.driver_bButton.whenPressed(()->turret.limelight.ledOn());
+  oi.driver_xButton.whenPressed(()->turret.limelight.ledOff());
+
+  oi.driver_aButton.whenPressed(aimTurret).whenReleased(()->aimTurret.cancel());
 
 /*
     Operator joystick LEFT = raise and lower climber
@@ -117,15 +129,15 @@ public class RobotContainer {
     Could use operator POV to control velocity of shooter; turn hopper, etc..
     */
 
-    oi.operator_xButton.whenPressed(()->intake.deployOrRetract());
-    oi.operator_yButton.whenPressed(()->intake.reverseOn())
-                .whenReleased(()->intake.turnOn()); 
-                
+              
     oi.operator_aButton.whenPressed(climb);
+    oi.operator_rightTrigger.whenPressed(shoot).whenReleased(()->shoot.cancel());
 
-    oi.operator_rightTrigger.whenPressed(()->shooter.testspin())
+    oi.operator_leftTrigger.whenPressed(()->shooter.testspin())
                 .whenReleased(()->shooter.teststop());
-
+    oi.operator_bButton.whenPressed(()->shooter.feedAndFire())
+                .whenReleased(()->shooter.stopFiring());
+            
     oi.operator_rightBumper.whenPressed(()->hopper.turnOnForIntake())
                 .whenReleased(()->hopper.turnOff());
     oi.operator_leftBumper.whenPressed(()->hopper.reverseForIntake())
@@ -149,4 +161,9 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     return autochooser.getSelected();
   }
+
+  public String getAlliance() {
+    return allianceChooser.getSelected();
+  }
+
 }

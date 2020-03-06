@@ -21,7 +21,7 @@ public class Limelight extends SubsystemBase {
 
     public Limelight()
     {
-        ledOff();
+        ledOn();
     }
 
     @Override
@@ -30,6 +30,9 @@ public class Limelight extends SubsystemBase {
       SmartDashboard.putBoolean("Limelight has target?", hasTarget());
       SmartDashboard.putNumber("Limelight X", getAngleX());
       SmartDashboard.putNumber("Limelight Y", getAngleY());
+      SmartDashboard.putNumber("Distance to target: ", getDistanceToTarget());
+      SmartDashboard.putNumber("Limelight Pipeline:", limelight.getEntry("pipeline").getDouble(3));
+
     }
   
 
@@ -85,7 +88,7 @@ public class Limelight extends SubsystemBase {
         final double h2 = 86.36; //height of target
         final double h1 = 25.4; //height of camera
         // NOTE in final code, just calculate h2 - h1 and set a variable    
-        final double A1 = 10; //Angle of camera relative to ground
+        final double A1 = 17; //Angle of camera relative to ground
     
         double angleY = getAngleY();
         

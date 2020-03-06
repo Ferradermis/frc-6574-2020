@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -30,6 +31,7 @@ public class HelperMethods {
     }
 
     public static void allAutoEnd() {
+        RobotContainer.shoot.cancel();
         double endTime = Timer.getFPGATimestamp();
         SmartDashboard.putNumber("Run Time of Autonomous: ", (endTime - autoStartTime));
     }

@@ -26,6 +26,7 @@ public class StopShooting extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    RobotContainer.shoot.cancel();
     shooter.retractHoodforShortDistance();
     RobotContainer.aimTurret.cancel();
     shooter.stopShooter();
