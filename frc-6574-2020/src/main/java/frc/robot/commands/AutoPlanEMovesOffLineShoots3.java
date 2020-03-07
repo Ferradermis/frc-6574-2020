@@ -7,25 +7,16 @@
 
 package frc.robot.commands;
 
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.subsystems.DriveTrain;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.DriveTrain;
 
 
 public class AutoPlanEMovesOffLineShoots3 extends InstantCommand {
   
   DriveTrain driveTrain;
-  
-  // PlanA constants: Plan A starts in front of target, shoots 3 balls, retrieves first 3 balls in trench
-  // need to decide if we want to pick up last two balls in trench
-  // drive to target, shoot 3-5 balls
-  final double PlanAHeading1 = -30.25;
-  final double PlanAHeading2 = -23.0;
-  final double PlanASideA = 9.156;  //10.0
-  final double PlanASideB = 7.0;  //7.0
-  final double PlanASideC = 12.5; //12.5
-
 
   public AutoPlanEMovesOffLineShoots3(DriveTrain driveTrain) {
     this.driveTrain = driveTrain;
@@ -36,14 +27,37 @@ public class AutoPlanEMovesOffLineShoots3 extends InstantCommand {
   @Override
   public void initialize() {
     HelperMethods.allAutoStart();
-
-    (new TurnTurretAtStart(RobotContainer.turret)).schedule();
+    TurnTurretAtStart turnTurretAtStart = new TurnTurretAtStart(RobotContainer.turret);
+    AimTurret aimTurret = new AimTurret(RobotContainer.turret);
+   // (new TurnTurretAtStart(RobotContainer.turret)).schedule();
+    turnTurretAtStart.schedule();
     //).andThen(RobotContainer.shoot).schedule();
     driveTrain.driveAlongAngle(1.5,0);
     // Shoot
-    RobotContainer.shoot.withTimeout(8).schedule(); 
-    Timer.delay(8);   
-    
+   // RobotContainer.shoot.schedule(); 
+    RobotContainer.shooter.setVelocity(11300);
+
+    Timer.delay(1);
+    if (turnTurretAtStart.isScheduled()) {
+      turnTurretAtStart.cancel();
+    }
+    aimTurret.schedule();
+    Timer.delay(3);   
+    RobotContainer.shooter.feedAndFire();
+    Timer.delay(2);
+//    RobotContainer.shoot.cancel();
+//    turretTurner.cancel();
+    if (aimTurret.isScheduled()) {
+      aimTurret.cancel();
+    }
+    RobotContainer.shooter.retractHoodforShortDistance();
+
+    RobotContainer.shooter.stopShooter();
+    RobotContainer.shooter.stopFeeder();
+    RobotContainer.hopper.turnOff();
+//    RobotContainer.turret.resetTurretForward();
+    RobotContainer.shooter.lowerHoodForTrench();
+
     HelperMethods.allAutoEnd();
   }
 }

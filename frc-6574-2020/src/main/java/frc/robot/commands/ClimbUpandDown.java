@@ -25,6 +25,7 @@ public class ClimbUpandDown extends CommandBase {
   // Called just before this Command runs the first time
   @Override
   public void initialize() {
+    RobotContainer.shooter.defaultShooterOff();
   }
 
   // Called repeatedly when this Command is scheduled to run

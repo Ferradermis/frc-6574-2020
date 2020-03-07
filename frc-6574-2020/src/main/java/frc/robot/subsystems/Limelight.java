@@ -97,7 +97,7 @@ public class Limelight extends SubsystemBase {
       }
     
       public boolean aimedAtTarget() {       
-        final double tolerance = 1;
+        final double tolerance = 3;
         return (Math.abs(getAngleX()) < tolerance);
       }
     

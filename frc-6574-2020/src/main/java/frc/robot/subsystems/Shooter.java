@@ -66,20 +66,26 @@ public class Shooter extends SubsystemBase {
   }
   
   public double calculateTargetVelocity(double distance) {
-      return 10200 + (distance - 120)/12 * 300;
+    // hardcoded for Duluth
+      return 11300; // + (distance - 120)/12 * 300;
   }
 
   public boolean shooterReady(double distance) {
-    double tolerance = 150;
-    double targetVelocity_UnitsPer100ms = calculateTargetVelocity(distance);
-    
-    return (shooterLeft.getSelectedSensorVelocity() >= targetVelocity_UnitsPer100ms - tolerance);
+ //   double tolerance = 500;
+//    double targetVelocity_UnitsPer100ms = calculateTargetVelocity(distance);
+    // hardcoded for duluth
+    return (shooterLeft.getSelectedSensorVelocity() >= 10300);
+    //targetVelocity_UnitsPer100ms - tolerance);
   }
 
   public void feedAndFire() {
     feeder.set(1);
     Timer.delay(0.5);
     RobotContainer.hopper.turnOnForShooting();
+  }
+
+  public void setVelocity(double velocity) {
+    shooterLeft.set(ControlMode.Velocity, velocity);
   }
 
   public void stopFeeder() {
@@ -95,6 +101,7 @@ public class Shooter extends SubsystemBase {
   public void stopShooter() {
     stopFeeder();
     shooterLeft.set(ControlMode.PercentOutput, 0);
+    defaultShooterOn();
   }
  
   public void raiseHoodForShooting() {
@@ -103,7 +110,7 @@ public class Shooter extends SubsystemBase {
 
   public void lowerHoodForTrench() {
     hoodAngle.set(DoubleSolenoid.Value.kReverse);
-    Timer.delay(.75);
+    Timer.delay(1);
     hoodTrench.set(DoubleSolenoid.Value.kReverse);
   }
 
@@ -130,6 +137,17 @@ public class Shooter extends SubsystemBase {
   
   public void teststop(){
     shooterLeft.set(ControlMode.PercentOutput,0);  
+    defaultShooterOn();
+  }
+
+  public void defaultShooterOn()
+  {
+    shooterLeft.set(ControlMode.PercentOutput,.3);
+  }
+
+  public void defaultShooterOff()
+  {
+    shooterLeft.set(ControlMode.PercentOutput, 0);
   }
 
   private void configureMotors() {
@@ -175,7 +193,7 @@ public class Shooter extends SubsystemBase {
 // PEAK RPM of Wheel = 7975 RPM
 
     double kF = 0; //1023 / 21777; // This equals: 0.047
-    double kP = .8;
+    double kP = .95;
     double kI = 0;
     double kD = 0;
     shooterLeft.config_kF(0, kF, 20);

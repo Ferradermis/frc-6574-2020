@@ -30,7 +30,7 @@ public class TurnTurretAtStart extends CommandBase {
   @Override
   public void initialize() {
     startTime = Timer.getFPGATimestamp();   
-    turret.turn(-1);
+    turret.turn(-.5);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -47,6 +47,6 @@ public class TurnTurretAtStart extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (((Timer.getFPGATimestamp()-startTime) > .5) || (turret.limelight.hasTarget()));
+    return (((Timer.getFPGATimestamp()-startTime) > .3) || (turret.limelight.hasTarget()));
   }
 }

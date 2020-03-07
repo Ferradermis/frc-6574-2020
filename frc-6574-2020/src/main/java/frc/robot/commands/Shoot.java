@@ -7,9 +7,10 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Shooter;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.Shooter;
 
 public class Shoot extends CommandBase {
   /**
@@ -29,6 +30,8 @@ public class Shoot extends CommandBase {
   public void initialize() {
     RobotContainer.aimTurret.schedule();
     shooter.raiseHoodForShooting();
+    Timer.delay(.5);
+    shooter.extendHoodForLongDistance();
     distanceToTarget = 144;
   }
 
@@ -48,7 +51,7 @@ public class Shoot extends CommandBase {
   //      shooter.retractHoodforShortDistance();
   //  }
 
-    if (RobotContainer.turret.limelight.aimedAtTarget() && shooter.shooterReady(distanceToTarget-72)) {
+    if (RobotContainer.turret.limelight.aimedAtTarget() && shooter.shooterReady(distanceToTarget)) {
         shooter.feedAndFire();
     } 
     //else { // shooting, but not aimed or not ready

@@ -30,7 +30,14 @@ public class TurnTurret extends CommandBase {
   @Override
   public void execute() {
     // Read data from joystick and turn turret per joystick positioning
-    turret.turn(RobotContainer.oi.getOperatorRightX()*THROTTLE);   
+    double x = RobotContainer.oi.getOperatorRightX();
+    if ((Math.abs(x) <= 0.05)) {
+      x = 0;
+      cancel();
+      return;
+    }
+
+    turret.turn(x*THROTTLE);   
   }
 
   // Make this return true when this Command no longer needs to run execute()

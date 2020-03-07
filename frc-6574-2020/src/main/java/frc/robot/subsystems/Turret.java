@@ -87,7 +87,7 @@ public void setTarget(String targetName) {
     // should set currentLimit?
 
     double rampRate = 0.2; 
-    int currentLimit = 30; 
+    int currentLimit = 10; 
 
     turretRotator.configSelectedFeedbackSensor(FeedbackDevice.RemoteSensor0);
     turretRotator.setInverted(true);

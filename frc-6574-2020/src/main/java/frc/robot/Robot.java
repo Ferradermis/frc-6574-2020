@@ -57,7 +57,9 @@ public class Robot extends TimedRobot {
       CommandScheduler.getInstance().schedule(robotContainer.arcadeDrive);
     }
     if (!CommandScheduler.getInstance().isScheduled(robotContainer.turnTurret)) {
-        CommandScheduler.getInstance().schedule(robotContainer.turnTurret);  
+        CommandScheduler.getInstance().schedule(robotContainer.turnTurret); 
+        
+    RobotContainer.shooter.defaultShooterOn();
     }
   }
 
