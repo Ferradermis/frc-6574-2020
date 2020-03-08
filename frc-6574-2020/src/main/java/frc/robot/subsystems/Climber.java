@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 //import frc.robot.RobotContainer; //Might remove, doesn't cause errors yet
@@ -23,8 +24,10 @@ public class Climber extends SubsystemBase {
 
   public CANSparkMax Climb1Motor = new CANSparkMax(RobotMap.CLIMB1_CAN_ID, MotorType.kBrushless);
   public CANSparkMax Climb2Motor = new CANSparkMax(RobotMap.CLIMB2_CAN_ID, MotorType.kBrushless);
-  
+  public DoubleSolenoid climberDeploy = new DoubleSolenoid(RobotMap.CLIMBER_EXTENDER_ID2, RobotMap.CLIMBER_EXTENDER_ID1);
 
+  final DoubleSolenoid.Value DEPLOYED = DoubleSolenoid.Value.kForward;
+  final DoubleSolenoid.Value RETRACTED = DoubleSolenoid.Value.kReverse;
   
   public Climber() {
     double rampRate = 0.2;
@@ -51,6 +54,18 @@ public class Climber extends SubsystemBase {
     Climb1Motor.set(y);
     Climb2Motor.set(y);
     SmartDashboard.putNumber("Climber speed", y);
+  }
+
+  public void deploy() {
+    climberDeploy.set(DEPLOYED);
+  }
+
+  public void retract() {
+    climberDeploy.set(RETRACTED);
+  }
+
+  public boolean retracted() {
+    return (climberDeploy.get() == RETRACTED);
   }
 
  /*  

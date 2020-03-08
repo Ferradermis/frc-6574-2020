@@ -27,20 +27,24 @@ public class AutoPlanEMovesOffLineShoots3 extends InstantCommand {
   @Override
   public void initialize() {
     HelperMethods.allAutoStart();
-    TurnTurretAtStart turnTurretAtStart = new TurnTurretAtStart(RobotContainer.turret);
+ //   TurnTurretAtStart turnTurretAtStart = new TurnTurretAtStart(RobotContainer.turret);
     AimTurret aimTurret = new AimTurret(RobotContainer.turret);
    // (new TurnTurretAtStart(RobotContainer.turret)).schedule();
-    turnTurretAtStart.schedule();
+   // turnTurretAtStart.schedule();
     //).andThen(RobotContainer.shoot).schedule();
     driveTrain.driveAlongAngle(1.5,0);
     // Shoot
    // RobotContainer.shoot.schedule(); 
+    RobotContainer.shooter.raiseHoodForShooting();
+    Timer.delay(.2);
+    RobotContainer.shooter.extendHoodForLongDistance();
+    Timer.delay(.2);
     RobotContainer.shooter.setVelocity(11300);
 
     Timer.delay(1);
-    if (turnTurretAtStart.isScheduled()) {
-      turnTurretAtStart.cancel();
-    }
+//    if (turnTurretAtStart.isScheduled()) {
+ //     turnTurretAtStart.cancel();
+//    }
     aimTurret.schedule();
     Timer.delay(3);   
     RobotContainer.shooter.feedAndFire();

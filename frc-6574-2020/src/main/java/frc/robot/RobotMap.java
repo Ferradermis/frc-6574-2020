@@ -66,4 +66,6 @@ public class RobotMap {
   public static final int HOOD_ANGLE_ID2 = 1;
   public static final int INTAKE_EXTENDER_ID1 = 4;  
   public static final int INTAKE_EXTENDER_ID2 = 5;
+  public static final int CLIMBER_EXTENDER_ID1 = 6;  
+  public static final int CLIMBER_EXTENDER_ID2 = 7;
 }

@@ -11,21 +11,30 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpiutil.net.PortForwarder;
-
+import edu.wpi.cscore.UsbCamera;
 public class Robot extends TimedRobot {
 
   private RobotContainer robotContainer;
+  private UsbCamera camera;
+  private CameraServer cameraServer;
+  //320 x240
+  // 20 compression
  // private String gameData;
 
   @Override
   public void robotInit() {
     robotContainer = new RobotContainer();
     RobotContainer.compressor.start();   //compressor init code
-    CameraServer.getInstance().startAutomaticCapture();
+    cameraServer = CameraServer.getInstance();
+    camera = cameraServer.startAutomaticCapture();
+    camera.setResolution(320, 240);
+    camera.setFPS(15);
+ //   camera.
+ //   camera.startAutomaticCapture();
 
-    PortForwarder.add(5800,"limelight.local",5800);
-    PortForwarder.add(5801,"limelight.local",5801);
-    PortForwarder.add(5805,"limelight.local",5805);
+//    PortForwarder.add(5800,"limelight.local",5800);
+//    PortForwarder.add(5801,"limelight.local",5801);
+//    PortForwarder.add(5805,"limelight.local",5805);
 
     // documentation says this is "true" by default, so commenting out
     // RobotContainer.compressor.setClosedLoopControl(true);

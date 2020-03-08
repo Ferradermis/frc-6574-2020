@@ -106,9 +106,13 @@ public class RobotContainer {
   oi.driver_leftTrigger.whenPressed(()->intake.reverseOn())
               .whenReleased(()->intake.turnOn()); 
 
-  oi.driver_bButton.whenPressed(()->turret.limelight.ledOn());
+  oi.driver_yButton.whenPressed(()->turret.limelight.ledOn());
   oi.driver_xButton.whenPressed(()->turret.limelight.ledOff());
 
+  oi.driver_bButton.whenPressed(()->shooter.feedAndFire())
+  .whenReleased(()->shooter.stopFiring());
+
+  
   oi.driver_aButton.whenPressed(aimTurret).whenReleased(()->aimTurret.cancel());
 
 /*
@@ -132,8 +136,7 @@ public class RobotContainer {
               
     oi.operator_aButton.whenPressed(climb);  // schedules ClimbUpAndDown for endgame
 
-    oi.operator_bButton.whenPressed(()->shooter.feedAndFire())
-                .whenReleased(()->shooter.stopFiring());
+ 
 
     oi.operator_rightTrigger.whenPressed(shoot).whenReleased(()->shoot.cancel());
 

@@ -192,8 +192,8 @@ public class Shooter extends SubsystemBase {
 // CURRENT Gear Ratio = 1.25 : 1
 // PEAK RPM of Wheel = 7975 RPM
 
-    double kF = 0; //1023 / 21777; // This equals: 0.047
-    double kP = .95;
+    double kF = .047; //1023 / 21777; // This equals: 0.047
+    double kP = .025;  // this is close...
     double kI = 0;
     double kD = 0;
     shooterLeft.config_kF(0, kF, 20);
