@@ -27,40 +27,41 @@ public class AutoPlanEMovesOffLineShoots3 extends InstantCommand {
   @Override
   public void initialize() {
     HelperMethods.allAutoStart();
- //   TurnTurretAtStart turnTurretAtStart = new TurnTurretAtStart(RobotContainer.turret);
-    AimTurret aimTurret = new AimTurret(RobotContainer.turret);
-   // (new TurnTurretAtStart(RobotContainer.turret)).schedule();
-   // turnTurretAtStart.schedule();
-    //).andThen(RobotContainer.shoot).schedule();
+ 
+    //   TurnTurretAtStart turnTurretAtStart = new TurnTurretAtStart(RobotContainer.turret);
     driveTrain.driveAlongAngle(1.5,0);
     // Shoot
    // RobotContainer.shoot.schedule(); 
-    RobotContainer.shooter.raiseHoodForShooting();
-    Timer.delay(.2);
-    RobotContainer.shooter.extendHoodForLongDistance();
-    Timer.delay(.2);
-    RobotContainer.shooter.setVelocity(11300);
+//  THIS IS THE CODE THAT "worked" AT DULUTH
 
-    Timer.delay(1);
-//    if (turnTurretAtStart.isScheduled()) {
- //     turnTurretAtStart.cancel();
-//    }
-    aimTurret.schedule();
-    Timer.delay(3);   
-    RobotContainer.shooter.feedAndFire();
-    Timer.delay(2);
-//    RobotContainer.shoot.cancel();
-//    turretTurner.cancel();
-    if (aimTurret.isScheduled()) {
-      aimTurret.cancel();
-    }
-    RobotContainer.shooter.retractHoodforShortDistance();
+    // AimTurret aimTurret = new AimTurret(RobotContainer.turret);
+    // RobotContainer.shooter.raiseHoodForShooting();
+    // Timer.delay(.2);
+    // RobotContainer.shooter.extendHoodForLongDistance();
+    // Timer.delay(.2);
+    // RobotContainer.shooter.setVelocity(11300);
 
-    RobotContainer.shooter.stopShooter();
-    RobotContainer.shooter.stopFeeder();
-    RobotContainer.hopper.turnOff();
+    // Timer.delay(1);
+    // aimTurret.schedule();
+    // Timer.delay(3);   
+    // RobotContainer.shooter.feedAndFire();
+    // Timer.delay(2);
+    // if (aimTurret.isScheduled()) {
+  // aimTurret.cancel();
+    // }
+    // RobotContainer.shooter.retractHoodforShortDistance();
+// 
+    // RobotContainer.shooter.stopShooter();
+    // RobotContainer.shooter.stopFeeder();
+    // RobotContainer.hopper.turnOff();
 //    RobotContainer.turret.resetTurretForward();
-    RobotContainer.shooter.lowerHoodForTrench();
+    // RobotContainer.shooter.lowerHoodForTrench();
+// BUT THIS IS THE CODE THAT SHOULD WORK
+      RobotContainer.shoot.schedule();
+      Timer.delay(3); // or whatever number is needed to make sure shots taken
+      if (RobotContainer.shoot.isScheduled()){
+        RobotContainer.shoot.cancel();
+      }
 
     HelperMethods.allAutoEnd();
   }
