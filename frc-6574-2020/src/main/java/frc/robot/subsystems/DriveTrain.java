@@ -90,7 +90,7 @@ public class DriveTrain extends SubsystemBase {
 
   public void driveAlongAngle(double distanceInFeet, int direction, double alongAngle)
   {
-    double kF = 0.1;
+    double kF = 0.1;  //kF is essentially minimal amount to drive
     double kP = 0.75;
     double tolerance = 750; // this would be roughly 1 inch
 
