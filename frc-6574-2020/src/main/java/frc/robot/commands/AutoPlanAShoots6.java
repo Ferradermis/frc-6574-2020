@@ -37,7 +37,7 @@ public class AutoPlanAShoots6 extends InstantCommand {
   public void initialize() {
     HelperMethods.allAutoStart();
 
-    (new TurnTurretAtStart(RobotContainer.turret)).schedule();
+//    (new TurnTurretAtStart(RobotContainer.turret)).schedule();
     //).andThen(RobotContainer.shoot).schedule();
     // Shoot
     RobotContainer.shoot.withTimeout(8).schedule(); 

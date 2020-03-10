@@ -30,15 +30,18 @@ public class Shoot extends CommandBase {
   public void initialize() {
     RobotContainer.aimTurret.schedule();
     shooter.raiseHoodForShooting();
-    Timer.delay(.5);
+    Timer.delay(.2);
     shooter.extendHoodForLongDistance();
-    distanceToTarget = 144;
+    distanceToTarget = 138;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if ((RobotContainer.turret.limelight.hasTarget())) {
+      if (!(RobotContainer.aimTurret.isScheduled())) {
+        RobotContainer.aimTurret.schedule();
+      }
       distanceToTarget = RobotContainer.turret.limelight.getDistanceToTarget(); // this is in inches
     }
 
@@ -63,7 +66,10 @@ public class Shoot extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     shooter.retractHoodforShortDistance();
-    RobotContainer.aimTurret.cancel();
+    Timer.delay(.1);
+    if (RobotContainer.aimTurret.isScheduled()) {
+      RobotContainer.aimTurret.cancel();
+    }
     shooter.stopShooter();
     shooter.stopFeeder();
     RobotContainer.hopper.turnOff();

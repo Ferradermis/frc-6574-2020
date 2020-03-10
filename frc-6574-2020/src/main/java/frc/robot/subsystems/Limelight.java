@@ -29,8 +29,9 @@ public class Limelight extends SubsystemBase {
       // This method will be called once per scheduler run
       SmartDashboard.putBoolean("Limelight has target?", hasTarget());
       SmartDashboard.putNumber("Limelight X", getAngleX());
-       SmartDashboard.putNumber("Limelight Y", getAngleY());
-    //   SmartDashboard.putNumber("Distance to target: ", getDistanceToTarget());
+      SmartDashboard.putNumber("Limelight Y", getAngleY());
+      SmartDashboard.putNumber("Limelight Y", getSkew());
+      SmartDashboard.putNumber("Distance to target: ", getDistanceToTarget());
       SmartDashboard.putNumber("Limelight Pipeline:", limelight.getEntry("pipeline").getDouble(3));
 
     }
@@ -83,6 +84,11 @@ public class Limelight extends SubsystemBase {
         return limelight.getEntry("ty").getDouble(0);
     }
 
+    public double getSkew() {
+        return limelight.getEntry("ts").getDouble(0);
+    }
+
+
     public double getDistanceToTarget() {
         //All calculations are in centimeters
         final double h2 = 86.36; //height of target
@@ -97,8 +103,8 @@ public class Limelight extends SubsystemBase {
       }
     
       public boolean aimedAtTarget() {       
-        final double tolerance = 3;
-        return (Math.abs(getAngleX()) < tolerance);
+        final double tolerance = 1;
+        return (Math.abs(getAngleX()) <= tolerance);
       }
     
 }

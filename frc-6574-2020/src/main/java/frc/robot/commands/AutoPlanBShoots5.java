@@ -8,7 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.RobotContainer;
+//import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
 
 
@@ -37,7 +37,7 @@ public class AutoPlanBShoots5 extends InstantCommand {
   @Override
   public void initialize() {
     HelperMethods.allAutoStart();
-    (new TurnTurretAtStart(RobotContainer.turret)).schedule();
+//    (new TurnTurretAtStart(RobotContainer.turret)).schedule();
 
     // START NEAR OPPONENTS LOADING BAY, 
     // drive backward to get two power cells in opponent trench run

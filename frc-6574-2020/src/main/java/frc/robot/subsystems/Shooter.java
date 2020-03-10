@@ -66,16 +66,14 @@ public class Shooter extends SubsystemBase {
   }
   
   public double calculateTargetVelocity(double distance) {
-    // hardcoded for Duluth
+
       return 10500; // + (distance - 120)/12 * 300;
   }
 
   public boolean shooterReady(double distance) {
- //   double tolerance = 500;
-//    double targetVelocity_UnitsPer100ms = calculateTargetVelocity(distance);
-    // hardcoded for duluth
-    return (shooterLeft.getSelectedSensorVelocity() >= 10300);
-    //targetVelocity_UnitsPer100ms - tolerance);
+    double tolerance = 200;
+    double targetVelocity_UnitsPer100ms = calculateTargetVelocity(distance);
+    return (shooterLeft.getSelectedSensorVelocity() >= (targetVelocity_UnitsPer100ms-tolerance));
   }
 
   public void feedAndFire() {
@@ -142,7 +140,7 @@ public class Shooter extends SubsystemBase {
 
   public void defaultShooterOn()
   {
-    shooterLeft.set(ControlMode.PercentOutput,.45);
+    shooterLeft.set(ControlMode.PercentOutput,.5);
   }
 
   public void defaultShooterOff()
@@ -191,6 +189,9 @@ public class Shooter extends SubsystemBase {
 // PEAK SENSOR VELOCITY = 6380 / 600 * 2048  = 21,777
 // CURRENT Gear Ratio = 1.25 : 1
 // PEAK RPM of Wheel = 7975 RPM
+
+
+// kF of .051 and kP of .015 is the best we have achieved
 
     double kF = .051; //1023 / 21777; // This equals: 0.047
     double kP = .015;  // this is close...
