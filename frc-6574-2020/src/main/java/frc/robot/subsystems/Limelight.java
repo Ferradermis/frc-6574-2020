@@ -28,8 +28,8 @@ public class Limelight extends SubsystemBase {
     public void periodic() {
       // This method will be called once per scheduler run
       SmartDashboard.putBoolean("Limelight has target?", hasTarget());
-//      SmartDashboard.putNumber("Limelight X", getAngleX());
-    //   SmartDashboard.putNumber("Limelight Y", getAngleY());
+      SmartDashboard.putNumber("Limelight X", getAngleX());
+       SmartDashboard.putNumber("Limelight Y", getAngleY());
     //   SmartDashboard.putNumber("Distance to target: ", getDistanceToTarget());
       SmartDashboard.putNumber("Limelight Pipeline:", limelight.getEntry("pipeline").getDouble(3));
 

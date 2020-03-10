@@ -38,7 +38,7 @@ public class AimTurret extends CommandBase {
     if (turret.limelight.hasTarget()) {
       double angleX = turret.limelight.getAngleX();
      // if (Math.abs(turret.currentDirection())<MAXROTATION) {
-        turret.turn(angleX*turnKP+.025);
+        turret.turn(angleX*turnKP+Math.copySign(.04,angleX));
      // }  else {
      //   this.cancel();
      // }

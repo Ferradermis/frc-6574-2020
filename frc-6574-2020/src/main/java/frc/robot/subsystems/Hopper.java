@@ -17,7 +17,7 @@ public class Hopper extends SubsystemBase {
   /**
    * Creates a new Hopper.
    */
-  final double HopperSpeedShooting = -0.6;
+  final double HopperSpeedShooting = -0.55;
   final double HopperSpeedIntake = -0.25;
   final double AgitatorSpeed = 0.25;
 

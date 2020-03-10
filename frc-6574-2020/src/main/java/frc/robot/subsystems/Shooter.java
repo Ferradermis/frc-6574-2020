@@ -67,7 +67,7 @@ public class Shooter extends SubsystemBase {
   
   public double calculateTargetVelocity(double distance) {
     // hardcoded for Duluth
-      return 11300; // + (distance - 120)/12 * 300;
+      return 10500; // + (distance - 120)/12 * 300;
   }
 
   public boolean shooterReady(double distance) {
@@ -80,7 +80,7 @@ public class Shooter extends SubsystemBase {
 
   public void feedAndFire() {
     feeder.set(1);
-    Timer.delay(0.5);
+    Timer.delay(0.25);
     RobotContainer.hopper.turnOnForShooting();
   }
 
@@ -142,7 +142,7 @@ public class Shooter extends SubsystemBase {
 
   public void defaultShooterOn()
   {
-    shooterLeft.set(ControlMode.PercentOutput,.3);
+    shooterLeft.set(ControlMode.PercentOutput,.45);
   }
 
   public void defaultShooterOff()
@@ -192,8 +192,8 @@ public class Shooter extends SubsystemBase {
 // CURRENT Gear Ratio = 1.25 : 1
 // PEAK RPM of Wheel = 7975 RPM
 
-    double kF = .047; //1023 / 21777; // This equals: 0.047
-    double kP = .025;  // this is close...
+    double kF = .051; //1023 / 21777; // This equals: 0.047
+    double kP = .015;  // this is close...
     double kI = 0;
     double kD = 0;
     shooterLeft.config_kF(0, kF, 20);
