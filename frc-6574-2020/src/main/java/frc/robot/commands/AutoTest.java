@@ -10,6 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.RobotContainer;
+import edu.wpi.first.wpilibj.Timer;
 
 
 public class AutoTest extends InstantCommand {
@@ -29,7 +30,8 @@ public class AutoTest extends InstantCommand {
         
    driveTrain.driveAlongAngle(2, 0);
    RobotContainer.shoot.schedule();
-
+   Timer.delay(10);
+   driveTrain.driveAlongAngle(2, 0);
     
     HelperMethods.allAutoEnd();
   }
