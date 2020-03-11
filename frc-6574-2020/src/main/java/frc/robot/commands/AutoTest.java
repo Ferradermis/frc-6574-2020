@@ -20,11 +20,11 @@ public class AutoTest extends SequentialCommandGroup {
                 new InstantCommand(()->RobotContainer.shooter.defaultShooterOn()),
                 new InstantCommand(()->HelperMethods.allAutoStart()),
                 new DriveAlongAngle(2, 0),
-                new TurnToHeading(-45),
-                new DriveAlongAngle(2, -45),
-                new TurnToHeading(0),
-                new DriveAlongAngle(5, 0, .75),
-                new InstantCommand(()->HelperMethods.allAutoEnd())
+               new TurnToHeading(-45),
+                // new DriveAlongAngle(2, -45),
+                // new TurnToHeading(0),
+                // new DriveAlongAngle(5, 0, .75),
+                 new InstantCommand(()->HelperMethods.allAutoEnd())
               );
   }
 }
