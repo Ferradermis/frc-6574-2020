@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
@@ -21,11 +22,15 @@ public class PrepForShooting extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
-      new InstantCommand(()->shooter.raiseHoodForShooting()),
-      new WaitCommand(.4),
-      new InstantCommand(()->shooter.extendHoodForLongDistance()),
-      new AimTurret(RobotContainer.turret),
-      new InstantCommand(()->shooter.spin(RobotContainer.turret.limelight.getDistanceToTarget(138))) // this is in inches
-    );
+      new ParallelCommandGroup(
+        new SequentialCommandGroup(
+          new InstantCommand(()->shooter.raiseHoodForShooting()),
+          new WaitCommand(.4),
+          new InstantCommand(()->shooter.extendHoodForLongDistance())
+         ),
+        new AimTurret(RobotContainer.turret),
+        new InstantCommand(()->shooter.spin(RobotContainer.turret.limelight.getDistanceToTarget(138))) // this is in inches
+       )
+     );
   }
 }

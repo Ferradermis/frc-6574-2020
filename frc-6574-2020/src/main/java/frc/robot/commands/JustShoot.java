@@ -11,14 +11,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Shooter;
 
-public class Shoot extends CommandBase {
+public class JustShoot extends CommandBase {
   /**
    * Creates a new Shoot Command.
    */
   Shooter shooter;
   double distanceToTarget;
 
-  public Shoot(Shooter shooter) {
+  public JustShoot(Shooter shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);
     this.shooter = shooter;

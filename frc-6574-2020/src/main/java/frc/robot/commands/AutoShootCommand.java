@@ -23,7 +23,7 @@ public class AutoShootCommand extends SequentialCommandGroup {
     super(
       new PrepForShooting(shooter),
 
-      new Shoot(shooter).withTimeout(2),
+      new JustShoot(shooter).withTimeout(2),
 
       new StopShooting(shooter)
     );

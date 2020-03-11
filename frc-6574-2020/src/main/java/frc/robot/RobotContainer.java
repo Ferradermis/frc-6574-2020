@@ -47,7 +47,7 @@ public class RobotContainer {
   public final ArcadeDrive arcadeDrive = new ArcadeDrive(driveTrain);
   public final TurnTurret turnTurret = new TurnTurret(turret);
   public static final AimTurret aimTurret = new AimTurret(turret);
-  public static final Shoot shoot = new Shoot(shooter);
+  //public static final Shoot shoot = new Shoot(shooter);
   public static final ClimbUpandDown climb = new ClimbUpandDown(climber);
 
   public static SendableChooser<CommandBase> autochooser = new SendableChooser<CommandBase>();
