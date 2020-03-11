@@ -13,6 +13,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.Hopper;
 
 public class Intake extends SubsystemBase {
   /**
@@ -60,11 +62,14 @@ public class Intake extends SubsystemBase {
   public void deploy() {
     intakeDeploy.set(DEPLOYED);
     turnOn();  // TURNED OFF FOR TESTING
+    RobotContainer.hopper.turnOnForIntake();
   }
 
   public void retract() {
     turnOff();
     intakeDeploy.set(RETRACTED);
+    RobotContainer.hopper.turnOff();
+  
   }
 
   private void configureMotors() {

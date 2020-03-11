@@ -30,7 +30,7 @@ public class DriveTrain extends SubsystemBase {
   private WPI_TalonFX backRight = new WPI_TalonFX(RobotMap.BACK_RIGHT_CAN_ID);
 
   // following variable are used in turnToHeading and driveAlongAngle
-  final double MaxDriveSpeed = 0.5;
+  final double MaxDriveSpeed = 0.45;
   final double MaxTurnSpeed = 0.25;
   final double EncoderUnitsPerFeet = 14500;
 

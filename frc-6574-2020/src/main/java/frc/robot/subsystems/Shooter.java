@@ -67,7 +67,7 @@ public class Shooter extends SubsystemBase {
   
   public double calculateTargetVelocity(double distance) {
 
-      return 10500; // + (distance - 120)/12 * 300;
+      return 10500;// + (distance - 120)/12 * 420;
   }
 
   public boolean shooterReady(double distance) {
@@ -194,7 +194,7 @@ public class Shooter extends SubsystemBase {
 // kF of .051 and kP of .015 is the best we have achieved
 
     double kF = .051; //1023 / 21777; // This equals: 0.047
-    double kP = .015;  // this is close...
+    double kP = .10;  // this is close...
     double kI = 0;
     double kD = 0;
     shooterLeft.config_kF(0, kF, 20);

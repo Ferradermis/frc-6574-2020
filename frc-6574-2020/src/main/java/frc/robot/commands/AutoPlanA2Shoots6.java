@@ -10,6 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.RobotContainer;
+import edu.wpi.first.wpilibj.Timer;
 
 
 public class AutoPlanA2Shoots6 extends InstantCommand {
@@ -36,21 +37,69 @@ public class AutoPlanA2Shoots6 extends InstantCommand {
   public void initialize() {
     HelperMethods.allAutoStart();
 //    (new TurnTurretAtStart(RobotContainer.turret)).schedule();
+driveTrain.driveAlongAngle(1.5, 0.0);  
+
+//AimTurret aimTurret = new AimTurret(RobotContainer.turret);
+RobotContainer.shooter.raiseHoodForShooting();
+Timer.delay(.2);
+RobotContainer.shooter.extendHoodForLongDistance();
+RobotContainer.shooter.setVelocity(10500);
+
+// aimTurret.schedule();
+//CommandScheduler.getInstance().schedule(aimTurret);
+
+
+Timer.delay(2.5);   
+RobotContainer.shooter.feedAndFire();
+Timer.delay(1);
+//if (aimTurret.isScheduled()) {
+//aimTurret.cancel();
+//}
+//RobotContainer.shooter.retractHoodforShortDistance();
+
+//RobotContainer.shooter.stopShooter();
+RobotContainer.shooter.stopFeeder();
+RobotContainer.hopper.turnOff();
+//RobotContainer.turret.resetTurretForward();
+//RobotContainer.shooter.lowerHoodForTrench();
 
     // Shoot
     //    RobotContainer.shoot.schedule();  
-    driveTrain.driveAlongAngle(3, 0.0);  
+
     driveTrain.turnToHeading(-60);
-    RobotContainer.intake.deploy();
     driveTrain.driveAlongAngle(6, -60); 
     driveTrain.turnToHeading(0.0);  
-    driveTrain.driveAlongAngle(6, 0.0); 
-    //RobotContainer.intake.intakeOff(); 
-    driveTrain.turnToHeading(-23); 
-    driveTrain.driveAlongAngle(-14, -23); 
+    RobotContainer.intake.deploy();
+    driveTrain.driveAlongAngle(3, 0.0); 
+    driveTrain.driveAlongAngle(3, 0.0); 
+    driveTrain.driveAlongAngle(3, 0.0); 
+    // driveTrain.driveAlongAngle(2.0, 0.0); 
+    driveTrain.turnToHeading(-28);
+    RobotContainer.intake.retract();
+    driveTrain.driveAlongAngle(-12.75, -28); 
+    RobotContainer.intake.deploy();
     driveTrain.turnToHeading(0.0);
 //    RobotContainer.shoot.schedule();    
-    
+   
+//AimTurret aimTurret = new AimTurret(RobotContainer.turret);
+// aimTurret.schedule();
+//CommandScheduler.getInstance().schedule(aimTurret);
+
+
+//Timer.delay(3);   
+RobotContainer.shooter.feedAndFire();
+Timer.delay(2);
+//if (aimTurret.isScheduled()) {
+//aimTurret.cancel();
+//}
+RobotContainer.shooter.retractHoodforShortDistance();
+
+RobotContainer.shooter.stopShooter();
+RobotContainer.shooter.stopFeeder();
+RobotContainer.hopper.turnOff();
+//RobotContainer.turret.resetTurretForward();
+RobotContainer.shooter.lowerHoodForTrench();
+
     HelperMethods.allAutoEnd();
   }
 }

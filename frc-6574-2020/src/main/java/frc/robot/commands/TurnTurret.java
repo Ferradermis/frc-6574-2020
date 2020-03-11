@@ -31,10 +31,8 @@ public class TurnTurret extends CommandBase {
   public void execute() {
     // Read data from joystick and turn turret per joystick positioning
     double x = RobotContainer.oi.getOperatorRightX();
-    if ((Math.abs(x) <= 0.05)) {
+    if ((Math.abs(x) <= 0.25)) {
       x = 0;
-      cancel();
-      return;
     }
 
     turret.turn(x*THROTTLE);   
@@ -49,6 +47,7 @@ public class TurnTurret extends CommandBase {
   // Called once after isFinished returns true
   @Override
   public void end(boolean interrupted) {
+    turret.turn(0);
   }
 
 }

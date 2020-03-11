@@ -30,7 +30,7 @@ public class Shoot extends CommandBase {
   public void initialize() {
     RobotContainer.aimTurret.schedule();
     shooter.raiseHoodForShooting();
-    Timer.delay(.2);
+    Timer.delay(.4);
     shooter.extendHoodForLongDistance();
     distanceToTarget = 138;
   }
@@ -66,7 +66,7 @@ public class Shoot extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     shooter.retractHoodforShortDistance();
-    Timer.delay(.1);
+    Timer.delay(.4);
     if (RobotContainer.aimTurret.isScheduled()) {
       RobotContainer.aimTurret.cancel();
     }
