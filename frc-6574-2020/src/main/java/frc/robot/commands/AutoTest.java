@@ -28,7 +28,7 @@ public class AutoTest extends InstantCommand {
     HelperMethods.allAutoStart();
         
    driveTrain.driveAlongAngle(2, 0);
-   RobotContainer.shoot.schedule();;
+   RobotContainer.shoot.schedule();
 
     
     HelperMethods.allAutoEnd();
