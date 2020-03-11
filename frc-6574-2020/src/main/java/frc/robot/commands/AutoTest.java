@@ -21,6 +21,8 @@ public class AutoTest extends SequentialCommandGroup {
                 new InstantCommand(()->HelperMethods.allAutoStart()),
                 new DriveAlongAngle(2, 0),
                new TurnToHeading(-45),
+               // THEN TRY
+               // new AutoShootCommand(),
                 // new DriveAlongAngle(2, -45),
                 // new TurnToHeading(0),
                 // new DriveAlongAngle(5, 0, .75),
