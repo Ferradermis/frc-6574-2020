@@ -30,7 +30,6 @@ public class HelperMethods {
     }
 
     public static void allAutoEnd() {
-        RobotContainer.shoot.cancel();
         double endTime = Timer.getFPGATimestamp();
         SmartDashboard.putNumber("Run Time of Autonomous: ", (endTime - autoStartTime));
     }

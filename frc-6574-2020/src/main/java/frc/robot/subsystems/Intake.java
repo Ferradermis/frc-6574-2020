@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Hopper;
 
 public class Intake extends SubsystemBase {
   /**

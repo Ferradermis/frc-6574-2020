@@ -40,7 +40,7 @@ public class AutoPlanAShoots6 extends InstantCommand {
 //    (new TurnTurretAtStart(RobotContainer.turret)).schedule();
     //).andThen(RobotContainer.shoot).schedule();
     // Shoot
-    RobotContainer.shoot.withTimeout(8).schedule(); 
+   // RobotContainer.shoot.withTimeout(8).schedule(); 
     Timer.delay(8);   
     driveTrain.turnToHeading(PlanAHeading1);
     driveTrain.driveAlongAngle(PlanASideA, 1, PlanAHeading1); 
@@ -51,7 +51,7 @@ public class AutoPlanAShoots6 extends InstantCommand {
     driveTrain.turnToHeading(PlanAHeading2); 
     driveTrain.driveAlongAngle(PlanASideC, -1, PlanAHeading2); 
     driveTrain.turnToHeading(0.0);
-    RobotContainer.shoot.withTimeout(8).schedule(); 
+   // RobotContainer.shoot.withTimeout(8).schedule(); 
     Timer.delay(8);   
     
     HelperMethods.allAutoEnd();
