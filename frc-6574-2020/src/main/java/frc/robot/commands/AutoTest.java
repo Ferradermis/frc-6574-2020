@@ -20,7 +20,7 @@ public class AutoTest extends SequentialCommandGroup {
                 new InstantCommand(()->RobotContainer.shooter.defaultShooterOn()),
                 new InstantCommand(()->HelperMethods.allAutoStart()),
                 new DriveAlongAngle(2, 0),
-               new TurnToHeading(-45),
+                new TurnToHeading(-45),
                // THEN TRY
                // new AutoShootCommand(),
                 // new DriveAlongAngle(2, -45),

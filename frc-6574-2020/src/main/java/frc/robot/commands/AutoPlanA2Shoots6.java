@@ -70,7 +70,8 @@ RobotContainer.hopper.turnOff();
     driveTrain.driveAlongAngle(6, -60); 
     driveTrain.turnToHeading(0.0);  
     RobotContainer.intake.deploy();
-    driveTrain.driveAlongAngle(3, 0.0); 
+    // use new DriveAlongAngle command with slower speed
+    driveTrain.driveAlongAngle(9, 0.0); 
     driveTrain.driveAlongAngle(3, 0.0); 
     driveTrain.driveAlongAngle(3, 0.0); 
     // driveTrain.driveAlongAngle(2.0, 0.0); 
