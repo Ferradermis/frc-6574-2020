@@ -31,7 +31,7 @@ public class Limelight extends SubsystemBase {
       SmartDashboard.putNumber("Limelight X", getAngleX());
       SmartDashboard.putNumber("Limelight Y", getAngleY());
       SmartDashboard.putNumber("Limelight Y", getSkew());
-      SmartDashboard.putNumber("Distance to target: ", getDistanceToTarget());
+      SmartDashboard.putNumber("Distance to target: ", getDistanceToTarget(-1));
       SmartDashboard.putNumber("Limelight Pipeline:", limelight.getEntry("pipeline").getDouble(3));
 
     }
@@ -89,7 +89,11 @@ public class Limelight extends SubsystemBase {
     }
 
 
-    public double getDistanceToTarget() {
+    public double getDistanceToTarget(double defaultDistance) {
+        if (!hasTarget()) {
+            return defaultDistance;
+        }
+
         //All calculations are in centimeters
         final double h2 = 86.36; //height of target
         final double h1 = 25.4; //height of camera

@@ -138,7 +138,7 @@ public class RobotContainer {
 
  
 
-    oi.operator_rightTrigger.whenPressed(shoot).whenReleased(()->shoot.cancel());
+    oi.operator_rightTrigger.whenPressed(new ShootCommand(shooter)).whenReleased(new StopShooting(shooter));
 
     oi.operator_leftTrigger.whenPressed(()->shooter.testspin())
                 .whenReleased(()->shooter.teststop());

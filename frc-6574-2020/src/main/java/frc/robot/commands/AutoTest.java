@@ -8,31 +8,37 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.subsystems.DriveTrain;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
-import edu.wpi.first.wpilibj.Timer;
 
 
-public class AutoTest extends InstantCommand {
 
-  DriveTrain driveTrain;
+public class AutoTest extends SequentialCommandGroup {
   
- 
-  public AutoTest(DriveTrain driveTrain) {
-    this.driveTrain = driveTrain;
-    addRequirements(driveTrain);
-  }
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    HelperMethods.allAutoStart();
-        
-   driveTrain.driveAlongAngle(2, 0);
-   RobotContainer.shoot.schedule();
-   Timer.delay(10);
-   driveTrain.driveAlongAngle(2, 0);
-    
-    HelperMethods.allAutoEnd();
+  public AutoTest() {
+    addCommands(
+                new InstantCommand(()->RobotContainer.shooter.defaultShooterOn()),
+                new InstantCommand(()->HelperMethods.allAutoStart()),
+                new DriveAlongAngle(2, 0),
+                new TurnToHeading(-45),
+                new DriveAlongAngle(2, -45),
+                new TurnToHeading(0),
+                new DriveAlongAngle(5, 0, .75),
+                new InstantCommand(()->HelperMethods.allAutoEnd())
+              );
   }
 }
+
+  // Called when the command is initially scheduled.
+//  @Override
+//  public void initialize() {
+//    HelperMethods.allAutoStart();
+        
+  // driveTrain.driveAlongAngle(2, 0);
+  // RobotContainer.shoot.schedule();
+  // Timer.delay(10);
+  // driveTrain.driveAlongAngle(2, 0);
+    
+//    HelperMethods.allAutoEnd();
+//  }
+//}

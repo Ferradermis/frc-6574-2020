@@ -13,6 +13,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotContainer;
 
 public class Turret extends SubsystemBase {
   /**
@@ -70,6 +72,15 @@ public class Turret extends SubsystemBase {
  //   System.out.println("Turret Rotator using AS5800  at end: " + encoder.getPwmPosition());
  }
  */
+public void stopAiming()
+{
+  stopTurning();
+  
+  Command command = this.getCurrentCommand();
+  if (command.getClass() == RobotContainer.aimTurret.getClass()) {
+   command.cancel();
+  }
+}
 
 public void setTarget(String targetName) {
   int targetNumber = 0;

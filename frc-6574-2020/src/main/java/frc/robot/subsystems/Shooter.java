@@ -97,7 +97,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void stopShooter() {
-    stopFeeder();
+    stopFiring();
     shooterLeft.set(ControlMode.PercentOutput, 0);
     defaultShooterOn();
   }
