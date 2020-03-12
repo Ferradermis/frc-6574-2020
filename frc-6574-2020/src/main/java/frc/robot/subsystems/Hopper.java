@@ -42,6 +42,10 @@ public class Hopper extends SubsystemBase {
     hopperMotor.set(0);
     agitatorMotor.set(0);
   }
+  public void reverseForIntake() {
+    hopperMotor.set(-HopperSpeedIntake);
+    agitatorMotor.set(-AgitatorSpeed/2);
+  }
 
 /*  public void testAgitator(){
     agitatorMotor.set(RobotContainer.oi.getOperatorLeftTrigger());  
@@ -49,10 +53,6 @@ public class Hopper extends SubsystemBase {
   }
 */
 
-  public void reverseForIntake() {
-    hopperMotor.set(-HopperSpeedIntake);
-    agitatorMotor.set(-AgitatorSpeed/2);
-  }
 
   private void configureMotors() {
     double rampRate = 0.2;

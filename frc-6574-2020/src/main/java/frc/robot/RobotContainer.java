@@ -109,11 +109,9 @@ public class RobotContainer {
   oi.driver_yButton.whenPressed(()->turret.limelight.ledOn());
   oi.driver_xButton.whenPressed(()->turret.limelight.ledOff());
 
-  oi.driver_bButton.whenPressed(()->shooter.feedAndFire())
-  .whenReleased(()->shooter.stopFiring());
+  oi.driver_bButton.whenPressed(()->shooter.feedAndFire()).whenReleased(()->shooter.stopFiring());
 
-  
-  oi.driver_aButton.whenPressed(aimTurret).whenReleased(()->aimTurret.cancel());
+  oi.driver_aButton.whenPressed(new AimTurret(turret)).whenReleased(()->turret.stopAiming());
 
 /*
     Operator joystick LEFT = raise and lower climber
@@ -135,8 +133,6 @@ public class RobotContainer {
 
               
     oi.operator_aButton.whenPressed(climb);  // schedules ClimbUpAndDown for endgame
-
- 
 
     oi.operator_rightTrigger.whenPressed(new ShootCommand(shooter)).whenReleased(new StopShooting(shooter));
 

@@ -21,8 +21,6 @@ public class ShootCommand extends SequentialCommandGroup {
       new PrepForShooting(shooter),
 
       new JustShoot(shooter)
-    );
-
-      
+    );    
   }
 }

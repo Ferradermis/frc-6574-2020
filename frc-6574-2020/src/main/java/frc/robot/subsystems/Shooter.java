@@ -191,7 +191,7 @@ public class Shooter extends SubsystemBase {
 // PEAK RPM of Wheel = 7975 RPM
 
 
-// kF of .051 and kP of .015 is the best we have achieved
+// kF of .051 and kP of .1 is the best we have achieved
 
     double kF = .051; //1023 / 21777; // This equals: 0.047
     double kP = .10;  // this is close...
