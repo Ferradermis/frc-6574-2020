@@ -77,8 +77,10 @@ public void stopAiming()
   stopTurning();
   
   Command command = this.getCurrentCommand();
-  if (command.getClass() == RobotContainer.aimTurret.getClass()) {
-   command.cancel();
+  if (command!=null) {
+    if (command.getClass().equals(RobotContainer.aimTurret.getClass())) {
+      command.cancel();
+    }
   }
 }
 
