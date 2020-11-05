@@ -66,6 +66,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+<<<<<<< Updated upstream
     // Driver Buttons
   //  oi.operator_xButton.whenPressed(()->shooter.raiseHoodForShooting())
   //              .whenReleased(()->shooter.lowerHoodForTrench());
@@ -96,6 +97,77 @@ public class RobotContainer {
 //     .whenReleased(()->hopper.turnOff());
 
      
+=======
+    /*
+    * INTENDED MAPPINGS:
+    Driver joystick LEFT = drivetrain forward and reverse
+    Driver joystick RIGHT  = drivetrain left and right
+    Right Trigger  = start automatic shoot sequence
+    Driver button B = AVAILABLE
+    Driver button A = run feed and fire when pressed, stop when released
+    Driver button X = AVAILABLE
+    Driver button Y = AVAILABLE
+
+    Driver POV's = AVAILABLE
+    
+    WE CAN TRY TO RUMBLE ON CERTAIN CONDITIONS:
+    (e.g. end game, shooting, no target, etc..)
+*/
+
+  oi.driver_rightBumper.whenPressed(()->intake.deployOrRetract());
+  oi.driver_leftTrigger.whenPressed(()->intake.reverseOn())
+              .whenReleased(()->intake.turnOn()); 
+
+  oi.driver_yButton.whenPressed(()->turret.limelight.ledOn());
+  oi.driver_xButton.whenPressed(()->turret.limelight.ledOff());
+
+  oi.driver_bButton.whenPressed(()->shooter.feedAndFire())
+  .whenReleased(()->shooter.stopFiring());
+
+  
+  oi.driver_aButton.whenPressed(aimTurret).whenReleased(()->aimTurret.cancel());
+
+/*
+    Operator joystick LEFT = raise and lower climber
+    Operator joystick RIGHT  = turn turret counterclockwise and clockwise
+    Operator button X = deploy intake, spin (& spin hopper) and retract intake
+    Operator button Y = reverse spin intake on press; forward spin on release
+    Operator button B = AVAILABLE
+    Operator button A = ENDGAME: Climbing mode
+    Operator POV up = raise trench hood (assumes not auto-shooting)
+    Operator POV right = extend distance hood (assumes not auto-shooting)
+    Operator POV left = retract distance hood (assume not auto-shooting)
+    Operator POV down = retract distance hood and lower trench hood (assumes not auto-shooting)
+    Operator right bumper = spin hopper forward (for testing or unjamming balls in game play)
+    Operator left bumper = spin hopper backward (for testing or unjamming balls in game play)
+    Operator right trigger = spin shooter on press; stop shooter on release
+
+    Could use operator POV to control velocity of shooter; turn hopper, etc..
+    */
+
+              
+    oi.operator_aButton.whenPressed(climb);  // schedules ClimbUpAndDown for endgame
+
+ 
+
+    oi.operator_rightTrigger.whenPressed(shoot).whenReleased(()->shoot.cancel());
+
+    oi.operator_leftTrigger.whenPressed(()->shooter.testspin())
+                .whenReleased(()->shooter.teststop());
+            
+    oi.operator_rightBumper.whenPressed(()->hopper.turnOnForIntake())
+                .whenReleased(()->hopper.turnOff());
+    oi.operator_leftBumper.whenPressed(()->hopper.reverseForIntake())
+                .whenReleased(()->hopper.turnOff());
+
+    oi.operator_upDpad.whenPressed(()->shooter.raiseHoodForShooting());
+    oi.operator_downDpad.whenPressed(()->shooter.lowerHoodForTrench());
+    oi.operator_rightDpad.whenPressed(()->shooter.extendHoodForLongDistance());
+    oi.operator_leftDpad.whenPressed(()->shooter.retractHoodforShortDistance());
+ 
+ // just for testing
+ // oi.operator_bButton.whileActiveContinuous(()->hopper.testAgitator());
+>>>>>>> Stashed changes
   }
 
 

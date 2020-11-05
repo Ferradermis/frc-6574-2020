@@ -22,6 +22,22 @@ public class Limelight extends SubsystemBase {
     {
         ledOff();
     }
+<<<<<<< Updated upstream
+=======
+
+    @Override
+    public void periodic() {
+      // This method will be called once per scheduler run
+      SmartDashboard.putBoolean("Limelight has target?", hasTarget());
+//      SmartDashboard.putNumber("Limelight X", getAngleX());
+    //   SmartDashboard.putNumber("Limelight Y", getAngleY());
+    //   SmartDashboard.putNumber("Distance to target: ", getDistanceToTarget());
+      SmartDashboard.putNumber("Limelight Pipeline:", limelight.getEntry("pipeline").getDouble(3));
+
+    }
+  
+
+>>>>>>> Stashed changes
     public void setTarget(int pipeline){
         limelight.getEntry("pipeline").setNumber(pipeline);
     }

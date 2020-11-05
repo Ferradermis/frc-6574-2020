@@ -58,10 +58,21 @@ public class RobotMap {
   public static final int SHIFTER_ID_FORWARD = 1;
 
   /** Hatch intake solenoid ID. */
+<<<<<<< Updated upstream
   public static final int HOOD_TRENCH_ID1 = 5;
   public static final int HOOD_TRENCH_ID2 = 4;
   public static final int HOOD_ANGLE_ID1 = 2;
   public static final int HOOD_ANGLE_ID2 = 3;
   public static final int INTAKE_EXTENDER_ID1 = 0;  
   public static final int INTAKE_EXTENDER_ID2 = 1;
+=======
+  public static final int HOOD_TRENCH_ID1 = 2;
+  public static final int HOOD_TRENCH_ID2 = 3;
+  public static final int HOOD_ANGLE_ID1 = 0;
+  public static final int HOOD_ANGLE_ID2 = 1;
+  public static final int INTAKE_EXTENDER_ID1 = 4;  
+  public static final int INTAKE_EXTENDER_ID2 = 5;
+  public static final int CLIMBER_EXTENDER_ID1 = 6;  
+  public static final int CLIMBER_EXTENDER_ID2 = 7;
+>>>>>>> Stashed changes
 }
