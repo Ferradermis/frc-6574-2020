@@ -140,7 +140,7 @@ public class Shooter extends SubsystemBase {
 
   public void defaultShooterOn()
   {
-    shooterLeft.set(ControlMode.PercentOutput,.5);
+    shooterLeft.set(ControlMode.PercentOutput, 0);
   }
 
   public void defaultShooterOff()
