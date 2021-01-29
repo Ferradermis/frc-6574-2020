@@ -8,23 +8,23 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Turret;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.Shooter;
 
-public class AimTurret extends CommandBase {
+public class ShootAtRPM extends CommandBase {
   /**
-   * Creates a new AimTurret command.
+   * Creates a new ShootingGreenZone.
    */
+  Shooter shooter;
+  double RPM;
 
-  private double turnKP = .06;
-//  private double MAXROTATION = 45;
-
-  Turret turret;
-
-  public AimTurret(Turret turret) {
+  public ShootAtRPM(Shooter shooter, double RPM) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(turret);
-    this.turret = turret;
+    addRequirements(shooter);
+  this.shooter =shooter;
+  this.RPM = RPM;
   }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -33,23 +33,17 @@ public class AimTurret extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (turret.limelight.hasTarget()) {
-      double angleX = turret.limelight.getAngleX();
-     // if (Math.abs(turret.currentDirection())<MAXROTATION) {
-        turret.turn(angleX*turnKP); // copysign Deleted
-     // }  else {
-     //   this.cancel();
-     // }
-    } else {
-      this.cancel();
-    }
+    shooter.setVelocity(RPM);
+    if (RobotContainer.turret.limelight.aimedAtTarget() && shooter.shooterReady(RPM)) {
+      shooter.feedAndFire();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    turret.stopTurning();
-  }
+      if (RobotContainer.aimTurret.isScheduled()) {
+        RobotContainer.aimTurret.cancel();
+    }
 
   // Returns true when the command should end.
   @Override

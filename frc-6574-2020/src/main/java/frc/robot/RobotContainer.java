@@ -112,6 +112,15 @@ public class RobotContainer {
   oi.driver_bButton.whenPressed(()->shooter.feedAndFire()).whenReleased(()->shooter.stopFiring());
 
   oi.driver_aButton.whenPressed(new AimTurret(turret)).whenReleased(()->turret.stopAiming());
+/*
+   ShootAtRPMgreenZone = new ShootAtRPM(shooter, 2000);
+  oi.driver_aButton.whenPressed(greenZone)
+  ShootAtRPM yellowZone = new ShootAtRPM(shooter, 2500);
+  oi.driver_aButton.whenPressed(yellowZone)
+  ShootAtRPM blueZone = new ShootAtRPM(shooter, 3000);
+  oi.driver_aButton.whenPressed(blueZone)
+  ShootAtRPM redZone = new ShootAtRPM(shooter, 3500);
+  oi.driver_aButton.whenPressed(redZone)
 
 /*
     Operator joystick LEFT = raise and lower climber
