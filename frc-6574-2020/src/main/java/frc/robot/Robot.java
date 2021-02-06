@@ -16,9 +16,9 @@ import edu.wpi.cscore.MjpegServer;
 public class Robot extends TimedRobot {
 
   private RobotContainer robotContainer;
-  private UsbCamera camera;
-  private CameraServer cameraServer;
-  MjpegServer mjpegServer;
+  //private UsbCamera camera;
+  //private CameraServer cameraServer;
+  //MjpegServer mjpegServer;
   //320 x240
   // 20 compression
  // private String gameData;
@@ -28,14 +28,14 @@ public class Robot extends TimedRobot {
     robotContainer = new RobotContainer();
     RobotContainer.compressor.start();   //compressor init code
     
-    cameraServer = CameraServer.getInstance();
-    camera = new UsbCamera("USB Camera 0", 0);
-    cameraServer.addCamera(camera);
-    mjpegServer = cameraServer.addServer("mjpeg USB Camera");
-    mjpegServer.setSource(camera);
-    mjpegServer.setCompression(30);
-    mjpegServer.setResolution(320, 240);
-    mjpegServer.setFPS(15);
+   // cameraServer = CameraServer.getInstance();
+   // camera = new UsbCamera("USB Camera 0", 0);
+   // cameraServer.addCamera(camera);
+   // mjpegServer = cameraServer.addServer("mjpeg USB Camera");
+   // mjpegServer.setSource(camera);
+   // mjpegServer.setCompression(30);
+   // mjpegServer.setResolution(320, 240);
+   // mjpegServer.setFPS(15);
   
 // THIS IS WHAT WORKED IN DULUTH
 //  camera = cameraServer.startAutomaticCapture();
@@ -45,9 +45,6 @@ public class Robot extends TimedRobot {
 //    PortForwarder.add(5800,"limelight.local",5800);
 //    PortForwarder.add(5801,"limelight.local",5801);
 //    PortForwarder.add(5805,"limelight.local",5805);
-
-    // documentation says this is "true" by default, so commenting out
-    // RobotContainer.compressor.setClosedLoopControl(true);
   }
 
   @Override

@@ -11,16 +11,15 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+import frc.robot.RobotMap;
 
 public class Turret extends SubsystemBase {
   /**
    * Creates a new Turret.
    */
-
   // rotator vexPro775
   private TalonSRX turretRotator = new TalonSRX(RobotMap.TURRET_CAN_ID);
 
@@ -47,6 +46,14 @@ public class Turret extends SubsystemBase {
     turretRotator.set(ControlMode.PercentOutput, 0);
   }
 
+  public void turnLeft() {
+    turretRotator.set(ControlMode.PercentOutput, .25);
+  }
+
+  public void turnRight() {
+    turretRotator.set(ControlMode.PercentOutput, .25);
+  }
+
   public void turn(double speed){
     turretRotator.set(ControlMode.PercentOutput, speed);
   }
@@ -56,22 +63,6 @@ public class Turret extends SubsystemBase {
   }
 */
 
-/*public void testTurnTurret()
-  {
-  //  turretRotator.getSensorCollection().setPulseWidthPosition(0, 60);
-    System.out.println("Turret Rotator sensor at start: " + turretRotator.getSelectedSensorPosition());
-    System.out.println("Turret Rotator PWM  at start: " + turretRotator.getSensorCollection().getPulseWidthRiseToFallUs());
-//    System.out.println("Turret Rotator using AS5800  at start: " + encoder.getPwmPosition());
-    
-    turretRotator.set(ControlMode.PercentOutput,-.35);
-    Timer.delay(.5);
-    turretRotator.set(ControlMode.PercentOutput,0);
-    Timer.delay(.5);
-    System.out.println("Turret Rotator sensor at end: " + turretRotator.getSelectedSensorPosition());
-    System.out.println("Turret Rotator PWM  at end: " + turretRotator.getSensorCollection().getPulseWidthRiseToFallUs());
- //   System.out.println("Turret Rotator using AS5800  at end: " + encoder.getPwmPosition());
- }
- */
 public void stopAiming()
 {
   stopTurning();

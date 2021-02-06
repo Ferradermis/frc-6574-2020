@@ -8,10 +8,11 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 //import frc.robot.RobotContainer; //Might remove, doesn't cause errors yet
 import frc.robot.RobotMap;
@@ -22,40 +23,64 @@ public class Climber extends SubsystemBase {
    */
   final double ClimberSpeed = 0.50;
 
-  public CANSparkMax Climb1Motor = new CANSparkMax(RobotMap.CLIMB1_CAN_ID, MotorType.kBrushless);
-  public CANSparkMax Climb2Motor = new CANSparkMax(RobotMap.CLIMB2_CAN_ID, MotorType.kBrushless);
+  public CANSparkMax elevator = new CANSparkMax(RobotMap.ELEVATOR_CAN_ID, MotorType.kBrushless);
+  public CANSparkMax winch = new CANSparkMax(RobotMap.WINCH_CAN_ID, MotorType.kBrushless);
   public DoubleSolenoid climberDeploy = new DoubleSolenoid(RobotMap.CLIMBER_EXTENDER_ID2, RobotMap.CLIMBER_EXTENDER_ID1);
 
   final DoubleSolenoid.Value DEPLOYED = DoubleSolenoid.Value.kForward;
   final DoubleSolenoid.Value RETRACTED = DoubleSolenoid.Value.kReverse;
   
+  final double elevatorSpeed = .15;
+
   public Climber() {
     double rampRate = 0.2;
-    int currentLimit = 30; 
+    int currentLimit = 40; 
    
-    Climb1Motor.setOpenLoopRampRate(rampRate); //makes sure it doesn't go too fast when it is about to end?
-    Climb2Motor.setOpenLoopRampRate(rampRate);
+    elevator.setOpenLoopRampRate(rampRate); //makes sure it doesn't go too fast when it is about to end?
+    winch.setOpenLoopRampRate(rampRate);
 
-    Climb1Motor.setSmartCurrentLimit(currentLimit); //will stop power if stuck
-    Climb2Motor.setSmartCurrentLimit(currentLimit);
+    elevator.setSmartCurrentLimit(currentLimit); //will stop power if stuck
+    winch.setSmartCurrentLimit(currentLimit);
 
-    Climb2Motor.setInverted(true);
-
-//    Climb2Motor.follow(Climb1Motor);
+    elevator.setInverted(true);
+    elevator.setIdleMode(IdleMode.kBrake);
+    winch.setIdleMode(IdleMode.kBrake);
+  }
+  public void moveElevatorStaticUp() {
+    elevator.set(elevatorSpeed);
   }
 
-  public void move(double y) { 
-    if ((Math.abs(y) <= 0.1)) {
-       Climb1Motor.set(0);
-       Climb2Motor.set(0);
+  public void moveElevatorStaticDown() {
+    elevator.set(-elevatorSpeed);
+  }
+
+  public void stopElevator() {
+    elevator.set(0);
+  }
+ /* public void moveElevator(double yLeft) { 
+    if ((Math.abs(yLeft) <= 0.1)) {
+       elevator.set(0);
+       //winch.set(0);
       return;
     }
 
-    Climb1Motor.set(y);
-    Climb2Motor.set(y);
-    SmartDashboard.putNumber("Climber speed", y);
+    elevator.set(yLeft); 
+    //winch.set(y);
+    //SmartDashboard.putNumber("Climber speed", y);
   }
+  */
 
+  public void moveWinch(double yLeft) { 
+    if ((Math.abs(yLeft) <= 0.1)) {
+       //elevator.set(0);
+       winch.set(0);
+      return;
+    }
+
+    
+    winch.set(yLeft);
+    //SmartDashboard.putNumber("Climber speed", y);
+  }
   public void deploy() {
     climberDeploy.set(DEPLOYED);
   }
@@ -67,6 +92,8 @@ public class Climber extends SubsystemBase {
   public boolean retracted() {
     return (climberDeploy.get() == RETRACTED);
   }
+
+
 
  /*  
   @Override

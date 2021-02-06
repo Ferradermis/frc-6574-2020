@@ -5,44 +5,37 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.turretcommands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Turret;
 
-public class AimTurret extends CommandBase {
+public class TurnTurretAtStart extends CommandBase {
   /**
-   * Creates a new AimTurret command.
+   * Creates a new TurnTurretAtStart command.
    */
 
-  private double turnKP = .06;
-//  private double MAXROTATION = 45;
 
   Turret turret;
+  double startTime;
 
-  public AimTurret(Turret turret) {
+  public TurnTurretAtStart(Turret turret) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(turret);
     this.turret = turret;
   }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    startTime = Timer.getFPGATimestamp();   
+    turret.turn(-.5);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    if (turret.limelight.hasTarget()) {
-      double angleX = turret.limelight.getAngleX();
-     // if (Math.abs(turret.currentDirection())<MAXROTATION) {
-        turret.turn(angleX*turnKP); // copysign Deleted
-     // }  else {
-     //   this.cancel();
-     // }
-    } else {
-      this.cancel();
-    }
+  public void execute() {  
   }
 
   // Called once the command ends or is interrupted.
@@ -54,6 +47,6 @@ public class AimTurret extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (((Timer.getFPGATimestamp()-startTime) > .3) || (turret.limelight.hasTarget()));
   }
 }

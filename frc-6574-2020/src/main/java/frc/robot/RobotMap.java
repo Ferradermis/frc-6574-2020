@@ -15,51 +15,41 @@ package frc.robot;
  */
 public class RobotMap {
 
-  /*
-    PWM port values
-  */
+  //-----PWM ID values-----\\
   public static final int BLINKIN_ID = -1;
 
-  /*
-    CAN ID values
-  */
-  /** Front left drive train motor CAN ID. */
-  public static final int FRONT_LEFT_CAN_ID = 1;
-  /** Back left drive train motor CAN ID. */
-  public static final int BACK_LEFT_CAN_ID = 2;
-  /** Front right drive train motor CAN ID. */
-  public static final int FRONT_RIGHT_CAN_ID =3;
-  /** Back right drive train motor CAN ID. */
-  public static final int BACK_RIGHT_CAN_ID = 4;
+  //-----CAN ID values-----\\
 
-  /** Shooter motors CAN ID */
+  /** Drivetrain */
+  public static final int FRONT_LEFT_CAN_ID = 1;
+  public static final int BACK_LEFT_CAN_ID = 2;
+  public static final int FRONT_RIGHT_CAN_ID =3;
+  public static final int BACK_RIGHT_CAN_ID = 4;
+  //public static final int THIRD_RIGHT_CAN_ID = 13;
+  //public static final int THIRD_LEFT_CAN_ID = 14;
+
+  /** Shooter */
   public static final int SHOOTERLEFT_CAN_ID = 5;
   public static final int SHOOTERRIGHT_CAN_ID = 6;
 
-  /** Intake motor CAN ID. */
+  /** Climber */
+  public static final int ELEVATOR_CAN_ID = 7;  
+  public static final int WINCH_CAN_ID = 8;
+
+  /** Intake */
   public static final int INTAKE_MOTOR_CAN_ID = 9;
-  
-  /** Hopper motor CAN ID. */
+
+  /** Turret */
+  public static final int TURRET_CAN_ID = 11;  
+
+  /** Hopper */
   public static final int HOPPER_CAN_ID = 10;  
-  public static final int AGITATOR_CAN_ID = 14;
-
   public static final int FEEDER_CAN_ID = 12;
- /**  Turret motor CAN ID. */
- public static final int TURRET_CAN_ID = 11;  
 
- /** Climb motor CAN ID. */
- public static final int CLIMB1_CAN_ID = 7;  
- public static final int CLIMB2_CAN_ID = 8;
+  
+ //-----PCM ID values-----\\
 
-  /*
-    PCM ID values
-  */
-
-  /** Drive train shifter ID. */
-//  public static final int SHIFTER_ID_BACK = 0;
-//  public static final int SHIFTER_ID_FORWARD = 1;
-
-  /** Hatch intake solenoid ID. */
+  /** Solenoids */
   public static final int HOOD_TRENCH_ID1 = 1;
   public static final int HOOD_TRENCH_ID2 = 3;
   public static final int HOOD_ANGLE_ID1 = 0;
@@ -69,3 +59,5 @@ public class RobotMap {
   public static final int CLIMBER_EXTENDER_ID1 = 6;  
   public static final int CLIMBER_EXTENDER_ID2 = 7;
 }
+
+//BACK_RIGHT_CAN_ID

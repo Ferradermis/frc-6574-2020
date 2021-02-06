@@ -5,28 +5,26 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.drivetraincommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.DriveTrain;
 
-public class ClimbUpandDown extends CommandBase {
+public class ArcadeDrive extends CommandBase {
 
-  private  Climber climber;
+  private DriveTrain driveTrain;
   final double THROTTLE = 1; // controls speed via joystick; useful for test driving
                               // set to 1 for normal drive speed
 
-  public ClimbUpandDown(Climber climber) {
-    this.climber = climber;
-    addRequirements(climber);
+  public ArcadeDrive(DriveTrain driveTrain) {
+    this.driveTrain = driveTrain;
+    addRequirements(driveTrain);
   }
 
   // Called just before this Command runs the first time
   @Override
   public void initialize() {
-    RobotContainer.shooter.defaultShooterOff();
-    climber.retract();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -34,15 +32,18 @@ public class ClimbUpandDown extends CommandBase {
 
   @Override
   public void execute() {
-  
+    double steer_cmd=0;
+    double drive_cmd=0;
 
     // Read data from joystick and drive per joystick positioning
-    if (climber.retracted()){
-      double y = RobotContainer.oi.getOperatorLeftY(); //Operator Controller is used
-    
+    double y = RobotContainer.oi.getDriverLeftY();
+    double x = -RobotContainer.oi.getDriverRightX(); 
+  
+    drive_cmd = Math.pow(y, 1);       // cubing y makes it more "sensitive", maybe need to adjust deadbands
+    steer_cmd = Math.pow(x, 1) / 2; // cubing x and /2 makes it more "sensitive", maybe need to adjust deadbands
+  
     // throttle is constant that controls "speed" of robot; helpful in testing in small areas
-      climber.move(y);
-    }   
+    driveTrain.arcadeDrive(drive_cmd*THROTTLE, steer_cmd*THROTTLE);   
   }
 
   // Make this return true when this Command no longer needs to run execute()

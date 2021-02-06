@@ -8,9 +8,9 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
-
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
@@ -28,6 +28,8 @@ public class DriveTrain extends SubsystemBase {
   private WPI_TalonFX backLeft = new WPI_TalonFX(RobotMap.BACK_LEFT_CAN_ID);
   private WPI_TalonFX frontRight = new WPI_TalonFX(RobotMap.FRONT_RIGHT_CAN_ID);
   private WPI_TalonFX backRight = new WPI_TalonFX(RobotMap.BACK_RIGHT_CAN_ID);
+  //private WPI_TalonFX thirdRight = new WPI_TalonFX(RobotMap.THIRD_RIGHT_CAN_ID);
+  //private WPI_TalonFX thirdLeft = new WPI_TalonFX(RobotMap.THIRD_LEFT_CAN_ID);
 
   // following variable are used in turnToHeading and driveAlongAngle
   final double MaxDriveSpeed = 0.45;
@@ -55,7 +57,7 @@ public class DriveTrain extends SubsystemBase {
    */
   public void arcadeDrive(double drive, double steer) {
     // if steer and drive are both too low, stop the motors and end
-    if ((Math.abs(drive) <= 0.05) && (Math.abs(steer) <= 0.05)) {
+    if ((Math.abs(drive) <= 0.00) && (Math.abs(steer) <= 0.00)) {
       stop();
       return;
     }
@@ -69,8 +71,8 @@ public class DriveTrain extends SubsystemBase {
     if (rightSpeed  > 1) {rightSpeed = 1;}
      else if (rightSpeed < -1) {rightSpeed = -1;}
    
-     frontLeft.set(ControlMode.PercentOutput,leftSpeed);
-     frontRight.set(ControlMode.PercentOutput,rightSpeed);
+     frontLeft.set(ControlMode.PercentOutput,-leftSpeed);
+     frontRight.set(ControlMode.PercentOutput,-rightSpeed);
   }
 
     /**
@@ -197,25 +199,38 @@ public class DriveTrain extends SubsystemBase {
 
   private void configureMotors() {
 
-    double rampRate = 0.5; //time in seconds to go from 0 to full throttle
+    double rampRate = 0.35; //time in seconds to go from 0 to full throttle
 
     gyro.enableLogging(false);
 
     backLeft.follow(frontLeft);
     backRight.follow(frontRight);
+    //thirdRight.follow(frontRight);
+    //thirdLeft.follow(frontRight);
 
     frontLeft.configFactoryDefault();
     frontRight.configFactoryDefault();
     backLeft.configFactoryDefault();
     backRight.configFactoryDefault();
+    //thirdRight.configFactoryDefault();
+    //thirdLeft.configFactoryDefault();
 
     frontLeft.configOpenloopRamp(rampRate);
     backLeft.configOpenloopRamp(rampRate);
     frontRight.configOpenloopRamp(rampRate);
     backRight.configOpenloopRamp(rampRate);
+    //thirdLeft.configOpenloopRamp(rampRate);
+    //thirdRight.configOpenloopRamp(rampRate);
 
     frontRight.setInverted(true);
     backRight.setInverted(true);
+    //thirdRight.setInverted(true);
+
+
+    frontLeft.setNeutralMode(NeutralMode.Brake);
+    backLeft.setNeutralMode(NeutralMode.Brake);
+    frontRight.setNeutralMode(NeutralMode.Brake);
+    backRight.setNeutralMode(NeutralMode.Brake);
 
 // no current limit set on drivetrain    
 // int currentLimit = 30; //int because .setSmartCurrentLimit takes only ints, not doubles. Which makes sense programmatically. 
@@ -230,6 +245,7 @@ public class DriveTrain extends SubsystemBase {
     frontRight.config_kP(0, kP);
     backLeft.config_kP(0, kP);
     backRight.config_kP(0, kP);
+    thirdLeft.config_kP(0, kP);
 
   //  frontLeft.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
   //  frontRight.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);

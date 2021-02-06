@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.shootercommands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
+import frc.robot.commands.turretcommands.AimTurret;
 import frc.robot.subsystems.Shooter;
 
 public class PrepForShooting extends SequentialCommandGroup {
@@ -27,7 +28,7 @@ public class PrepForShooting extends SequentialCommandGroup {
       new ParallelCommandGroup(
         new SequentialCommandGroup(
           new InstantCommand(()->shooter.raiseHoodForShooting()),
-          new WaitCommand(.4),
+          new WaitCommand(.1),
           new InstantCommand(shooter::extendHoodForLongDistance, shooter)
          ),
         new ScheduleCommand(new AimTurret(RobotContainer.turret))

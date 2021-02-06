@@ -5,49 +5,53 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.climbercommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Turret;
+import frc.robot.subsystems.Climber;
 
-public class TurnTurret extends CommandBase {
+public class ClimbUpandDown extends CommandBase {
 
-  private Turret turret;
-  final double THROTTLE = .5; // controls speed via joystick; useful for testing
+  private  Climber climber;
+  final double THROTTLE = 1; // controls speed via joystick; useful for test driving
+                              // set to 1 for normal drive speed
 
-  public TurnTurret(Turret turret) {
-    this.turret = turret;
-    addRequirements(turret);
+  public ClimbUpandDown(Climber climber) {
+    this.climber = climber;
+    addRequirements(climber);
   }
 
   // Called just before this Command runs the first time
   @Override
   public void initialize() {
+    RobotContainer.shooter.defaultShooterOff();
+    climber.retract();
   }
 
   // Called repeatedly when this Command is scheduled to run
+  // NOTE  ALL Limelight code and buttonpressed tests should move to own commands
+
   @Override
   public void execute() {
-    // Read data from joystick and turn turret per joystick positioning
-    double x = RobotContainer.oi.getOperatorRightX();
-    if ((Math.abs(x) <= 0.25)) {
-      x = 0;
-    }
+  
 
-    turret.turn(x*THROTTLE);   
+    // Read data from joystick and drive per joystick positioning
+    if (climber.retracted()){
+      double yLeft = RobotContainer.oi.getOperatorLeftY(); //Operator Controller is used
+      //double yRight = RobotContainer.oi.getOperatorRightY();
+      //climber.moveElevator(yRight);
+      climber.moveWinch(yLeft);
+    }   
   }
 
-  // Make this return true when this Command no longer needs to run execute()
   @Override
   public boolean isFinished() {
     return false;
   }
 
-  // Called once after isFinished returns true
   @Override
   public void end(boolean interrupted) {
-    turret.turn(0);
   }
 
 }

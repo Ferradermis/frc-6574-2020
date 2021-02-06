@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.shootercommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
@@ -38,9 +38,10 @@ public class JustShoot extends CommandBase {
   @Override
   public void execute() {
     distanceToTarget = RobotContainer.turret.limelight.getDistanceToTarget(138); // this is in inches
+    RobotContainer.hopper.turnOnForShooting();
 
 
-    shooter.spin(distanceToTarget);
+    shooter.spin(0);
 
     if (RobotContainer.turret.limelight.aimedAtTarget() && shooter.shooterReady(distanceToTarget)) {
         shooter.feedAndFire();

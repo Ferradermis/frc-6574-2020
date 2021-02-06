@@ -8,14 +8,12 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Timer;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -67,7 +65,7 @@ public class Shooter extends SubsystemBase {
   
   public double calculateTargetVelocity(double distance) {
 
-      return 10500;// + (distance - 120)/12 * 420;
+      return 10500; //NORMAL VALUE 10500 works for autoline, I think? 
   }
 
   public boolean shooterReady(double distance) {
@@ -78,8 +76,8 @@ public class Shooter extends SubsystemBase {
 
   public void feedAndFire() {
     feeder.set(1);
-    Timer.delay(0.25);
-    RobotContainer.hopper.turnOnForShooting();
+    Timer.delay(0.375);
+    //RobotContainer.hopper.turnOnForShooting();
   }
 
   public void setVelocity(double velocity) {
@@ -125,17 +123,6 @@ public class Shooter extends SubsystemBase {
     if (hoodAngle.get() == DoubleSolenoid.Value.kForward) {
       hoodAngle.set(DoubleSolenoid.Value.kReverse);
     }
-  }
-
-  public void testspin(){
-//    shooterLeft.set(ControlMode.PercentOutput, SmartDashboard.getNumber("User Entered Shooter % Speed", .5));
-    shooterLeft.set(ControlMode.Velocity, SmartDashboard.getNumber("User entered Shooter Velocity", 10000));
-//   shooterLeft.set(ControlMode.Velocity, 5000);
-}
-  
-  public void teststop(){
-    shooterLeft.set(ControlMode.PercentOutput,0);  
-    defaultShooterOn();
   }
 
   public void defaultShooterOn()

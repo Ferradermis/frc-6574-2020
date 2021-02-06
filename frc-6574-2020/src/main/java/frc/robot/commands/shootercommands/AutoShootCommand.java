@@ -5,22 +5,29 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.shootercommands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Shooter;
 
-public class ShootCommand extends SequentialCommandGroup {
+// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// information, see:
+// https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
+public class AutoShootCommand extends SequentialCommandGroup {
   /**
    * Creates a new ShootCommand.
    */
-  public ShootCommand(Shooter shooter) {
+  public AutoShootCommand(Shooter shooter) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
       new PrepForShooting(shooter),
 
-      new JustShoot(shooter)
-    );    
+      new JustShoot(shooter).withTimeout(2),
+
+      new StopShooting(shooter)
+    );
+
+      
   }
 }

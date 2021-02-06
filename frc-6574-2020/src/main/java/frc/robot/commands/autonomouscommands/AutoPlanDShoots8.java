@@ -5,30 +5,21 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.autonomouscommands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.commands.HelperMethods;
 //import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
 
 
-public class AutoPlanBShoots5 extends InstantCommand {
-  /**
-   * Creates a new RunAutonomousSequence.
-   */
+public class AutoPlanDShoots8 extends InstantCommand {
+  
   DriveTrain driveTrain;
   
-  // PlanB constants:  Plan B starts in front of outside ball near opponents trench;
-  // retrieve outside ball, retrieve inside ball, drive to target, shoot 5 balls
+  // PLAN D Shoots 3; picks up 5 balls from trench, drives forward and shoots.
 
-  final double PlanBHeading1 = -45.0;
-  final double PlanBHeading2 = 61.20;
-  final double PlanBSideA = 10.83;
-  final double PlanBSideB = 2.25;
-  final double PlanBSideC = 3.25;
-  final double PlanBSideD = 12.25; // 19.25
-  
-  public AutoPlanBShoots5(DriveTrain driveTrain) {
+  public AutoPlanDShoots8(DriveTrain driveTrain) {
     this.driveTrain = driveTrain;
     addRequirements(driveTrain);
   }
@@ -38,19 +29,21 @@ public class AutoPlanBShoots5 extends InstantCommand {
   public void initialize() {
     HelperMethods.allAutoStart();
 //    (new TurnTurretAtStart(RobotContainer.turret)).schedule();
-
-    // START NEAR OPPONENTS LOADING BAY, 
-    // drive backward to get two power cells in opponent trench run
-    driveTrain.driveAlongAngle(PlanBSideA, 1, 0.0);
-    driveTrain.driveAlongAngle(PlanBSideB, -1, 0.0);
-    driveTrain.turnToHeading(PlanBHeading1);
-    driveTrain.driveAlongAngle(PlanBSideC, 1, PlanBHeading1);
-    driveTrain.turnToHeading(PlanBHeading2);
-    driveTrain.driveAlongAngle(PlanBSideD, -1, PlanBHeading2);
     
-    driveTrain.turnToHeading(0.0);
+    // Shoot
 //    RobotContainer.shoot.schedule();    
-
+    driveTrain.turnToHeading(0.0);
+    //RobotContainer.intake.intakeOn(); 
+    driveTrain.driveAlongAngle(16, 0); 
+    //RobotContainer.intake.intakeOff(); 
+    driveTrain.turnToHeading(-45); 
+    driveTrain.driveAlongAngle(3, -27); 
+    driveTrain.driveAlongAngle(-3, -27); 
+    driveTrain.turnToHeading(45);
+    driveTrain.driveAlongAngle(3, 27); 
+    driveTrain.driveAlongAngle(-14, 0);
+//    RobotContainer.shoot.schedule();    
+    
     HelperMethods.allAutoEnd();
-  } 
+  }
 }
