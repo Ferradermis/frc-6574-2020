@@ -9,12 +9,14 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 
@@ -200,10 +202,16 @@ public class DriveTrain extends SubsystemBase {
 
   private void configureMotors() {
 
-    double rampRate = 0.35; //time in seconds to go from 0 to full throttle
+    double rampRate = 0.35; //time in seconds to go from 0 to full throttle; Lower this number and tune current limits
+    int currentLimit = 50;
+    //currentLimitThreshold represents the current that the motor needs to sustain for the currentLimitThresholdTime to then be limited to the currentLimit
+    int currentLimitThreshold = 55; 
+    double currentLimitThresholdTime = 1.0;
+  
 
     gyro.enableLogging(false);
 
+    //Enables motors to follow commands sent to front and left 
     backLeft.follow(frontLeft);
     backRight.follow(frontRight);
     thirdRight.follow(frontRight);
@@ -227,11 +235,23 @@ public class DriveTrain extends SubsystemBase {
     backRight.setInverted(true);
     thirdRight.setInverted(true);
 
-
     frontLeft.setNeutralMode(NeutralMode.Brake);
     backLeft.setNeutralMode(NeutralMode.Brake);
+    thirdLeft.setNeutralMode(NeutralMode.Brake);
     frontRight.setNeutralMode(NeutralMode.Brake);
     backRight.setNeutralMode(NeutralMode.Brake);
+    thirdRight.setNeutralMode(NeutralMode.Brake);
+
+    frontLeft.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, currentLimit, currentLimitThreshold, currentLimitThresholdTime));
+    backLeft.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, currentLimit, currentLimitThreshold, currentLimitThresholdTime));
+    thirdLeft.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, currentLimit, currentLimitThreshold, currentLimitThresholdTime));
+    frontRight.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, currentLimit, currentLimitThreshold, currentLimitThresholdTime));
+    backRight.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, currentLimit, currentLimitThreshold, currentLimitThresholdTime));
+    thirdRight.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, currentLimit, currentLimitThreshold, currentLimitThresholdTime));
+
+
+
+
 
 // no current limit set on drivetrain    
 // int currentLimit = 30; //int because .setSmartCurrentLimit takes only ints, not doubles. Which makes sense programmatically. 

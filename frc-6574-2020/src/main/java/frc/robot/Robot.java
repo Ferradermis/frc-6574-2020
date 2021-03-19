@@ -20,9 +20,9 @@ public class Robot extends TimedRobot {
   private UsbCamera camera;
   private CameraServer cameraServer;
   MjpegServer mjpegServer;
-  //320 x240
+  // 320 x240
   // 20 compression
- // private String gameData;
+  // private String gameData;
 
   @Override
   public void robotInit() {
@@ -79,6 +79,7 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().schedule(robotContainer.turnTurret); 
         
     RobotContainer.shooter.defaultShooterOn();
+  
     }
   }
 

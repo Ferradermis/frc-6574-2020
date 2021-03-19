@@ -7,14 +7,16 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Timer;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
@@ -156,7 +158,8 @@ public class Shooter extends SubsystemBase {
     //double rampRate = 0.2; //time in seconds to go from 0 to full throttle; 0.2 is selected on feel by drivers for 2019
     double rampRate = 0.5; //making this super big temporarily to not make motors unhappy
     //int currentLimit = 35; 
-    int feederCurrentLimit = 35; 
+    int feederCurrentLimit = 35;
+    int shooterCurrentLimit = 55; 
 
     shooterLeft.configFactoryDefault();
     shooterRight.configFactoryDefault();
@@ -168,6 +171,16 @@ public class Shooter extends SubsystemBase {
     shooterRight.configOpenloopRamp(rampRate);
     shooterLeft.setNeutralMode(NeutralMode.Coast); // MAKE SURE WE ARE IN COAST MODE
     shooterRight.setNeutralMode(NeutralMode.Coast); // MAKE SURE WE ARE IN COAST MODE
+
+
+    //CURRENT LIMITS BELOW; SECOND TWO VALUES ON FOLLOWING FOUR LINES ARE ARBITRARY AT THIS STAGE
+    
+    /*
+    shooterLeft.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 55, 55, 0.5));
+    shooterRight.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 55, 55, 0.5));
+    shooterLeft.configStatorCurrentLimit(new StatorCurrentLimitConfiguration (true, 55, 55, 0.5));
+    shooterRight.configStatorCurrentLimit(new StatorCurrentLimitConfiguration (true, 55, 55, 0.5));
+    */
 
     // SEE CODE FROM: https://github.com/CrossTheRoadElec/Phoenix-Examples-Languages/blob/master/Java/VelocityClosedLoop/src/main/java/frc/robot/Robot.java
 
@@ -197,8 +210,8 @@ public class Shooter extends SubsystemBase {
 
 // kF of .051 and kP of .1 is the best we have achieved
 
-    double kF = .055; //1023 / 21777; // This equals: 0.047
-    double kP = .7;  // this is close...
+    double kF = .055; //needs to be updated for different shot distances
+    double kP = .7;  
     double kI = 0;
     double kD = 0;
     shooterLeft.config_kF(0, kF, 20);
