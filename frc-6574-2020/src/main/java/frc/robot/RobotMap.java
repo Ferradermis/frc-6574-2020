@@ -23,10 +23,11 @@ public class RobotMap {
   /** Drivetrain */
   public static final int FRONT_LEFT_CAN_ID = 1;
   public static final int BACK_LEFT_CAN_ID = 2;
+  public static final int THIRD_LEFT_CAN_ID = 14;
   public static final int FRONT_RIGHT_CAN_ID =3;
   public static final int BACK_RIGHT_CAN_ID = 4;
-  //public static final int THIRD_RIGHT_CAN_ID = 13;
-  //public static final int THIRD_LEFT_CAN_ID = 14;
+  public static final int THIRD_RIGHT_CAN_ID = 13;
+    
 
   /** Shooter */
   public static final int SHOOTERLEFT_CAN_ID = 5;
@@ -50,10 +51,10 @@ public class RobotMap {
  //-----PCM ID values-----\\
 
   /** Solenoids */
-  public static final int HOOD_TRENCH_ID1 = 1;
+  public static final int HOOD_TRENCH_ID1 = 2; //( changed from 1 on Thursday the 25th)
   public static final int HOOD_TRENCH_ID2 = 3;
   public static final int HOOD_ANGLE_ID1 = 0;
-  public static final int HOOD_ANGLE_ID2 = 2;
+  public static final int HOOD_ANGLE_ID2 = 1; //(changed from 2 on Thursday the 25th)
   public static final int INTAKE_EXTENDER_ID1 = 4;  
   public static final int INTAKE_EXTENDER_ID2 = 5;
   public static final int CLIMBER_EXTENDER_ID1 = 6;  

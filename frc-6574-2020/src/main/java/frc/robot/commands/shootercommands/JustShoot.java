@@ -39,9 +39,7 @@ public class JustShoot extends CommandBase {
   public void execute() {
     distanceToTarget = RobotContainer.turret.limelight.getDistanceToTarget(138); // this is in inches
     RobotContainer.hopper.turnOnForShooting();
-
-
-    shooter.spin(0);
+    shooter.spin(distanceToTarget);
 
     if (RobotContainer.turret.limelight.aimedAtTarget() && shooter.shooterReady(distanceToTarget)) {
         shooter.feedAndFire();
@@ -54,7 +52,7 @@ public class JustShoot extends CommandBase {
 //    shooter.retractHoodforShortDistance();
 //    Timer.delay(.4);
     if (RobotContainer.aimTurret.isScheduled()) {
-      RobotContainer.aimTurret.cancel();
+      //RobotContainer.aimTurret.cancel();
     }
 //    shooter.stopShooter();
 //    shooter.stopFeeder();

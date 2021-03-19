@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.MjpegServer;
@@ -16,9 +17,9 @@ import edu.wpi.cscore.MjpegServer;
 public class Robot extends TimedRobot {
 
   private RobotContainer robotContainer;
-  //private UsbCamera camera;
-  //private CameraServer cameraServer;
-  //MjpegServer mjpegServer;
+  private UsbCamera camera;
+  private CameraServer cameraServer;
+  MjpegServer mjpegServer;
   //320 x240
   // 20 compression
  // private String gameData;
@@ -28,17 +29,17 @@ public class Robot extends TimedRobot {
     robotContainer = new RobotContainer();
     RobotContainer.compressor.start();   //compressor init code
     
-   // cameraServer = CameraServer.getInstance();
-   // camera = new UsbCamera("USB Camera 0", 0);
-   // cameraServer.addCamera(camera);
-   // mjpegServer = cameraServer.addServer("mjpeg USB Camera");
-   // mjpegServer.setSource(camera);
-   // mjpegServer.setCompression(30);
-   // mjpegServer.setResolution(320, 240);
-   // mjpegServer.setFPS(15);
+    cameraServer = CameraServer.getInstance();
+    camera = new UsbCamera("USB Camera 0", 0);
+    cameraServer.addCamera(camera);
+    mjpegServer = cameraServer.addServer("mjpeg USB Camera");
+    //mjpegServer.setSource(camera);
+    //mjpegServer.setCompression(30);
+    //mjpegServer.setResolution(320, 240);
+    //mjpegServer.setFPS(15);
   
 // THIS IS WHAT WORKED IN DULUTH
-//  camera = cameraServer.startAutomaticCapture();
+  camera = cameraServer.startAutomaticCapture();
 //  camera.setResolution(320,240);
 //  camera.setFPS(15);
 //  NOT SURE IT WAS ACTUALLY SETTING RESOLUTION AND FPS
@@ -50,6 +51,8 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+    SmartDashboard.putNumber("Operator right X (pre-0.25 deadband)", RobotContainer.oi.getOperatorRightX());
+   
   }
 
   @Override

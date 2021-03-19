@@ -16,6 +16,9 @@ public class AimTurret extends CommandBase {
    */
 
   private double turnKP = .06;
+  private double simpleFF =.03;
+  private double threshold = .25;
+  private double offset = -.35;
 //  private double MAXROTATION = 45;
 
   Turret turret;
@@ -33,8 +36,14 @@ public class AimTurret extends CommandBase {
   public void execute() {
     if (turret.limelight.hasTarget()) {
       double angleX = turret.limelight.getAngleX();
-     // if (Math.abs(turret.currentDirection())<MAXROTATION) {
-        turret.turn(angleX*turnKP); // copysign Deleted
+
+      if (angleX > threshold + offset) {
+        turret.turn((angleX*turnKP) + simpleFF); // copysign Deleted (what is this), .04 added as simple feedforward
+
+      }
+      else if (angleX < threshold + offset) {
+        turret.turn((angleX*turnKP) - simpleFF);
+      }
     } else {
       this.cancel();
     }

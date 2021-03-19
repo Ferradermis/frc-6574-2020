@@ -28,8 +28,8 @@ public class DriveTrain extends SubsystemBase {
   private WPI_TalonFX backLeft = new WPI_TalonFX(RobotMap.BACK_LEFT_CAN_ID);
   private WPI_TalonFX frontRight = new WPI_TalonFX(RobotMap.FRONT_RIGHT_CAN_ID);
   private WPI_TalonFX backRight = new WPI_TalonFX(RobotMap.BACK_RIGHT_CAN_ID);
-  //private WPI_TalonFX thirdRight = new WPI_TalonFX(RobotMap.THIRD_RIGHT_CAN_ID);
-  //private WPI_TalonFX thirdLeft = new WPI_TalonFX(RobotMap.THIRD_LEFT_CAN_ID);
+  private WPI_TalonFX thirdRight = new WPI_TalonFX(RobotMap.THIRD_RIGHT_CAN_ID);
+  private WPI_TalonFX thirdLeft = new WPI_TalonFX(RobotMap.THIRD_LEFT_CAN_ID);
 
   // following variable are used in turnToHeading and driveAlongAngle
   final double MaxDriveSpeed = 0.45;
@@ -56,20 +56,21 @@ public class DriveTrain extends SubsystemBase {
    * best to pass in normalized variables from 1 to -1 
    */
   public void arcadeDrive(double drive, double steer) {
-    // if steer and drive are both too low, stop the motors and end
-    if ((Math.abs(drive) <= 0.00) && (Math.abs(steer) <= 0.00)) {
+     //if steer and drive are both too low, stop the motors and end
+     if ((Math.abs(drive) <= 0.01) && (Math.abs(steer) <= 0.01)) {
       stop();
       return;
     }
 
     double leftSpeed = drive + steer;
     double rightSpeed = drive - steer;
-
+    /*
     if (leftSpeed > 1) { leftSpeed = 1; }
       else if (leftSpeed < -1) {leftSpeed = -1;}
 
     if (rightSpeed  > 1) {rightSpeed = 1;}
-     else if (rightSpeed < -1) {rightSpeed = -1;}
+     else if (rightSpeed < -1) {rightSpeed = -1;} 
+     */
    
      frontLeft.set(ControlMode.PercentOutput,-leftSpeed);
      frontRight.set(ControlMode.PercentOutput,-rightSpeed);
@@ -205,26 +206,26 @@ public class DriveTrain extends SubsystemBase {
 
     backLeft.follow(frontLeft);
     backRight.follow(frontRight);
-    //thirdRight.follow(frontRight);
-    //thirdLeft.follow(frontRight);
+    thirdRight.follow(frontRight);
+    thirdLeft.follow(frontLeft);
 
     frontLeft.configFactoryDefault();
     frontRight.configFactoryDefault();
     backLeft.configFactoryDefault();
     backRight.configFactoryDefault();
-    //thirdRight.configFactoryDefault();
-    //thirdLeft.configFactoryDefault();
+    thirdRight.configFactoryDefault();
+    thirdLeft.configFactoryDefault();
 
     frontLeft.configOpenloopRamp(rampRate);
     backLeft.configOpenloopRamp(rampRate);
     frontRight.configOpenloopRamp(rampRate);
     backRight.configOpenloopRamp(rampRate);
-    //thirdLeft.configOpenloopRamp(rampRate);
-    //thirdRight.configOpenloopRamp(rampRate);
+    thirdLeft.configOpenloopRamp(rampRate);
+    thirdRight.configOpenloopRamp(rampRate);
 
     frontRight.setInverted(true);
     backRight.setInverted(true);
-    //thirdRight.setInverted(true);
+    thirdRight.setInverted(true);
 
 
     frontLeft.setNeutralMode(NeutralMode.Brake);

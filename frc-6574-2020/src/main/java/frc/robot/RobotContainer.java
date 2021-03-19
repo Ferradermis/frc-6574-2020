@@ -53,7 +53,7 @@ public class RobotContainer {
   public static final Intake intake = new Intake();
   public static final Hopper hopper = new Hopper();
   public static final Turret turret = new Turret();
-  public static final Climber climber = new Climber();
+  //public static final Climber climber = new Climber();
 
   public static final Compressor compressor = new Compressor();
   
@@ -63,7 +63,7 @@ public class RobotContainer {
   public final ArcadeDrive arcadeDrive = new ArcadeDrive(driveTrain);
   public final TurnTurret turnTurret = new TurnTurret(turret);
   public static final AimTurret aimTurret = new AimTurret(turret);
-  public static final ClimbUpandDown climb = new ClimbUpandDown(climber);
+  //public static final ClimbUpandDown climb = new ClimbUpandDown(climber);
 
   public static SendableChooser<CommandBase> autochooser = new SendableChooser<CommandBase>();
   public static SendableChooser<String> allianceChooser = new SendableChooser<String>();
@@ -91,6 +91,8 @@ public class RobotContainer {
     SmartDashboard.putNumber("User entered Shooter Velocity", 10000);
     configureButtonBindings();
 
+    SmartDashboard.putNumber("Operator right X (pre-0.25 deadband)", oi.getOperatorRightX());
+
   }
 
   /**
@@ -106,14 +108,17 @@ public class RobotContainer {
   oi.driver_leftTrigger.whenPressed(()->intake.reverseOn()).whenReleased(()->intake.turnOn()); 
   oi.driver_yButton.whenPressed(()->turret.limelight.ledOn());
   oi.driver_xButton.whenPressed(()->turret.limelight.ledOff());
-  oi.driver_upDpad.whenPressed(()->climber.moveElevatorStaticUp());
-  oi.driver_upDpad.whenReleased(()->climber.stopElevator());
-  oi.driver_downDpad.whenPressed(()->climber.moveElevatorStaticDown());
-  oi.driver_downDpad.whenReleased(()->climber.stopElevator());
+  oi.driver_bButton.whenPressed(()->shooter.feedAndFire()).whenReleased(()->shooter.stopFeeder());
+  //oi.driver_upDpad.whenPressed(()->climber.moveElevatorStaticUp());
+  //oi.driver_upDpad.whenReleased(()->climber.stopElevator());
+  //oi.driver_downDpad.whenPressed(()->climber.moveElevatorStaticDown());
+  //oi.driver_downDpad.whenReleased(()->climber.stopElevator());
 
   //-----Operator Controls-----\\    
-  oi.operator_aButton.toggleWhenPressed(climb, true);  // schedules ClimbUpAndDown for endgame
+  //oi.operator_aButton.toggleWhenPressed(climb, true);  // schedules ClimbUpAndDown for endgame
   oi.operator_rightTrigger.whenPressed(new ShootCommand(shooter)).whenReleased(new StopShooting(shooter));
+  oi.operator_leftTrigger.whenPressed(()->intake.turnOn())
+                          .whenReleased(()->intake.turnOff());
   
   oi.operator_rightBumper.whenPressed(()->hopper.turnOnForIntake())
                           .whenReleased(()->hopper.turnOff());

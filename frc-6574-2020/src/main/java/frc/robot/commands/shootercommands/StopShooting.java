@@ -25,7 +25,7 @@ public class StopShooting extends SequentialCommandGroup {
     super(
       new ParallelCommandGroup(
         new InstantCommand(RobotContainer.turret::stopAiming, RobotContainer.turret),
-        new InstantCommand(()->shooter.lowerHoodForTrench()),
+        //new InstantCommand(()->shooter.lowerHoodForTrench()),
         new InstantCommand(shooter::stopShooter, shooter)
        )
       //new WaitCommand(.4),

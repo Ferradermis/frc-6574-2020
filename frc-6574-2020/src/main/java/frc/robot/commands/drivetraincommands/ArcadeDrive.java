@@ -39,11 +39,11 @@ public class ArcadeDrive extends CommandBase {
     double y = RobotContainer.oi.getDriverLeftY();
     double x = -RobotContainer.oi.getDriverRightX(); 
   
-    drive_cmd = Math.pow(y, 1);       // cubing y makes it more "sensitive", maybe need to adjust deadbands
-    steer_cmd = Math.pow(x, 1) / 2; // cubing x and /2 makes it more "sensitive", maybe need to adjust deadbands
+    drive_cmd = Math.pow(y, 1);
+    steer_cmd = Math.pow(x, 1) / 4; 
   
     // throttle is constant that controls "speed" of robot; helpful in testing in small areas
-    driveTrain.arcadeDrive(drive_cmd*THROTTLE, steer_cmd*THROTTLE);   
+    driveTrain.arcadeDrive(drive_cmd, steer_cmd);   
   }
 
   // Make this return true when this Command no longer needs to run execute()

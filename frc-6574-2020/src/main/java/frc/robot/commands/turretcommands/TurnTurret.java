@@ -14,7 +14,7 @@ import frc.robot.subsystems.Turret;
 public class TurnTurret extends CommandBase {
 
   private Turret turret;
-  final double THROTTLE = .5; // controls speed via joystick; useful for testing
+  final double THROTTLE = 1; // controls speed via joystick; useful for testing
 
   public TurnTurret(Turret turret) {
     this.turret = turret;

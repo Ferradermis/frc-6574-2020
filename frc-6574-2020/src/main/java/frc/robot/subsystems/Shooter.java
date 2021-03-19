@@ -38,15 +38,19 @@ public class Shooter extends SubsystemBase {
 
   public double hoodNeededDistance = 150.0; // distance at which we raise hood
 
+  public double enteredShooterVelocity = 0;
+
   public Shooter() {
     configureMotors();
     lowerHoodForTrench();
+    SmartDashboard.putNumber("Entered Shooter Velocity", enteredShooterVelocity);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run 
-    SmartDashboard.putNumber("Actual Shooter Velocity: ", shooterLeft.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("Current Shooter Velocity", shooterLeft.getSelectedSensorVelocity());
+    
   }
 
   public void spin(double distance) {
@@ -60,23 +64,34 @@ public class Shooter extends SubsystemBase {
     // 600 = converts those units to units per 100ms
     // so 10 ft would set velocity to 8533 encoder units per 100 ms
     double targetVelocity_UnitsPer100ms = calculateTargetVelocity(distance);
-		shooterLeft.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
+    double enteredShooterVelocity = SmartDashboard.getNumber("Entered Shooter Velocity", 0);
+    //if (enteredShooterVelocity < 0)
+      //enteredShooterVelocity = 0;
+    //if (enteredShooterVelocity > 13000)
+      //enteredShooterVelocity = 13000;
+    //shooterLeft.set(ControlMode.Velocity, enteredShooterVelocity);
+    shooterLeft.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
+    //shooterLeft.set(ControlMode.PercentOutput, 1);
+
   }
   
   public double calculateTargetVelocity(double distance) {
 
-      return 10500; //NORMAL VALUE 10500 works for autoline, I think? 
+     return 10100; //NORMAL VALUE 10500 works for autoline, I think? 
+
   }
 
   public boolean shooterReady(double distance) {
-    double tolerance = 200;
+    double tolerance = 30;
     double targetVelocity_UnitsPer100ms = calculateTargetVelocity(distance);
     return (shooterLeft.getSelectedSensorVelocity() >= (targetVelocity_UnitsPer100ms-tolerance));
+    //return (shooterLeft.getSelectedSensorVelocity() >= (SmartDashboard.getNumber("Entered Shooter Velocity", 0) - tolerance));
   }
 
-  public void feedAndFire() {
+  public void 
+  feedAndFire() {
     feeder.set(1);
-    Timer.delay(0.375);
+    //Timer.delay(0.375);
     //RobotContainer.hopper.turnOnForShooting();
   }
 
@@ -96,7 +111,7 @@ public class Shooter extends SubsystemBase {
 
   public void stopShooter() {
     stopFiring();
-    shooterLeft.set(ControlMode.PercentOutput, 0);
+    shooterLeft.set(ControlMode.PercentOutput, 0); 
     defaultShooterOn();
   }
  
@@ -127,7 +142,8 @@ public class Shooter extends SubsystemBase {
 
   public void defaultShooterOn()
   {
-    shooterLeft.set(ControlMode.PercentOutput, 0);
+    shooterLeft.set(ControlMode.PercentOutput, .525);
+    //shooterLeft.set(ControlMode.PercentOutput, 0); //low for regression testing
   }
 
   public void defaultShooterOff()
@@ -137,7 +153,8 @@ public class Shooter extends SubsystemBase {
 
   private void configureMotors() {
     // Set up motors
-    double rampRate = 0.2; //time in seconds to go from 0 to full throttle; 0.2 is selected on feel by drivers for 2019
+    //double rampRate = 0.2; //time in seconds to go from 0 to full throttle; 0.2 is selected on feel by drivers for 2019
+    double rampRate = 0.5; //making this super big temporarily to not make motors unhappy
     //int currentLimit = 35; 
     int feederCurrentLimit = 35; 
 
@@ -174,14 +191,14 @@ public class Shooter extends SubsystemBase {
 // (kMaxRPM  / 600) * (kSensorUnitsPerRotation)
 // PEAK RPM of Motor = 6380 RPM
 // PEAK SENSOR VELOCITY = 6380 / 600 * 2048  = 21,777
-// CURRENT Gear Ratio = 1.25 : 1
-// PEAK RPM of Wheel = 7975 RPM
+// CURRENT Gear Ratio = 1.235 : 1
+// PEAK RPM of Wheel = 7881 RPM
 
 
 // kF of .051 and kP of .1 is the best we have achieved
 
-    double kF = .051; //1023 / 21777; // This equals: 0.047
-    double kP = .10;  // this is close...
+    double kF = .055; //1023 / 21777; // This equals: 0.047
+    double kP = .7;  // this is close...
     double kI = 0;
     double kD = 0;
     shooterLeft.config_kF(0, kF, 20);
@@ -189,7 +206,7 @@ public class Shooter extends SubsystemBase {
     shooterLeft.config_kI(0, kI, 20);
     shooterLeft.config_kD(0, kD, 20);
 
-    feeder.setOpenLoopRampRate(rampRate);
+    //feeder.setOpenLoopRampRate(rampRate);
     feeder.setSmartCurrentLimit(feederCurrentLimit);
 
     // no current limit on the shooter right now

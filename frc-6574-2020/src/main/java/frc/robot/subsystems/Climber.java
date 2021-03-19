@@ -23,8 +23,8 @@ public class Climber extends SubsystemBase {
    */
   final double ClimberSpeed = 0.50;
 
-  public CANSparkMax elevator = new CANSparkMax(RobotMap.ELEVATOR_CAN_ID, MotorType.kBrushless);
-  public CANSparkMax winch = new CANSparkMax(RobotMap.WINCH_CAN_ID, MotorType.kBrushless);
+  //public CANSparkMax elevator = new CANSparkMax(RobotMap.ELEVATOR_CAN_ID, MotorType.kBrushless);
+  //public CANSparkMax winch = new CANSparkMax(RobotMap.WINCH_CAN_ID, MotorType.kBrushless);
   public DoubleSolenoid climberDeploy = new DoubleSolenoid(RobotMap.CLIMBER_EXTENDER_ID2, RobotMap.CLIMBER_EXTENDER_ID1);
 
   final DoubleSolenoid.Value DEPLOYED = DoubleSolenoid.Value.kForward;
@@ -36,26 +36,26 @@ public class Climber extends SubsystemBase {
     double rampRate = 0.2;
     int currentLimit = 40; 
    
-    elevator.setOpenLoopRampRate(rampRate); //makes sure it doesn't go too fast when it is about to end?
-    winch.setOpenLoopRampRate(rampRate);
+    //elevator.setOpenLoopRampRate(rampRate); //makes sure it doesn't go too fast when it is about to end?
+    //winch.setOpenLoopRampRate(rampRate);
 
-    elevator.setSmartCurrentLimit(currentLimit); //will stop power if stuck
-    winch.setSmartCurrentLimit(currentLimit);
+    //elevator.setSmartCurrentLimit(currentLimit); //will stop power if stuck
+    //winch.setSmartCurrentLimit(currentLimit);
 
-    elevator.setInverted(true);
-    elevator.setIdleMode(IdleMode.kBrake);
-    winch.setIdleMode(IdleMode.kBrake);
+    //elevator.setInverted(true);
+    //elevator.setIdleMode(IdleMode.kBrake);
+    //winch.setIdleMode(IdleMode.kBrake);
   }
   public void moveElevatorStaticUp() {
-    elevator.set(elevatorSpeed);
+    //elevator.set(elevatorSpeed);
   }
 
   public void moveElevatorStaticDown() {
-    elevator.set(-elevatorSpeed);
+    //elevator.set(-elevatorSpeed);
   }
 
   public void stopElevator() {
-    elevator.set(0);
+    //elevator.set(0);
   }
  /* public void moveElevator(double yLeft) { 
     if ((Math.abs(yLeft) <= 0.1)) {
@@ -73,12 +73,12 @@ public class Climber extends SubsystemBase {
   public void moveWinch(double yLeft) { 
     if ((Math.abs(yLeft) <= 0.1)) {
        //elevator.set(0);
-       winch.set(0);
+       //winch.set(0);
       return;
     }
 
     
-    winch.set(yLeft);
+    //winch.set(yLeft);
     //SmartDashboard.putNumber("Climber speed", y);
   }
   public void deploy() {
