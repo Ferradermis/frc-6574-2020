@@ -56,15 +56,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void spin(double distance) {
-    // need to figure out this formula to set velocity based on distance
-    // see the html file linked at the top of this java file
-    // distance = parameter passed in inches; 
-    // 250 = "normal" rpm; so if distance = 10, this would set rpms to 2500
-    // (note the Falcon 500 has a free speed rpm of 6380RPM/1.5A)
-    // 2048 = units per rotation
-    // so 500 x 2048 is encoder units per minute
-    // 600 = converts those units to units per 100ms
-    // so 10 ft would set velocity to 8533 encoder units per 100 ms
+
     double targetVelocity_UnitsPer100ms = calculateTargetVelocity(distance);
     double enteredShooterVelocity = SmartDashboard.getNumber("Entered Shooter Velocity", 0);
     //if (enteredShooterVelocity < 0)
@@ -187,28 +179,16 @@ public class Shooter extends SubsystemBase {
     /* Config sensor used for Primary PID [Velocity] */
     shooterLeft.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 20);
 
-    /**
-    * Phase sensor accordingly. 
-    * Positive Sensor Reading should match Green (blinking) Leds on Talon
-    */
-//    shooterLeft.setSensorPhase(true);
 
-    /* Config the peak and nominal outputs */
-//    shooterLeft.configNominalOutputForward(0, Constants.kTimeoutMs);
-//    shooterLeft.configNominalOutputReverse(0, Constants.kTimeoutMs);
-//    shooterLeft.configPeakOutputForward(1, Constants.kTimeoutMs);
-//    shooterLeft.configPeakOutputReverse(-1, Constants.kTimeoutMs);
 
-    /* Config the Velocity closed loop gains in slot0 */
+
+// Config the Velocity closed loop gains in slot0
 // PEAK SENSOR VELOCITY on 2020 ROBOT is:
 // (kMaxRPM  / 600) * (kSensorUnitsPerRotation)
 // PEAK RPM of Motor = 6380 RPM
 // PEAK SENSOR VELOCITY = 6380 / 600 * 2048  = 21,777
 // CURRENT Gear Ratio = 1.235 : 1
 // PEAK RPM of Wheel = 7881 RPM
-
-
-// kF of .051 and kP of .1 is the best we have achieved
 
     double kF = .055; //needs to be updated for different shot distances
     double kP = .7;  
@@ -222,7 +202,6 @@ public class Shooter extends SubsystemBase {
     //feeder.setOpenLoopRampRate(rampRate);
     feeder.setSmartCurrentLimit(feederCurrentLimit);
 
-    // no current limit on the shooter right now
 
   }
 }
