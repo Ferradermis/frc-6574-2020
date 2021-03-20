@@ -15,7 +15,7 @@ public class AimTurret extends CommandBase {
    * Creates a new AimTurret command.
    */
 
-  private double turnKP = .06;
+  private double turnKP = .045;
   private double simpleFF =.03;
   private double threshold = .25;
   private double offset = -.35;

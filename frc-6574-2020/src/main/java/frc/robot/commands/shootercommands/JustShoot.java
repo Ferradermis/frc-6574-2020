@@ -38,7 +38,7 @@ public class JustShoot extends CommandBase {
   @Override
   public void execute() {
     distanceToTarget = RobotContainer.turret.limelight.getDistanceToTarget(138); // this is in inches
-    RobotContainer.hopper.turnOnForShooting();
+    //RobotContainer.hopper.turnOnForShooting();
     shooter.spin(distanceToTarget);
 
     if (RobotContainer.turret.limelight.aimedAtTarget() && shooter.shooterReady(distanceToTarget)) {

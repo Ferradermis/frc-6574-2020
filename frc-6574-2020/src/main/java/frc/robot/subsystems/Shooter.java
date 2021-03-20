@@ -76,10 +76,10 @@ public class Shooter extends SubsystemBase {
     //shooterLeft.set(ControlMode.PercentOutput, 1);
 
   }
-  
+  //Reilly is my dad
   public double calculateTargetVelocity(double distance) {
 
-     return 10100; //NORMAL VALUE 10500 works for autoline, I think? 
+     return 11400; //NORMAL VALUE 10500 works for autoline, I think? 
 
   }
 
@@ -93,8 +93,8 @@ public class Shooter extends SubsystemBase {
   public void 
   feedAndFire() {
     feeder.set(1);
-    //Timer.delay(0.375);
-    //RobotContainer.hopper.turnOnForShooting();
+    Timer.delay(0.375);
+    RobotContainer.hopper.turnOnForShooting();
   }
 
   public void setVelocity(double velocity) {
@@ -144,6 +144,7 @@ public class Shooter extends SubsystemBase {
 
   public void defaultShooterOn()
   {
+    //shooterLeft.set(ControlMode.PercentOutput, 0.2);
     shooterLeft.set(ControlMode.PercentOutput, .525);
     //shooterLeft.set(ControlMode.PercentOutput, 0); //low for regression testing
   }
@@ -207,10 +208,9 @@ public class Shooter extends SubsystemBase {
 // CURRENT Gear Ratio = 1.235 : 1
 // PEAK RPM of Wheel = 7881 RPM
 
-
 // kF of .051 and kP of .1 is the best we have achieved
 
-    double kF = .055; //needs to be updated for different shot distances
+    double kF = .06; //needs to be updated for different shot distances
     double kP = .7;  
     double kI = 0;
     double kD = 0;

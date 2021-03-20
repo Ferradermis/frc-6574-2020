@@ -27,9 +27,9 @@ public class PrepForShooting extends SequentialCommandGroup {
       new InstantCommand(()->shooter.spin(RobotContainer.turret.limelight.getDistanceToTarget(138))), // this is in inches
       new ParallelCommandGroup(
         new SequentialCommandGroup(
-          new InstantCommand(()->shooter.raiseHoodForShooting()),
-          new WaitCommand(.1),
-          new InstantCommand(shooter::extendHoodForLongDistance, shooter)
+          new InstantCommand(()->shooter.raiseHoodForShooting())//,
+          //new WaitCommand(.1),
+          //new InstantCommand(shooter::extendHoodForLongDistance, shooter)
          ),
         new ScheduleCommand(new AimTurret(RobotContainer.turret))
       )
