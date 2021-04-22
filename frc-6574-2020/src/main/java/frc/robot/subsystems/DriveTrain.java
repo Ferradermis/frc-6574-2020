@@ -11,9 +11,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-//import com.kauailabs.navx.frc.AHRS;
 import com.kauailabs.navx.frc.AHRS;
-
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -107,7 +105,7 @@ public class DriveTrain extends SubsystemBase {
     double distanceError = distanceInFeet * EncoderUnitsPerFeet * direction;    
     double endPosition = getPosition() + distanceError;
 
-    double angleError = alongAngle; //-getGyroAngle();
+    double angleError = alongAngle - getGyroAngle();
     
    // this code can be uncommented if we want to make sure we turn to Heading first
    // if (Math.abs(angleError) > 1) {
@@ -118,7 +116,7 @@ public class DriveTrain extends SubsystemBase {
         driveSpeed = distanceError / EncoderUnitsPerFeet / 5 * kP + Math.copySign(kF,distanceError);
         // make sure we go no faster than MaxDriveSpeed
         driveSpeed = ((Math.abs(driveSpeed) > MaxDriveSpeed) ? Math.copySign(MaxDriveSpeed, driveSpeed) :  driveSpeed);
-        angleError = alongAngle; //-getGyroAngle();
+        angleError = alongAngle - getGyroAngle();
         turnSpeed = angleError * angleKP;
         // make sure turnSpeed is not greater than MaxTurnSpeed
         turnSpeed = ((Math.abs(turnSpeed) > MaxTurnSpeed ? Math.copySign(MaxTurnSpeed, angleError): turnSpeed));
@@ -137,13 +135,13 @@ public class DriveTrain extends SubsystemBase {
     double turnSpeed;
     double tolerance = 3;
 
-    angleError = intendedHeading; //- getGyroAngle();
+    angleError = intendedHeading - getGyroAngle();
     while (Math.abs(angleError) > tolerance) {    
         turnSpeed = angleError * kP + Math.copySign(kF, angleError);
         // make sure turnSpeed is not greater than MaxTurnSpeed
         turnSpeed = ((Math.abs(turnSpeed) > MaxTurnSpeed ? Math.copySign(MaxTurnSpeed, angleError): turnSpeed));
         arcadeDrive(0, turnSpeed);
-        angleError = intendedHeading; //- getGyroAngle();
+        angleError = intendedHeading - getGyroAngle();
       }
 
     stop();
