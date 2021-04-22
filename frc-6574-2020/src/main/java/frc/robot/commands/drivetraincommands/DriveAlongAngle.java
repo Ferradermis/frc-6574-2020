@@ -58,7 +58,7 @@ public class DriveAlongAngle extends CommandBase {
     distanceError = distanceInFeet * EncoderUnitsPerFeet * direction;    
     endPosition = driveTrain.getPosition() + distanceError;
 
-    angleError = alongAngle-driveTrain.getGyroAngle();
+    //angleError = alongAngle-driveTrain.getGyroAngle();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -69,7 +69,7 @@ public class DriveAlongAngle extends CommandBase {
     // make sure we go no faster than maxDriveSpeed
     driveSpeed = ((Math.abs(driveSpeed) > maxDriveSpeed) ? Math.copySign(maxDriveSpeed, driveSpeed) :  driveSpeed);
 
-    angleError = alongAngle-driveTrain.getGyroAngle();
+    //angleError = alongAngle-driveTrain.getGyroAngle();
     turnSpeed = angleError * angleKP;
     
     // make sure turnSpeed is not greater than MaxTurnSpeed

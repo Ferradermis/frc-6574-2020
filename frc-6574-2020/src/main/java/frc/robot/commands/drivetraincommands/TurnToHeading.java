@@ -37,7 +37,7 @@ public class TurnToHeading extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {  
-    angleError = intendedHeading - driveTrain.getGyroAngle();
+    //angleError = intendedHeading - driveTrain.getGyroAngle();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -47,7 +47,7 @@ public class TurnToHeading extends CommandBase {
     // make sure turnSpeed is not greater than MaxTurnSpeed
     turnSpeed = ((Math.abs(turnSpeed) > MaxTurnSpeed ? Math.copySign(MaxTurnSpeed, angleError): turnSpeed));
     driveTrain.arcadeDrive(0, turnSpeed);
-    angleError = intendedHeading - driveTrain.getGyroAngle();   
+    //angleError = intendedHeading - driveTrain.getGyroAngle();   
   }
 
   // Called once the command ends or is interrupted.

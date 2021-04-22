@@ -28,7 +28,7 @@ public class Shooter extends SubsystemBase {
    */
 
   // shooter/shooter is two falcons -- built in encoder talonFX
-  private WPI_TalonFX shooterLeft = new WPI_TalonFX(RobotMap.SHOOTERLEFT_CAN_ID);
+  public WPI_TalonFX shooterLeft = new WPI_TalonFX(RobotMap.SHOOTERLEFT_CAN_ID);
   private WPI_TalonFX shooterRight = new WPI_TalonFX(RobotMap.SHOOTERRIGHT_CAN_ID);
 
   // feeder neo550's
@@ -38,13 +38,14 @@ public class Shooter extends SubsystemBase {
    public DoubleSolenoid hoodTrench = new DoubleSolenoid(RobotMap.HOOD_TRENCH_ID1, RobotMap.HOOD_TRENCH_ID2);
    public DoubleSolenoid hoodAngle = new DoubleSolenoid(RobotMap.HOOD_ANGLE_ID2, RobotMap.HOOD_ANGLE_ID1);
 
-  public double hoodNeededDistance = 150.0; // distance at which we raise hood
-
-  public double enteredShooterVelocity = 0;
+  public double enteredShooterVelocity;
+  public double shooterVelocityTarget = 10300; //12000 is probably highest
 
   public Shooter() {
     configureMotors();
-    lowerHoodForTrench();
+    raiseHoodForShooting();
+    Timer.delay(.25);
+    extendHoodForLongDistance();
     SmartDashboard.putNumber("Entered Shooter Velocity", enteredShooterVelocity);
   }
 
@@ -59,19 +60,18 @@ public class Shooter extends SubsystemBase {
 
     double targetVelocity_UnitsPer100ms = calculateTargetVelocity(distance);
     double enteredShooterVelocity = SmartDashboard.getNumber("Entered Shooter Velocity", 0);
-    //if (enteredShooterVelocity < 0)
-      //enteredShooterVelocity = 0;
-    //if (enteredShooterVelocity > 13000)
-      //enteredShooterVelocity = 13000;
-    //shooterLeft.set(ControlMode.Velocity, enteredShooterVelocity);
-    shooterLeft.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
+    if (enteredShooterVelocity < 0)
+      enteredShooterVelocity = 0;
+    if (enteredShooterVelocity > 13000)
+      enteredShooterVelocity = 13000;
+    shooterLeft.set(ControlMode.Velocity, enteredShooterVelocity);
+    //shooterLeft.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
     //shooterLeft.set(ControlMode.PercentOutput, 1);
 
   }
-  //Reilly is my dad
   public double calculateTargetVelocity(double distance) {
 
-     return 11400; //NORMAL VALUE 10500 works for autoline, I think? 
+     return shooterVelocityTarget; 
 
   }
 
@@ -85,7 +85,7 @@ public class Shooter extends SubsystemBase {
   public void 
   feedAndFire() {
     feeder.set(1);
-    Timer.delay(0.375);
+    Timer.delay(0.25);
     RobotContainer.hopper.turnOnForShooting();
   }
 
@@ -105,9 +105,9 @@ public class Shooter extends SubsystemBase {
 
   public void stopShooter() {
     stopFiring();
-    shooterLeft.set(ControlMode.PercentOutput, 0); 
-    defaultShooterOn();
-  }
+    //shooterLeft.set(ControlMode.PercentOutput, 0); 
+    //defaultShooterOn();
+    shooterLeft.set(ControlMode.Velocity, 10000);  }
  
   public void raiseHoodForShooting() {
       hoodTrench.set(DoubleSolenoid.Value.kForward);
@@ -137,8 +137,8 @@ public class Shooter extends SubsystemBase {
   public void defaultShooterOn()
   {
     //shooterLeft.set(ControlMode.PercentOutput, 0.2);
-    shooterLeft.set(ControlMode.PercentOutput, .525);
-    //shooterLeft.set(ControlMode.PercentOutput, 0); //low for regression testing
+    shooterLeft.set(ControlMode.PercentOutput, .5375); //.5875
+    //shooterLeft.set(ControlMode.PercentOutput, 0);
   }
 
   public void defaultShooterOff()
@@ -148,10 +148,9 @@ public class Shooter extends SubsystemBase {
 
   private void configureMotors() {
     // Set up motors
-    //double rampRate = 0.2; //time in seconds to go from 0 to full throttle; 0.2 is selected on feel by drivers for 2019
-    double rampRate = 0.5; //making this super big temporarily to not make motors unhappy
+    double rampRate = 0.05; //making this super big temporarily to not make motors unhappy
     //int currentLimit = 35; 
-    int feederCurrentLimit = 35;
+    int feederCurrentLimit = 60;
     int shooterCurrentLimit = 55; 
 
     shooterLeft.configFactoryDefault();
@@ -191,12 +190,12 @@ public class Shooter extends SubsystemBase {
 // CURRENT Gear Ratio = 1.235 : 1
 // PEAK RPM of Wheel = 7881 RPM
 
-    //double kF = .055; //needs to be updated for different shot distances
+    //double kF = .055; //needs to be updated for different shot distances, prior value
 
 // kF of .051 and kP of .1 is the best we have achieved
 
-    double kF = .06; //needs to be updated for different shot distances
-    double kP = .7;  
+    double kF = .055; //needs to be updated for different shot distances
+    double kP = .725;  //.7 was last known best value
     double kI = 0;
     double kD = 0;
     shooterLeft.config_kF(0, kF, 20);

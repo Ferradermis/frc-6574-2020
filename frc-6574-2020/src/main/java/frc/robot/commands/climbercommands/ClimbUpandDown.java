@@ -26,7 +26,7 @@ public class ClimbUpandDown extends CommandBase {
   @Override
   public void initialize() {
     RobotContainer.shooter.defaultShooterOff();
-    climber.retract();
+    //climber.retract();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -37,12 +37,12 @@ public class ClimbUpandDown extends CommandBase {
   
 
     // Read data from joystick and drive per joystick positioning
-    if (climber.retracted()){
-      double yLeft = RobotContainer.oi.getOperatorLeftY(); //Operator Controller is used
+    //if (climber.retracted()){
+      //double yLeft = RobotContainer.oi.getOperatorLeftY(); //Operator Controller is used
       //double yRight = RobotContainer.oi.getOperatorRightY();
       //climber.moveElevator(yRight);
-      climber.moveWinch(yLeft);
-    }   
+      //climber.moveWinch(yLeft);
+    //}   
   }
 
   @Override

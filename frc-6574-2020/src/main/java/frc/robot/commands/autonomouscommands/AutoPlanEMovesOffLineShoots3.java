@@ -41,7 +41,7 @@ public class AutoPlanEMovesOffLineShoots3 extends InstantCommand {
      Timer.delay(.2);
      RobotContainer.shooter.extendHoodForLongDistance();
      Timer.delay(.2);
-     RobotContainer.shooter.setVelocity(10500);
+     RobotContainer.shooter.setVelocity(1000);
 
      Timer.delay(1);
     // aimTurret.schedule();

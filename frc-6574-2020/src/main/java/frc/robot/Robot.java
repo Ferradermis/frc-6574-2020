@@ -12,12 +12,15 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.cscore.UsbCamera;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.cscore.MjpegServer;
 
 public class Robot extends TimedRobot {
 
   private RobotContainer robotContainer;
-  private UsbCamera camera;
+  private UsbCamera spindexerCamera;
   private CameraServer cameraServer;
   MjpegServer mjpegServer;
   // 320 x240
@@ -27,21 +30,20 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     robotContainer = new RobotContainer();
-    RobotContainer.compressor.start();   //compressor init code
+    //RobotContainer.compressor.start();   //compressor init code
     
-    cameraServer = CameraServer.getInstance();
-    camera = new UsbCamera("USB Camera 0", 0);
-    cameraServer.addCamera(camera);
-    mjpegServer = cameraServer.addServer("mjpeg USB Camera");
-    //mjpegServer.setSource(camera);
+    //cameraServer = CameraServer.getInstance();
+    //spindexerCamera = new UsbCamera("spindexerCamera", 0);
+    //cameraServer.addCamera(spindexerCamera);
+    //mjpegServer = cameraServer.addServer("mjpeg USB Camera");
+    //mjpegServer.setSource(spindexerCamera);
     //mjpegServer.setCompression(30);
-    //mjpegServer.setResolution(320, 240);
-    //mjpegServer.setFPS(15);
+    //spindexerCamera.setResolution(320, 240);
+    //spindexerCamera.setFPS(15);
   
 // THIS IS WHAT WORKED IN DULUTH
-  camera = cameraServer.startAutomaticCapture();
-//  camera.setResolution(320,240);
-//  camera.setFPS(15);
+    //spindexerCamera = cameraServer.startAutomaticCapture();
+
 //  NOT SURE IT WAS ACTUALLY SETTING RESOLUTION AND FPS
 //    PortForwarder.add(5800,"limelight.local",5800);
 //    PortForwarder.add(5801,"limelight.local",5801);
@@ -51,7 +53,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    SmartDashboard.putNumber("Operator right X (pre-0.25 deadband)", RobotContainer.oi.getOperatorRightX());
    
   }
 
@@ -78,8 +79,8 @@ public class Robot extends TimedRobot {
     if (!CommandScheduler.getInstance().isScheduled(robotContainer.turnTurret)) {
         CommandScheduler.getInstance().schedule(robotContainer.turnTurret); 
         
-    RobotContainer.shooter.defaultShooterOn();
-  
+    //RobotContainer.shooter.shooterLeft.set(ControlMode.Velocity, 10000);
+   //THIS NUMBER IS JUST WHAT IT'S SHOOTING AT NOW, MUST BE CHANGED IN Shooter Subsystem public variable
     }
   }
 

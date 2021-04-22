@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+//import com.kauailabs.navx.frc.AHRS;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SerialPort;
@@ -47,7 +48,7 @@ public class DriveTrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Actual Gyro Heading: ", gyro.getAngle());
+    //SmartDashboard.putNumber("Actual Gyro Heading: ", gyro.getAngle());
     SmartDashboard.putNumber("Acual Drive Position: ", getPosition());
   }
 
@@ -59,20 +60,20 @@ public class DriveTrain extends SubsystemBase {
    */
   public void arcadeDrive(double drive, double steer) {
      //if steer and drive are both too low, stop the motors and end
-     if ((Math.abs(drive) <= 0.01) && (Math.abs(steer) <= 0.01)) {
+     if ((Math.abs(drive) <= 0.05) && (Math.abs(steer) <= 0.05)) {
       stop();
       return;
     }
 
     double leftSpeed = drive + steer;
     double rightSpeed = drive - steer;
-    /*
+    
     if (leftSpeed > 1) { leftSpeed = 1; }
       else if (leftSpeed < -1) {leftSpeed = -1;}
 
     if (rightSpeed  > 1) {rightSpeed = 1;}
      else if (rightSpeed < -1) {rightSpeed = -1;} 
-     */
+     
    
      frontLeft.set(ControlMode.PercentOutput,-leftSpeed);
      frontRight.set(ControlMode.PercentOutput,-rightSpeed);
@@ -106,7 +107,7 @@ public class DriveTrain extends SubsystemBase {
     double distanceError = distanceInFeet * EncoderUnitsPerFeet * direction;    
     double endPosition = getPosition() + distanceError;
 
-    double angleError = alongAngle-getGyroAngle();
+    double angleError = alongAngle; //-getGyroAngle();
     
    // this code can be uncommented if we want to make sure we turn to Heading first
    // if (Math.abs(angleError) > 1) {
@@ -117,12 +118,13 @@ public class DriveTrain extends SubsystemBase {
         driveSpeed = distanceError / EncoderUnitsPerFeet / 5 * kP + Math.copySign(kF,distanceError);
         // make sure we go no faster than MaxDriveSpeed
         driveSpeed = ((Math.abs(driveSpeed) > MaxDriveSpeed) ? Math.copySign(MaxDriveSpeed, driveSpeed) :  driveSpeed);
-        angleError = alongAngle-getGyroAngle();
+        angleError = alongAngle; //-getGyroAngle();
         turnSpeed = angleError * angleKP;
         // make sure turnSpeed is not greater than MaxTurnSpeed
         turnSpeed = ((Math.abs(turnSpeed) > MaxTurnSpeed ? Math.copySign(MaxTurnSpeed, angleError): turnSpeed));
         arcadeDrive(driveSpeed, turnSpeed);
         distanceError = endPosition-getPosition();
+        SmartDashboard.putNumber("Current distanceError", distanceError);
       }
     
     stop();
@@ -135,13 +137,13 @@ public class DriveTrain extends SubsystemBase {
     double turnSpeed;
     double tolerance = 3;
 
-    angleError = intendedHeading - getGyroAngle();
+    angleError = intendedHeading; //- getGyroAngle();
     while (Math.abs(angleError) > tolerance) {    
         turnSpeed = angleError * kP + Math.copySign(kF, angleError);
         // make sure turnSpeed is not greater than MaxTurnSpeed
         turnSpeed = ((Math.abs(turnSpeed) > MaxTurnSpeed ? Math.copySign(MaxTurnSpeed, angleError): turnSpeed));
         arcadeDrive(0, turnSpeed);
-        angleError = intendedHeading - getGyroAngle();
+        angleError = intendedHeading; //- getGyroAngle();
       }
 
     stop();
@@ -194,18 +196,18 @@ public class DriveTrain extends SubsystemBase {
   }
 */
 
-  /*  public void simpleDriveForward(double distanceInFeet) {
-    double distanceInEncoderUnits = distanceInFeet * EncoderUnitsPerFeet; 
-    drivePositionControl(distanceInEncoderUnits);  
-  }
-*/
+   // public void simpleDriveForward(double distanceInFeet) {
+   // double distanceInEncoderUnits = distanceInFeet * EncoderUnitsPerFeet; 
+   // drivePositionControl(distanceInEncoderUnits);  
+ // }
+
 
   private void configureMotors() {
 
-    double rampRate = 0.35; //time in seconds to go from 0 to full throttle; Lower this number and tune current limits
-    int currentLimit = 50;
+    double rampRate = 0.1875; //time in seconds to go from 0 to full throttle; Lower this number and tune current limits
+    int currentLimit = 30;
     //currentLimitThreshold represents the current that the motor needs to sustain for the currentLimitThresholdTime to then be limited to the currentLimit
-    int currentLimitThreshold = 55; 
+    int currentLimitThreshold = 35; 
     double currentLimitThresholdTime = 1.0;
   
 
@@ -243,14 +245,13 @@ public class DriveTrain extends SubsystemBase {
     thirdRight.setNeutralMode(NeutralMode.Brake);
 
     
-    /*
     frontLeft.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, currentLimit, currentLimitThreshold, currentLimitThresholdTime));
     backLeft.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, currentLimit, currentLimitThreshold, currentLimitThresholdTime));
     thirdLeft.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, currentLimit, currentLimitThreshold, currentLimitThresholdTime));
     frontRight.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, currentLimit, currentLimitThreshold, currentLimitThresholdTime));
     backRight.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, currentLimit, currentLimitThreshold, currentLimitThresholdTime));
     thirdRight.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, currentLimit, currentLimitThreshold, currentLimitThresholdTime));
-    */
+    
 
 
 

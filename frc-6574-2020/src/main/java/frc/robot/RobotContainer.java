@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.autonomouscommands.AutoPlanA2Shoots6;
 import frc.robot.commands.autonomouscommands.AutoPlanAShoots6;
 import frc.robot.commands.autonomouscommands.AutoPlanBShoots5;
@@ -108,7 +109,7 @@ public class RobotContainer {
   oi.driver_leftTrigger.whenPressed(()->intake.reverseOn()).whenReleased(()->intake.turnOn()); 
   oi.driver_yButton.whenPressed(()->turret.limelight.ledOn());
   oi.driver_xButton.whenPressed(()->turret.limelight.ledOff());
-  oi.driver_bButton.whenPressed(()->shooter.feedAndFire()).whenReleased(()->shooter.stopFeeder());
+  oi.driver_bButton.whenPressed(()->shooter.feedAndFire()).whenReleased(new StopShooting(shooter));
   //oi.driver_upDpad.whenPressed(()->climber.moveElevatorStaticUp());
   //oi.driver_upDpad.whenReleased(()->climber.stopElevator());
   //oi.driver_downDpad.whenPressed(()->climber.moveElevatorStaticDown());
@@ -130,6 +131,7 @@ public class RobotContainer {
   oi.operator_downDpad.whenPressed(()->shooter.lowerHoodForTrench());
   oi.operator_rightDpad.whenPressed(()->shooter.extendHoodForLongDistance());
   oi.operator_leftDpad.whenPressed(()->shooter.retractHoodforShortDistance());
+  oi.operator_aButton.whenPressed(new AimTurret(turret)).whenReleased(new InstantCommand(turret::stopAiming, turret));
   }
 
 

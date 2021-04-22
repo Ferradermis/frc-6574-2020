@@ -7,6 +7,7 @@
 
 package frc.robot.commands.autonomouscommands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.HelperMethods;
 //import frc.robot.RobotContainer;
@@ -29,6 +30,8 @@ public class AutoPlanCMovesOffLine extends InstantCommand {
 //    (new TurnTurretAtStart(RobotContainer.turret)).schedule();
 
     driveTrain.driveAlongAngle(1.5, 0);
+    Timer.delay(.5);
+    driveTrain.stop();
 
     HelperMethods.allAutoEnd();
   } 

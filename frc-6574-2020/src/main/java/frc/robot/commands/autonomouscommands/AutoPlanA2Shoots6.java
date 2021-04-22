@@ -44,7 +44,7 @@ driveTrain.driveAlongAngle(1.5, 0.0);
 RobotContainer.shooter.raiseHoodForShooting();
 Timer.delay(.2);
 RobotContainer.shooter.extendHoodForLongDistance();
-RobotContainer.shooter.setVelocity(10500);
+RobotContainer.shooter.setVelocity(1000);
 
 // aimTurret.schedule();
 //CommandScheduler.getInstance().schedule(aimTurret);

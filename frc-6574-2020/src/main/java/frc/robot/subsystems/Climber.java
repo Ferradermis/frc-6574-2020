@@ -81,17 +81,6 @@ public class Climber extends SubsystemBase {
     //winch.set(yLeft);
     //SmartDashboard.putNumber("Climber speed", y);
   }
-  public void deploy() {
-    climberDeploy.set(DEPLOYED);
-  }
-
-  public void retract() {
-    climberDeploy.set(RETRACTED);
-  }
-
-  public boolean retracted() {
-    return (climberDeploy.get() == RETRACTED);
-  }
 
 
 

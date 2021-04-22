@@ -19,7 +19,8 @@ public class Intake extends SubsystemBase {
   /**
    * Creates a new Intake.
    */
-  final double MaxIntakeSpeed = .75;
+  final double MaxIntakeSpeed = 1.0;  
+  
   final DoubleSolenoid.Value DEPLOYED = DoubleSolenoid.Value.kForward;
   final DoubleSolenoid.Value RETRACTED = DoubleSolenoid.Value.kReverse;
 
@@ -73,7 +74,7 @@ public class Intake extends SubsystemBase {
 
   private void configureMotors() {
     double rampRate = 0.2;
-    int currentLimit = 20; 
+    int currentLimit = 40; 
  
     intakeMotor.setOpenLoopRampRate(rampRate);
     intakeMotor.setSmartCurrentLimit(currentLimit);
