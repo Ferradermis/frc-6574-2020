@@ -9,16 +9,13 @@ package frc.robot.commands.turretcommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Turret;
 
 public class TurnTurret extends CommandBase {
 
-  private Turret turret;
   final double THROTTLE = 1; // controls speed via joystick; useful for testing
 
-  public TurnTurret(Turret turret) {
-    this.turret = turret;
-    addRequirements(turret);
+  public TurnTurret() {
+    addRequirements(RobotContainer.turret);
   }
 
   // Called just before this Command runs the first time
@@ -35,7 +32,7 @@ public class TurnTurret extends CommandBase {
       x = 0;
     }
 
-    turret.turn(x*THROTTLE);   
+    RobotContainer.turret.turn(x * THROTTLE);   
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -47,7 +44,7 @@ public class TurnTurret extends CommandBase {
   // Called once after isFinished returns true
   @Override
   public void end(boolean interrupted) {
-    turret.turn(0);
+    RobotContainer.turret.turn(0);
   }
 
 }

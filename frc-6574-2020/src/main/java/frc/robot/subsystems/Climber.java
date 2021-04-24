@@ -7,10 +7,6 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -33,8 +29,8 @@ public class Climber extends SubsystemBase {
   final double elevatorSpeed = .15;
 
   public Climber() {
-    double rampRate = 0.2;
-    int currentLimit = 40; 
+    //double rampRate = 0.2;
+    //int currentLimit = 40; 
    
     //elevator.setOpenLoopRampRate(rampRate); //makes sure it doesn't go too fast when it is about to end?
     //winch.setOpenLoopRampRate(rampRate);

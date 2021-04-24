@@ -9,12 +9,10 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -30,16 +28,14 @@ public class Shooter extends SubsystemBase {
   // shooter/shooter is two falcons -- built in encoder talonFX
   public WPI_TalonFX shooterLeft = new WPI_TalonFX(RobotMap.SHOOTERLEFT_CAN_ID);
   private WPI_TalonFX shooterRight = new WPI_TalonFX(RobotMap.SHOOTERRIGHT_CAN_ID);
-
-  // feeder neo550's
   private CANSparkMax feeder = new CANSparkMax(RobotMap.FEEDER_CAN_ID, MotorType.kBrushless);
  
   // hood controller for raising and lowering
-   public DoubleSolenoid hoodTrench = new DoubleSolenoid(RobotMap.HOOD_TRENCH_ID1, RobotMap.HOOD_TRENCH_ID2);
-   public DoubleSolenoid hoodAngle = new DoubleSolenoid(RobotMap.HOOD_ANGLE_ID2, RobotMap.HOOD_ANGLE_ID1);
+  public DoubleSolenoid hoodTrench = new DoubleSolenoid(RobotMap.HOOD_TRENCH_ID1, RobotMap.HOOD_TRENCH_ID2);
+  public DoubleSolenoid hoodAngle = new DoubleSolenoid(RobotMap.HOOD_ANGLE_ID2, RobotMap.HOOD_ANGLE_ID1);
 
   public double enteredShooterVelocity;
-  public double shooterVelocityTarget = 10300; //12000 is probably highest
+  public static double shooterSpeed = 500;
 
   public Shooter() {
     configureMotors();
@@ -56,34 +52,28 @@ public class Shooter extends SubsystemBase {
     
   }
 
-  public void spin(double distance) {
-
-    double targetVelocity_UnitsPer100ms = calculateTargetVelocity(distance);
+  public void spinSmartDash() {
+    double maxSpeedThreshold = 13000;
     double enteredShooterVelocity = SmartDashboard.getNumber("Entered Shooter Velocity", 0);
     if (enteredShooterVelocity < 0)
       enteredShooterVelocity = 0;
-    if (enteredShooterVelocity > 13000)
-      enteredShooterVelocity = 13000;
+    if (enteredShooterVelocity > maxSpeedThreshold)
+      enteredShooterVelocity = maxSpeedThreshold;
     shooterLeft.set(ControlMode.Velocity, enteredShooterVelocity);
-    //shooterLeft.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
-    //shooterLeft.set(ControlMode.PercentOutput, 1);
 
   }
-  public double calculateTargetVelocity(double distance) {
+  //public double calculateTargetVelocity(double distance) {
+  //   return shooterSpeed; 
+  //}
 
-     return shooterVelocityTarget; 
-
-  }
-
-  public boolean shooterReady(double distance) {
+  public boolean shooterReady(double targetShooterSpeed) {
     double tolerance = 30;
-    double targetVelocity_UnitsPer100ms = calculateTargetVelocity(distance);
-    return (shooterLeft.getSelectedSensorVelocity() >= (targetVelocity_UnitsPer100ms-tolerance));
+    double targetVelocity_UnitsPer100ms = targetShooterSpeed;//calculateTargetVelocity(shooterSpeed);
+    return (shooterLeft.getSelectedSensorVelocity() >= (targetVelocity_UnitsPer100ms - tolerance));
     //return (shooterLeft.getSelectedSensorVelocity() >= (SmartDashboard.getNumber("Entered Shooter Velocity", 0) - tolerance));
   }
 
-  public void 
-  feedAndFire() {
+  public void feedAndFire() {
     feeder.set(1);
     Timer.delay(0.25);
     RobotContainer.hopper.turnOnForShooting();
@@ -94,11 +84,10 @@ public class Shooter extends SubsystemBase {
   }
 
   public void stopFeeder() {
-    feeder.set(0.0);
+    feeder.set(0);
   }
 
-  public void stopFiring()
-  {
+  public void stopFiring() {
     stopFeeder();
     RobotContainer.hopper.turnOff();
   }
@@ -107,7 +96,8 @@ public class Shooter extends SubsystemBase {
     stopFiring();
     //shooterLeft.set(ControlMode.PercentOutput, 0); 
     //defaultShooterOn();
-    shooterLeft.set(ControlMode.Velocity, 10000);  }
+    shooterLeft.set(ControlMode.Velocity, 0);
+  }
  
   public void raiseHoodForShooting() {
       hoodTrench.set(DoubleSolenoid.Value.kForward);
@@ -134,15 +124,13 @@ public class Shooter extends SubsystemBase {
     }
   }
 
-  public void defaultShooterOn()
-  {
+  public void defaultShooterOn() {
     //shooterLeft.set(ControlMode.PercentOutput, 0.2);
     shooterLeft.set(ControlMode.PercentOutput, .5375); //.5875
     //shooterLeft.set(ControlMode.PercentOutput, 0);
   }
 
-  public void defaultShooterOff()
-  {
+  public void defaultShooterOff() {
     shooterLeft.set(ControlMode.PercentOutput, 0);
   }
 
@@ -151,7 +139,7 @@ public class Shooter extends SubsystemBase {
     double rampRate = 0.05; //making this super big temporarily to not make motors unhappy
     //int currentLimit = 35; 
     int feederCurrentLimit = 60;
-    int shooterCurrentLimit = 55; 
+    //int shooterCurrentLimit = 55; 
 
     shooterLeft.configFactoryDefault();
     shooterRight.configFactoryDefault();
@@ -187,15 +175,13 @@ public class Shooter extends SubsystemBase {
 // (kMaxRPM  / 600) * (kSensorUnitsPerRotation)
 // PEAK RPM of Motor = 6380 RPM
 // PEAK SENSOR VELOCITY = 6380 / 600 * 2048  = 21,777
-// CURRENT Gear Ratio = 1.235 : 1
+// CURRENT Gear Ratio = .809:1
 // PEAK RPM of Wheel = 7881 RPM
 
-    //double kF = .055; //needs to be updated for different shot distances, prior value
 
-// kF of .051 and kP of .1 is the best we have achieved
 
-    double kF = .055; //needs to be updated for different shot distances
-    double kP = .725;  //.7 was last known best value
+    double kF = .055; 
+    double kP = .725;  
     double kI = 0;
     double kD = 0;
     shooterLeft.config_kF(0, kF, 20);

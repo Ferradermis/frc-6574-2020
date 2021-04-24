@@ -9,7 +9,6 @@ package frc.robot.commands.drivetraincommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.DriveTrain;
 
 public class DriveAlongAngle extends CommandBase {
   /**
@@ -32,7 +31,6 @@ public class DriveAlongAngle extends CommandBase {
   double distanceInFeet;
   int direction;
   double alongAngle;
-  DriveTrain driveTrain;
   double distanceError;
   double endPosition;
   double angleError;
@@ -49,14 +47,13 @@ public class DriveAlongAngle extends CommandBase {
     this.direction = (distanceInFeet > 0) ? 1 : -1;;
     this.alongAngle = alongAngle;
     maxDriveSpeed = speed;
-    driveTrain = RobotContainer.driveTrain;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     distanceError = distanceInFeet * EncoderUnitsPerFeet * direction;    
-    endPosition = driveTrain.getPosition() + distanceError;
+    endPosition = RobotContainer.driveTrain.getPosition() + distanceError;
 
     //angleError = alongAngle-driveTrain.getGyroAngle();
   }
@@ -67,21 +64,21 @@ public class DriveAlongAngle extends CommandBase {
     driveSpeed = distanceError / EncoderUnitsPerFeet / 5 * kP + Math.copySign(kF,distanceError);
 
     // make sure we go no faster than maxDriveSpeed
-    driveSpeed = ((Math.abs(driveSpeed) > maxDriveSpeed) ? Math.copySign(maxDriveSpeed, driveSpeed) :  driveSpeed);
+    driveSpeed = ((Math.abs(driveSpeed) > maxDriveSpeed) ? Math.copySign(maxDriveSpeed, driveSpeed) : driveSpeed);
 
     //angleError = alongAngle-driveTrain.getGyroAngle();
     turnSpeed = angleError * angleKP;
     
     // make sure turnSpeed is not greater than MaxTurnSpeed
     turnSpeed = ((Math.abs(turnSpeed) > MaxTurnSpeed ? Math.copySign(MaxTurnSpeed, angleError): turnSpeed));
-    driveTrain.arcadeDrive(driveSpeed, turnSpeed);
-    distanceError = endPosition-driveTrain.getPosition();
+    RobotContainer.driveTrain.arcadeDrive(driveSpeed, turnSpeed);
+    distanceError = endPosition-RobotContainer.driveTrain.getPosition();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    driveTrain.stop();
+    RobotContainer.driveTrain.stop();
   }
 
   // Returns true when the command should end.

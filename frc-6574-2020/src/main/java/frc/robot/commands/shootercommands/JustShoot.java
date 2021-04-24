@@ -10,18 +10,16 @@ package frc.robot.commands.shootercommands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Shooter;
+import edu.wpi.first.wpilibj.Timer;
 
 public class JustShoot extends CommandBase {
   /**
    * Creates a new Shoot Command.
    */
-  Shooter shooter;
-  double distanceToTarget;
 
-  public JustShoot(Shooter shooter) {
+  public JustShoot() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooter);
-    this.shooter = shooter;
+    addRequirements(RobotContainer.shooter);
   }
 
   // Called when the command is initially scheduled.
@@ -39,10 +37,12 @@ public class JustShoot extends CommandBase {
   public void execute() {
     //distanceToTarget = RobotContainer.turret.limelight.getDistanceToTarget(138); // this is in inches
     //RobotContainer.hopper.turnOnForShooting();
-    shooter.spin(distanceToTarget);
+    RobotContainer.shooter.setVelocity(Shooter.shooterSpeed);
 
-    if (RobotContainer.turret.limelight.aimedAtTarget() && shooter.shooterReady(distanceToTarget)) {
-        shooter.feedAndFire();
+    if (RobotContainer.turret.limelight.aimedAtTarget() && RobotContainer.shooter.shooterReady(Shooter.shooterSpeed)) {
+        RobotContainer.shooter.feedAndFire();
+        Timer.delay(0.5);
+        this.cancel();
     } 
   }
 
@@ -51,9 +51,9 @@ public class JustShoot extends CommandBase {
   public void end(boolean interrupted) {
 //    shooter.retractHoodforShortDistance();
 //    Timer.delay(.4);
-    if (RobotContainer.aimTurret.isScheduled()) {
+    //if (RobotContainer.aimTurret.isScheduled()) {
       //RobotContainer.aimTurret.cancel();
-    }
+    //}
 //    shooter.stopShooter();
 //    shooter.stopFeeder();
 //    RobotContainer.hopper.turnOff();

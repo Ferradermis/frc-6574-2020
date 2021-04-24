@@ -8,19 +8,18 @@
 package frc.robot.commands.shootercommands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.subsystems.Shooter;
 
 public class ShootCommand extends SequentialCommandGroup {
   /**
    * Creates a new ShootCommand.
    */
-  public ShootCommand(Shooter shooter) {
+  public ShootCommand() {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
-      new PrepForShooting(shooter),
+      new PrepForShooting(),
 
-      new JustShoot(shooter)
+      new JustShoot()
     );    
   }
 }

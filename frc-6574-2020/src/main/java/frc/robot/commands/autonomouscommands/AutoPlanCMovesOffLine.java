@@ -7,20 +7,14 @@
 
 package frc.robot.commands.autonomouscommands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.HelperMethods;
-//import frc.robot.RobotContainer;
-import frc.robot.subsystems.DriveTrain;
-
+import frc.robot.RobotContainer;
 
 public class AutoPlanCMovesOffLine extends InstantCommand {
 
-  DriveTrain driveTrain;
-
-  public AutoPlanCMovesOffLine(DriveTrain driveTrain) {
-    this.driveTrain = driveTrain;
-    addRequirements(driveTrain);
+  public AutoPlanCMovesOffLine() {
+    addRequirements(RobotContainer.driveTrain);
   }
 
   // Called when the command is initially scheduled.
@@ -29,7 +23,7 @@ public class AutoPlanCMovesOffLine extends InstantCommand {
     HelperMethods.allAutoStart();
 //    (new TurnTurretAtStart(RobotContainer.turret)).schedule();
 
-    driveTrain.driveAlongAngle(-3, 0);
+    RobotContainer.driveTrain.driveAlongAngle(-3, 0);
 
     //driveTrain.arcadeDrive(.25,0);
     //Timer.delay(3);

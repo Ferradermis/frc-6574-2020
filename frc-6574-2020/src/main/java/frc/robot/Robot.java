@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.cscore.UsbCamera;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.cscore.MjpegServer;
@@ -30,8 +29,10 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     robotContainer = new RobotContainer();
-    //RobotContainer.compressor.start();   //compressor init code
-    
+    //RobotContainer.compressor.setClosedLoopControl(false);
+    //RobotContainer.compressor.stop();   //stops the compressor
+    //RobotContainer.compressor.start(); //starts the compressor
+
     //cameraServer = CameraServer.getInstance();
     //spindexerCamera = new UsbCamera("spindexerCamera", 0);
     //cameraServer.addCamera(spindexerCamera);
@@ -53,6 +54,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+    SmartDashboard.putData(CommandScheduler.getInstance());
    
   }
 
@@ -79,8 +81,7 @@ public class Robot extends TimedRobot {
     if (!CommandScheduler.getInstance().isScheduled(robotContainer.turnTurret)) {
         CommandScheduler.getInstance().schedule(robotContainer.turnTurret); 
         
-    //RobotContainer.shooter.shooterLeft.set(ControlMode.Velocity, 10000);
-   //THIS NUMBER IS JUST WHAT IT'S SHOOTING AT NOW, MUST BE CHANGED IN Shooter Subsystem public variable
+    //RobotContainer.shooter.setVelocity(500);
     }
   }
 

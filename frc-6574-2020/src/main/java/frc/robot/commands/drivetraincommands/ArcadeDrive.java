@@ -13,13 +13,11 @@ import frc.robot.subsystems.DriveTrain;
 
 public class ArcadeDrive extends CommandBase {
 
-  private DriveTrain driveTrain;
   final double THROTTLE = 1; // controls speed via joystick; useful for test driving
                               // set to 1 for normal drive speed
 
-  public ArcadeDrive(DriveTrain driveTrain) {
-    this.driveTrain = driveTrain;
-    addRequirements(driveTrain);
+  public ArcadeDrive() {
+    addRequirements(RobotContainer.driveTrain);
   }
 
   // Called just before this Command runs the first time
@@ -43,7 +41,7 @@ public class ArcadeDrive extends CommandBase {
     steer_cmd = Math.pow(x, 3) * .75;
   
     // throttle is constant that controls "speed" of robot; helpful in testing in small areas
-    driveTrain.arcadeDrive(drive_cmd, steer_cmd);   
+    RobotContainer.driveTrain.arcadeDrive(drive_cmd, steer_cmd);   
   }
 
   // Make this return true when this Command no longer needs to run execute()

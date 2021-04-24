@@ -9,7 +9,6 @@ package frc.robot.commands.drivetraincommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.DriveTrain;
 
 public class TurnToHeading extends CommandBase {
   /**
@@ -22,14 +21,12 @@ public class TurnToHeading extends CommandBase {
   double turnSpeed;
   double tolerance = 3;
   double intendedHeading;
-  DriveTrain driveTrain;
   final double MaxTurnSpeed = 0.25;
 
 
   public TurnToHeading(double intendedHeading) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.driveTrain);
-    this.driveTrain = RobotContainer.driveTrain;
 
     this.intendedHeading = intendedHeading;
   }
@@ -46,14 +43,14 @@ public class TurnToHeading extends CommandBase {
     turnSpeed = angleError * kP + Math.copySign(kF, angleError);
     // make sure turnSpeed is not greater than MaxTurnSpeed
     turnSpeed = ((Math.abs(turnSpeed) > MaxTurnSpeed ? Math.copySign(MaxTurnSpeed, angleError): turnSpeed));
-    driveTrain.arcadeDrive(0, turnSpeed);
+    RobotContainer.driveTrain.arcadeDrive(0, turnSpeed);
     //angleError = intendedHeading - driveTrain.getGyroAngle();   
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    driveTrain.stop();
+    RobotContainer.driveTrain.stop();
   }
 
   // Returns true when the command should end.

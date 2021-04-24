@@ -8,25 +8,23 @@
 package frc.robot.commands.turretcommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Turret;
+import frc.robot.RobotContainer;
 
 public class AimTurret extends CommandBase {
   /**
    * Creates a new AimTurret command.
    */
+  
 
-  private double turnKP = .05;
-  private double simpleFF =.03;
+  private double turnKP = .03;
+  private double simpleFF =.01;
   private double threshold = .25;
   private double offset = 0;//-.35;
 //  private double MAXROTATION = 45;
 
-  Turret turret;
-
-  public AimTurret(Turret turret) {
+  public AimTurret() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(turret);
-    this.turret = turret;
+    addRequirements(RobotContainer.turret);
   }
   @Override
   public void initialize() {
@@ -34,15 +32,15 @@ public class AimTurret extends CommandBase {
 
   @Override
   public void execute() {
-    if (turret.limelight.hasTarget()) {
-      double angleX = turret.limelight.getAngleX();
+    if (RobotContainer.turret.limelight.hasTarget()) {
+      double angleX = RobotContainer.turret.limelight.getAngleX();
 
       if (angleX > threshold + offset) {
-        turret.turn((angleX*turnKP) + simpleFF); // copysign Deleted (what is this), .04 added as simple feedforward
+        RobotContainer.turret.turn((angleX * turnKP) + simpleFF); // copysign Deleted (what is this), .04 added as simple feedforward
 
       }
       else if (angleX < threshold + offset) {
-        turret.turn((angleX*turnKP) - simpleFF);
+        RobotContainer.turret.turn((angleX * turnKP) - simpleFF);
       }
     } else {
       this.cancel();
@@ -52,7 +50,7 @@ public class AimTurret extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    turret.stopTurning();
+    RobotContainer.turret.stopTurning();
   }
 
   // Returns true when the command should end.

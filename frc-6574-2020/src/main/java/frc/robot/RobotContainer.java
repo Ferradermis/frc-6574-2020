@@ -15,12 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.commands.autonomouscommands.AutoPlanA2Shoots6;
-import frc.robot.commands.autonomouscommands.AutoPlanAShoots6;
-import frc.robot.commands.autonomouscommands.AutoPlanBShoots5;
 import frc.robot.commands.autonomouscommands.AutoPlanCMovesOffLine;
-import frc.robot.commands.autonomouscommands.AutoPlanDShoots8;
-import frc.robot.commands.autonomouscommands.AutoPlanEMovesOffLineShoots3;
 import frc.robot.commands.autonomouscommands.ShootLeaveLine;
 import frc.robot.commands.drivetraincommands.ArcadeDrive;
 import frc.robot.commands.shootercommands.ShootCommand;
@@ -54,15 +49,15 @@ public class RobotContainer {
   public static final Hopper hopper = new Hopper();
   public static final Turret turret = new Turret();
   //public static final Climber climber = new Climber();
-
+  
   public static final Compressor compressor = new Compressor();
   
   //public static Spark leds = new Spark(0);
   
   //Commands
-  public final ArcadeDrive arcadeDrive = new ArcadeDrive(driveTrain);
-  public final TurnTurret turnTurret = new TurnTurret(turret);
-  public static final AimTurret aimTurret = new AimTurret(turret);
+  public final ArcadeDrive arcadeDrive = new ArcadeDrive();
+  public final TurnTurret turnTurret = new TurnTurret();
+  public static final AimTurret aimTurret = new AimTurret();
   //public static final ClimbUpandDown climb = new ClimbUpandDown(climber);
 
   public static SendableChooser<CommandBase> autochooser = new SendableChooser<CommandBase>();
@@ -75,25 +70,16 @@ public class RobotContainer {
   //  climber.setDefaultCommand(climb);
 
     SmartDashboard.putNumber("Delay Start of Auto: ", 0.0);
-    autochooser.addOption("(C)Move off Initiation line", new AutoPlanCMovesOffLine(driveTrain));
-    autochooser.addOption("(A) Target S3 + I3 Trench + S3 balls", new AutoPlanAShoots6(driveTrain));
-    autochooser.addOption("(A2) Target S3, back up, + I3 Trench + S3 balls", new AutoPlanA2Shoots6(driveTrain));
-    autochooser.addOption("(B)Opponent trench I2 S5 balls", new AutoPlanBShoots5(driveTrain));
-    autochooser.addOption("(D)Front of Trench S3 + I5 + S5", new AutoPlanDShoots8(driveTrain));
-    autochooser.addOption("(E)Move off I Line S3", new AutoPlanEMovesOffLineShoots3(driveTrain));
-    autochooser.addOption("()Shoot and move off line", new ShootLeaveLine(driveTrain, shooter));
+    autochooser.addOption("Move off Initiation line", new AutoPlanCMovesOffLine());
+    autochooser.addOption("Shoot and move off line", new ShootLeaveLine());
     SmartDashboard.putData("Autonomous Chooser", autochooser);
-
     allianceChooser.setDefaultOption("Red Alliance (pipeline)", "red");    
     allianceChooser.addOption("Blue Alliance (pipeline)", "blue");
     SmartDashboard.putData("Alliance (pipeline)", allianceChooser);    
 
 //    SmartDashboard.putNumber("User entered Shooter % Speed", 0.5);
-    SmartDashboard.putNumber("User entered Shooter Velocity", 10000);
+//    SmartDashboard.putNumber("User entered Shooter Velocity", 10000);
     configureButtonBindings();
-
-    SmartDashboard.putNumber("Operator right X (pre-0.25 deadband)", oi.getOperatorRightX());
-
   }
 
   /**
@@ -109,7 +95,7 @@ public class RobotContainer {
   oi.driver_leftTrigger.whenPressed(()->intake.reverseOn()).whenReleased(()->intake.turnOn()); 
   oi.driver_yButton.whenPressed(()->turret.limelight.ledOn());
   oi.driver_xButton.whenPressed(()->turret.limelight.ledOff());
-  oi.driver_bButton.whenPressed(()->shooter.feedAndFire()).whenReleased(new StopShooting(shooter));
+  oi.driver_bButton.whenPressed(()->shooter.feedAndFire()).whenReleased(new StopShooting());
   //oi.driver_upDpad.whenPressed(()->climber.moveElevatorStaticUp());
   //oi.driver_upDpad.whenReleased(()->climber.stopElevator());
   //oi.driver_downDpad.whenPressed(()->climber.moveElevatorStaticDown());
@@ -117,7 +103,7 @@ public class RobotContainer {
 
   //-----Operator Controls-----\\    
   //oi.operator_aButton.toggleWhenPressed(climb, true);  // schedules ClimbUpAndDown for endgame
-  oi.operator_rightTrigger.whenPressed(new ShootCommand(shooter)).whenReleased(new StopShooting(shooter));
+  oi.operator_rightTrigger.whenPressed(new ShootCommand()).whenReleased(new StopShooting());
   oi.operator_leftTrigger.whenPressed(()->intake.turnOn())
                           .whenReleased(()->intake.turnOff());
   
@@ -131,7 +117,7 @@ public class RobotContainer {
   oi.operator_downDpad.whenPressed(()->shooter.lowerHoodForTrench());
   oi.operator_rightDpad.whenPressed(()->shooter.extendHoodForLongDistance());
   oi.operator_leftDpad.whenPressed(()->shooter.retractHoodforShortDistance());
-  oi.operator_aButton.whenPressed(new AimTurret(turret)).whenReleased(new InstantCommand(turret::stopAiming, turret));
+  oi.operator_aButton.whenPressed(new AimTurret()).whenReleased(new InstantCommand(turret::stopAiming, turret));
   }
 
 

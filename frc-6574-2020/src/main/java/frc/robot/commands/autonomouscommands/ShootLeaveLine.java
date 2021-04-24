@@ -15,8 +15,8 @@ public class ShootLeaveLine extends SequentialCommandGroup {
   /**
    * Creates a new ShootLeaveLine.
    */
-  public ShootLeaveLine(DriveTrain driveTrain, Shooter shooter) {
-    super(new ShootFromAutoLine(shooter),new AutoPlanCMovesOffLine(driveTrain));
+  public ShootLeaveLine() {
+    super(new ShootFromAutoLine(), new AutoPlanCMovesOffLine());
     // Use addRequirements() here to declare subsystem dependencies.
   }
 }
