@@ -20,7 +20,7 @@ public class ShootFromAutoLine extends SequentialCommandGroup {
    * Creates a new ShootFromAutoLine.
    */
   public ShootFromAutoLine() {
-    super(new ShootCommand(), new WaitCommand(1), new InstantCommand(RobotContainer.intake::deploy, RobotContainer.intake));
+    super(new ShootCommand(), new WaitCommand(3));
     // Use addRequirements() here to declare subsystem dependencies.
   }
 }

@@ -23,7 +23,7 @@ public class AutoPlanCMovesOffLine extends InstantCommand {
     HelperMethods.allAutoStart();
 //    (new TurnTurretAtStart(RobotContainer.turret)).schedule();
 
-    RobotContainer.driveTrain.driveAlongAngle(-3, 0);
+    RobotContainer.driveTrain.driveAlongAngle(-1, 0);
 
     //driveTrain.arcadeDrive(.25,0);
     //Timer.delay(3);
