@@ -33,20 +33,20 @@ public class DriveTrain extends SubsystemBase {
   private WPI_TalonFX thirdLeft = new WPI_TalonFX(RobotMap.THIRD_LEFT_CAN_ID);
 
   // following variable are used in turnToHeading and driveAlongAngle
-  final double MaxDriveSpeed = 0.45;
+  final double MaxDriveSpeed = 0.15;
   final double MaxTurnSpeed = 0.25;
   final double EncoderUnitsPerFeet = 14500;
 
   public DriveTrain(){
     configureMotors();
     resetPosition();
-   //gyro.calibrate();
+    gyro.calibrate();
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    //SmartDashboard.putNumber("Actual Gyro Heading: ", gyro.getAngle());
+    SmartDashboard.putNumber("Actual Gyro Heading: ", gyro.getAngle());
     SmartDashboard.putNumber("Acual Drive Position: ", getPosition());
   }
 
@@ -96,9 +96,9 @@ public class DriveTrain extends SubsystemBase {
   {
     double kF = 0.1;  //kF is essentially minimal amount to drive
     double kP = 0.75;
-    double tolerance = 750; // this would be roughly 1 inch
+    double tolerance = 100; // this would not be roughly 1 inch
 
-    double angleKP = .005;
+    double angleKP = .005; //this is not .006
     
     double driveSpeed;
     double turnSpeed = 0.0;
@@ -111,17 +111,19 @@ public class DriveTrain extends SubsystemBase {
    // if (Math.abs(angleError) > 1) {
    //   turnToHeading(alongAngle);
    // }
+   SmartDashboard.putNumber("Current distanceError", distanceError);
 
       while (Math.abs(distanceError) > tolerance){
+
         driveSpeed = distanceError / EncoderUnitsPerFeet / 5 * kP + Math.copySign(kF,distanceError);
         // make sure we go no faster than MaxDriveSpeed
         driveSpeed = ((Math.abs(driveSpeed) > MaxDriveSpeed) ? Math.copySign(MaxDriveSpeed, driveSpeed) :  driveSpeed);
-        angleError = alongAngle - getGyroAngle();
+        angleError = alongAngle + getGyroAngle();
         turnSpeed = angleError * angleKP;
         // make sure turnSpeed is not greater than MaxTurnSpeed
         turnSpeed = ((Math.abs(turnSpeed) > MaxTurnSpeed ? Math.copySign(MaxTurnSpeed, angleError): turnSpeed));
         arcadeDrive(driveSpeed, turnSpeed);
-        distanceError = endPosition-getPosition();
+        distanceError = endPosition + getPosition();
         SmartDashboard.putNumber("Current distanceError", distanceError);
       }
     
@@ -141,7 +143,7 @@ public class DriveTrain extends SubsystemBase {
         // make sure turnSpeed is not greater than MaxTurnSpeed
         turnSpeed = ((Math.abs(turnSpeed) > MaxTurnSpeed ? Math.copySign(MaxTurnSpeed, angleError): turnSpeed));
         arcadeDrive(0, turnSpeed);
-        angleError = intendedHeading - getGyroAngle();
+        angleError = intendedHeading + getGyroAngle();
       }
 
     stop();

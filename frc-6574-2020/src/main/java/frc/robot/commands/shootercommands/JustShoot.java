@@ -37,7 +37,7 @@ public class JustShoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    distanceToTarget = RobotContainer.turret.limelight.getDistanceToTarget(138); // this is in inches
+    //distanceToTarget = RobotContainer.turret.limelight.getDistanceToTarget(138); // this is in inches
     //RobotContainer.hopper.turnOnForShooting();
     shooter.spin(distanceToTarget);
 

@@ -21,13 +21,12 @@ import frc.robot.commands.autonomouscommands.AutoPlanBShoots5;
 import frc.robot.commands.autonomouscommands.AutoPlanCMovesOffLine;
 import frc.robot.commands.autonomouscommands.AutoPlanDShoots8;
 import frc.robot.commands.autonomouscommands.AutoPlanEMovesOffLineShoots3;
-import frc.robot.commands.climbercommands.ClimbUpandDown;
+import frc.robot.commands.autonomouscommands.ShootLeaveLine;
 import frc.robot.commands.drivetraincommands.ArcadeDrive;
 import frc.robot.commands.shootercommands.ShootCommand;
 import frc.robot.commands.shootercommands.StopShooting;
 import frc.robot.commands.turretcommands.AimTurret;
 import frc.robot.commands.turretcommands.TurnTurret;
-import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Intake;
@@ -82,6 +81,7 @@ public class RobotContainer {
     autochooser.addOption("(B)Opponent trench I2 S5 balls", new AutoPlanBShoots5(driveTrain));
     autochooser.addOption("(D)Front of Trench S3 + I5 + S5", new AutoPlanDShoots8(driveTrain));
     autochooser.addOption("(E)Move off I Line S3", new AutoPlanEMovesOffLineShoots3(driveTrain));
+    autochooser.addOption("()Shoot and move off line", new ShootLeaveLine(driveTrain, shooter));
     SmartDashboard.putData("Autonomous Chooser", autochooser);
 
     allianceChooser.setDefaultOption("Red Alliance (pipeline)", "red");    
