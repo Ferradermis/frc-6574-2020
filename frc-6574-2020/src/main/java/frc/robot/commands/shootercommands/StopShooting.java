@@ -10,6 +10,7 @@ package frc.robot.commands.shootercommands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
 
 
@@ -23,11 +24,11 @@ public class StopShooting extends SequentialCommandGroup {
     super(
       new ParallelCommandGroup(
         new InstantCommand(RobotContainer.turret::stopAiming, RobotContainer.turret),
-        //new InstantCommand(()->shooter.lowerHoodForTrench()),
         new InstantCommand(RobotContainer.shooter::stopShooter, RobotContainer.shooter)
-       )
-      //new WaitCommand(.4),
-      //new InstantCommand(()->shooter.retractHoodforShortDistance())
+       ),
+      //new InstantCommand(()->RobotContainer.shooter.retractHoodforShortDistance()), 
+      //new WaitCommand(.1),
+      new InstantCommand(()->RobotContainer.shooter.lowerHoodForTrench())
     );
   }
 }

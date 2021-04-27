@@ -40,8 +40,9 @@ public class JustShoot extends CommandBase {
     RobotContainer.shooter.setVelocity(Shooter.shooterSpeed);
 
     if (RobotContainer.turret.limelight.aimedAtTarget() && RobotContainer.shooter.shooterReady(Shooter.shooterSpeed)) {
+        Timer.delay(.25);
         RobotContainer.shooter.feedAndFire();
-        Timer.delay(0.5);
+        Timer.delay(0.375);
         this.cancel();
     } 
   }

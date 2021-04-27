@@ -11,6 +11,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.Shooter;
 import edu.wpi.cscore.UsbCamera;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
@@ -81,7 +82,7 @@ public class Robot extends TimedRobot {
     if (!CommandScheduler.getInstance().isScheduled(robotContainer.turnTurret)) {
         CommandScheduler.getInstance().schedule(robotContainer.turnTurret); 
         
-    //RobotContainer.shooter.setVelocity(500);
+    RobotContainer.shooter.setVelocity(Shooter.shooterSpeed);
     }
   }
 

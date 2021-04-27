@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.commands.turretcommands.AimTurret;
 import frc.robot.subsystems.Shooter;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+
 
 public class PrepForShooting extends SequentialCommandGroup {
   /**
@@ -26,9 +28,10 @@ public class PrepForShooting extends SequentialCommandGroup {
       new InstantCommand(()->RobotContainer.shooter.setVelocity(Shooter.shooterSpeed)),
       new ParallelCommandGroup(
         new SequentialCommandGroup(
-          new InstantCommand(()->RobotContainer.shooter.raiseHoodForShooting())//,
-          //new WaitCommand(.1),
-          //new InstantCommand(shooter::extendHoodForLongDistance, shooter)
+          new InstantCommand(()->RobotContainer.shooter.raiseHoodForShooting()),
+          
+          new WaitCommand(.1),
+          new InstantCommand(RobotContainer.shooter::extendHoodForLongDistance, RobotContainer.shooter)
          ),
         new ScheduleCommand(new AimTurret())
       )

@@ -28,14 +28,14 @@ public class Shooter extends SubsystemBase {
   // shooter/shooter is two falcons -- built in encoder talonFX
   public WPI_TalonFX shooterLeft = new WPI_TalonFX(RobotMap.SHOOTERLEFT_CAN_ID);
   private WPI_TalonFX shooterRight = new WPI_TalonFX(RobotMap.SHOOTERRIGHT_CAN_ID);
-  private CANSparkMax feeder = new CANSparkMax(RobotMap.FEEDER_CAN_ID, MotorType.kBrushless);
+  public CANSparkMax feeder = new CANSparkMax(RobotMap.FEEDER_CAN_ID, MotorType.kBrushless);
  
   // hood controller for raising and lowering
   public DoubleSolenoid hoodTrench = new DoubleSolenoid(RobotMap.HOOD_TRENCH_ID1, RobotMap.HOOD_TRENCH_ID2);
   public DoubleSolenoid hoodAngle = new DoubleSolenoid(RobotMap.HOOD_ANGLE_ID2, RobotMap.HOOD_ANGLE_ID1);
 
   public double enteredShooterVelocity;
-  public static double shooterSpeed = 500;
+  public static double shooterSpeed = 15500; //15500
 
   public Shooter() {
     configureMotors();
@@ -96,7 +96,7 @@ public class Shooter extends SubsystemBase {
     stopFiring();
     //shooterLeft.set(ControlMode.PercentOutput, 0); 
     //defaultShooterOn();
-    shooterLeft.set(ControlMode.Velocity, 0);
+    shooterLeft.set(ControlMode.Velocity, shooterSpeed);
   }
  
   public void raiseHoodForShooting() {
@@ -105,7 +105,7 @@ public class Shooter extends SubsystemBase {
 
   public void lowerHoodForTrench() {
     hoodAngle.set(DoubleSolenoid.Value.kReverse);
-    Timer.delay(1);
+    Timer.delay(.25);
     hoodTrench.set(DoubleSolenoid.Value.kReverse);
   }
 

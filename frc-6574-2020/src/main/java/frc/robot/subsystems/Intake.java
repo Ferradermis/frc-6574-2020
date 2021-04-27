@@ -63,6 +63,7 @@ public class Intake extends SubsystemBase {
     intakeDeploy.set(DEPLOYED);
     turnOn();  // TURNED OFF FOR TESTING
     RobotContainer.hopper.turnOnForIntake();
+    RobotContainer.shooter.feeder.set(-.125);
   }
 
   public void retract() {
@@ -70,6 +71,8 @@ public class Intake extends SubsystemBase {
     turnOff();
     intakeDeploy.set(RETRACTED);
     RobotContainer.hopper.turnOff();
+    RobotContainer.shooter.feeder.set(0);
+
   }
 
   private void configureMotors() {
