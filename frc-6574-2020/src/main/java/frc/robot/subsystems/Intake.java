@@ -19,7 +19,7 @@ public class Intake extends SubsystemBase {
   /**
    * Creates a new Intake.
    */
-  final double MaxIntakeSpeed = 1.0;  
+  final double MaxIntakeSpeed = 0;  
   
   final DoubleSolenoid.Value DEPLOYED = DoubleSolenoid.Value.kForward;
   final DoubleSolenoid.Value RETRACTED = DoubleSolenoid.Value.kReverse;
@@ -54,8 +54,10 @@ public class Intake extends SubsystemBase {
     DoubleSolenoid.Value currentState = intakeDeploy.get();
     if (currentState == DEPLOYED) {
       retract();
+      Blinkin.lightChaseRed();
     } else {
       deploy();
+      Blinkin.fireMedium();
     }
   }
 

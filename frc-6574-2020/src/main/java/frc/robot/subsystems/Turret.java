@@ -11,6 +11,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.AnalogEncoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
@@ -23,19 +25,20 @@ public class Turret extends SubsystemBase {
   // rotator vexPro775
   private TalonSRX turretRotator = new TalonSRX(RobotMap.TURRET_CAN_ID);
 
- // private final AS5600EncoderPwm encoder = new AS5600EncoderPwm(turretRotator.getSensorCollection());
-
+  private final AnalogEncoder encoder = new AnalogEncoder(0);
   public Limelight limelight = new Limelight();
   
   public Turret() {
     configureMotors();
     limelight.setTarget(0);
+
 //    turretRotator.setSelectedSensorPosition(0); // need to think of best way to do this
   }
 
   @Override
   public void periodic() {
-//    SmartDashboard.putNumber("Actual Turret Position: ", turretRotator.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Turret Encoder Position", encoder.get());
+//  SmartDashboard.putNumber("Actual Turret Position: ", turretRotator.getSelectedSensorPosition());
   }
 
 /*  public void resetTurretForward() {

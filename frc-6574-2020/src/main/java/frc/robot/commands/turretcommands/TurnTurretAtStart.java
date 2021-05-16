@@ -9,7 +9,6 @@ package frc.robot.commands.turretcommands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Turret;
 import frc.robot.RobotContainer;
 
 public class TurnTurretAtStart extends CommandBase {

@@ -22,6 +22,8 @@ import frc.robot.commands.shootercommands.ShootCommand;
 import frc.robot.commands.shootercommands.StopShooting;
 import frc.robot.commands.turretcommands.AimTurret;
 import frc.robot.commands.turretcommands.TurnTurret;
+import frc.robot.subsystems.Blinkin;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Intake;
@@ -48,12 +50,13 @@ public class RobotContainer {
   public static final Intake intake = new Intake();
   public static final Hopper hopper = new Hopper();
   public static final Turret turret = new Turret();
-  //public static final Climber climber = new Climber();
+  public static final Climber climber = new Climber();
   
   public static final Compressor compressor = new Compressor();
-  
-  //public static Spark leds = new Spark(0);
-  
+
+  public static final Blinkin m_blinkin = new Blinkin(0);
+
+    
   //Commands
   public final ArcadeDrive arcadeDrive = new ArcadeDrive();
   public final TurnTurret turnTurret = new TurnTurret();
@@ -87,14 +90,13 @@ public class RobotContainer {
 
   //-----Driver Controls-----\\
   oi.driver_rightBumper.whenPressed(()->intake.deployOrRetract());
+
   oi.driver_leftTrigger.whenPressed(()->intake.reverseOn()).whenReleased(()->intake.turnOn()); 
-  oi.driver_yButton.whenPressed(()->turret.limelight.ledOn());
-  oi.driver_xButton.whenPressed(()->turret.limelight.ledOff());
+  oi.driver_yButton.whenPressed(()->climber.moveElevatorStaticUp()).whenReleased(()->climber.stopElevator());
+  oi.driver_aButton.whenPressed(()->climber.moveElevatorStaticDown()).whenReleased(()->climber.stopElevator());
   oi.driver_bButton.whenPressed(()->shooter.feedAndFire()).whenReleased(new StopShooting());
-  //oi.driver_upDpad.whenPressed(()->climber.moveElevatorStaticUp());
-  //oi.driver_upDpad.whenReleased(()->climber.stopElevator());
-  //oi.driver_downDpad.whenPressed(()->climber.moveElevatorStaticDown());
-  //oi.driver_downDpad.whenReleased(()->climber.stopElevator());
+  oi.driver_xButton.whenPressed(()->climber.setPositionToClimbHeight());
+
 
   //-----Operator Controls-----\\    
   //oi.operator_aButton.toggleWhenPressed(climb, true);  // schedules ClimbUpAndDown for endgame

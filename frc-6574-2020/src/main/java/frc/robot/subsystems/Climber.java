@@ -7,7 +7,12 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 //import frc.robot.RobotContainer; //Might remove, doesn't cause errors yet
@@ -19,72 +24,74 @@ public class Climber extends SubsystemBase {
    */
   final double ClimberSpeed = 0.50;
 
-  //public CANSparkMax elevator = new CANSparkMax(RobotMap.ELEVATOR_CAN_ID, MotorType.kBrushless);
-  //public CANSparkMax winch = new CANSparkMax(RobotMap.WINCH_CAN_ID, MotorType.kBrushless);
-  public DoubleSolenoid climberDeploy = new DoubleSolenoid(RobotMap.CLIMBER_EXTENDER_ID2, RobotMap.CLIMBER_EXTENDER_ID1);
+  public WPI_TalonFX leftClimb = new WPI_TalonFX(RobotMap.LEFT_CLIMB_CAN_ID);
+  public WPI_TalonFX rightClimb = new WPI_TalonFX(RobotMap.LEFT_CLIMB_CAN_ID);
+
+  //public DoubleSolenoid climberDeploy = new DoubleSolenoid(RobotMap.CLIMBER_EXTENDER_ID2, RobotMap.CLIMBER_EXTENDER_ID1);
 
   final DoubleSolenoid.Value DEPLOYED = DoubleSolenoid.Value.kForward;
   final DoubleSolenoid.Value RETRACTED = DoubleSolenoid.Value.kReverse;
   
-  final double elevatorSpeed = .15;
+  final double elevatorSpeed = .25;
+  double climbHeightExtension = 54000;
+  double climbHeightRetraction = 20000;
 
   public Climber() {
-    //double rampRate = 0.2;
-    //int currentLimit = 40; 
-   
-    //elevator.setOpenLoopRampRate(rampRate); //makes sure it doesn't go too fast when it is about to end?
-    //winch.setOpenLoopRampRate(rampRate);
+    double rampRate = 0.2;
+    int currentLimit = 30; 
+    int currentLimitThreshold = 50;
+    double currentLimitThresholdTime = 1.0;
 
-    //elevator.setSmartCurrentLimit(currentLimit); //will stop power if stuck
-    //winch.setSmartCurrentLimit(currentLimit);
+    leftClimb.setSelectedSensorPosition(0);
+    
+    rightClimb.follow(leftClimb);
 
-    //elevator.setInverted(true);
-    //elevator.setIdleMode(IdleMode.kBrake);
-    //winch.setIdleMode(IdleMode.kBrake);
+    leftClimb.setInverted(true);
+    rightClimb.setInverted(true);
+    
+    rightClimb.setNeutralMode(NeutralMode.Brake);
+    leftClimb.setNeutralMode(NeutralMode.Brake);
+
+    rightClimb.configOpenloopRamp(rampRate);
+    leftClimb.configOpenloopRamp(rampRate);
+
+    leftClimb.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, currentLimit, currentLimitThreshold, currentLimitThresholdTime));
+    rightClimb.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, currentLimit, currentLimitThreshold, currentLimitThresholdTime));
+
+    double kF = 0; 
+    double kP = .15;  
+    double kI = 0;
+    double kD = 0;
+    leftClimb.config_kF(0, kF, 20);
+    leftClimb.config_kP(0, kP, 20);
+    leftClimb.config_kI(0, kI, 20);
+    leftClimb.config_kD(0, kD, 20);
+
+
   }
   public void moveElevatorStaticUp() {
-    //elevator.set(elevatorSpeed);
+    leftClimb.set(ControlMode.PercentOutput, elevatorSpeed);
   }
 
   public void moveElevatorStaticDown() {
-    //elevator.set(-elevatorSpeed);
+    leftClimb.set(ControlMode.PercentOutput, -elevatorSpeed);
   }
 
   public void stopElevator() {
-    //elevator.set(0);
+    leftClimb.set(ControlMode.PercentOutput, 0);
   }
- /* public void moveElevator(double yLeft) { 
-    if ((Math.abs(yLeft) <= 0.1)) {
-       elevator.set(0);
-       //winch.set(0);
-      return;
-    }
-
-    elevator.set(yLeft); 
-    //winch.set(y);
-    //SmartDashboard.putNumber("Climber speed", y);
-  }
-  */
-
-  public void moveWinch(double yLeft) { 
-    if ((Math.abs(yLeft) <= 0.1)) {
-       //elevator.set(0);
-       //winch.set(0);
-      return;
-    }
-
-    
-    //winch.set(yLeft);
-    //SmartDashboard.putNumber("Climber speed", y);
+  public void setPositionToClimbHeight() {
+    leftClimb.set(ControlMode.Position, climbHeightExtension);
   }
 
-
-
- /*  
+  public void setPositionToClimbHeightRetraction() {
+    leftClimb.set(ControlMode.Position, climbHeightRetraction);
+  }
+  
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Current Climb Position", leftClimb.getSelectedSensorPosition());
 
   }
-  */
 }
+  

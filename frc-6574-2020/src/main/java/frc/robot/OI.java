@@ -20,10 +20,10 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
  * 
  */
 public class OI {
-  public Joystick driver = new Joystick(0);
-  public Joystick operator = new Joystick(1);
+  public static Joystick driver = new Joystick(0);
+  public static Joystick operator = new Joystick(1);
 
-  //  STILL NEED TO FIGURE OUT TRIGGERS
+  // STILL NEED TO FIGURE OUT TRIGGERS
   // xBox Variables
   public Button driver_aButton = new JoystickButton(driver, 1);
   public Button driver_bButton = new JoystickButton(driver, 2);
@@ -33,8 +33,8 @@ public class OI {
   public Button driver_rightBumper = new JoystickButton(driver, 6);
   public Button driver_leftTrigger = new XBoxLeftTrigger(driver);
   public Button driver_rightTrigger = new XBoxRightTrigger(driver);
-  public Button driver_backButton = new JoystickButton(driver, 7);
-  public Button driver_startButton = new JoystickButton(driver, 8);
+  public static Button driver_backButton = new JoystickButton(driver, 7);
+  public static Button driver_startButton = new JoystickButton(driver, 8);
   public POVButton driver_upDpad = new POVButton(driver, 0);
   public POVButton driver_rightDpad = new POVButton(driver, 90);
   public POVButton driver_downDpad = new POVButton(driver, 180);

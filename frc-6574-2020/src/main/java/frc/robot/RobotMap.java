@@ -23,10 +23,9 @@ public class RobotMap {
   /** Drivetrain */
   public static final int FRONT_LEFT_CAN_ID = 1;
   public static final int BACK_LEFT_CAN_ID = 2;
-  public static final int THIRD_LEFT_CAN_ID = 14;
   public static final int FRONT_RIGHT_CAN_ID =3;
   public static final int BACK_RIGHT_CAN_ID = 4;
-  public static final int THIRD_RIGHT_CAN_ID = 13;
+  
     
 
   /** Shooter */
@@ -34,8 +33,8 @@ public class RobotMap {
   public static final int SHOOTERRIGHT_CAN_ID = 6;
 
   /** Climber */
-  public static final int ELEVATOR_CAN_ID = 7;  
-  public static final int WINCH_CAN_ID = 8;
+  public static final int LEFT_CLIMB_CAN_ID = 13;
+  public static final int RIGHT_CLIMB_CAN_ID = 14;
 
   /** Intake */
   public static final int INTAKE_MOTOR_CAN_ID = 9;

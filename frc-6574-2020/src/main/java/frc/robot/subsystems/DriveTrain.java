@@ -12,7 +12,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
@@ -23,14 +23,11 @@ import frc.robot.RobotMap;
 public class DriveTrain extends SubsystemBase {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-
-  private AHRS gyro = new AHRS(SerialPort.Port.kMXP); 
+  public static AHRS gyro = new AHRS(I2C.Port.kMXP);
   private WPI_TalonFX frontLeft = new WPI_TalonFX(RobotMap.FRONT_LEFT_CAN_ID);
   private WPI_TalonFX backLeft = new WPI_TalonFX(RobotMap.BACK_LEFT_CAN_ID);
   private WPI_TalonFX frontRight = new WPI_TalonFX(RobotMap.FRONT_RIGHT_CAN_ID);
   private WPI_TalonFX backRight = new WPI_TalonFX(RobotMap.BACK_RIGHT_CAN_ID);
-  private WPI_TalonFX thirdRight = new WPI_TalonFX(RobotMap.THIRD_RIGHT_CAN_ID);
-  private WPI_TalonFX thirdLeft = new WPI_TalonFX(RobotMap.THIRD_LEFT_CAN_ID);
 
   // following variable are used in turnToHeading and driveAlongAngle
   final double MaxDriveSpeed = 0.15;
@@ -216,41 +213,32 @@ public class DriveTrain extends SubsystemBase {
     //Enables motors to follow commands sent to front and left 
     backLeft.follow(frontLeft);
     backRight.follow(frontRight);
-    thirdRight.follow(frontRight);
-    thirdLeft.follow(frontLeft);
+ 
 
     frontLeft.configFactoryDefault();
     frontRight.configFactoryDefault();
     backLeft.configFactoryDefault();
     backRight.configFactoryDefault();
-    thirdRight.configFactoryDefault();
-    thirdLeft.configFactoryDefault();
+  
 
     frontLeft.configOpenloopRamp(rampRate);
     backLeft.configOpenloopRamp(rampRate);
     frontRight.configOpenloopRamp(rampRate);
     backRight.configOpenloopRamp(rampRate);
-    thirdLeft.configOpenloopRamp(rampRate);
-    thirdRight.configOpenloopRamp(rampRate);
-
+    
     frontRight.setInverted(true);
     backRight.setInverted(true);
-    thirdRight.setInverted(true);
 
     frontLeft.setNeutralMode(NeutralMode.Brake);
     backLeft.setNeutralMode(NeutralMode.Brake);
-    thirdLeft.setNeutralMode(NeutralMode.Brake);
     frontRight.setNeutralMode(NeutralMode.Brake);
     backRight.setNeutralMode(NeutralMode.Brake);
-    thirdRight.setNeutralMode(NeutralMode.Brake);
 
     
     frontLeft.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, currentLimit, currentLimitThreshold, currentLimitThresholdTime));
     backLeft.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, currentLimit, currentLimitThreshold, currentLimitThresholdTime));
-    thirdLeft.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, currentLimit, currentLimitThreshold, currentLimitThresholdTime));
     frontRight.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, currentLimit, currentLimitThreshold, currentLimitThresholdTime));
     backRight.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, currentLimit, currentLimitThreshold, currentLimitThresholdTime));
-    thirdRight.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, currentLimit, currentLimitThreshold, currentLimitThresholdTime));
     
 
 

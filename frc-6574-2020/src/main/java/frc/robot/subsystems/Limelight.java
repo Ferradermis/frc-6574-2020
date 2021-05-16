@@ -31,7 +31,6 @@ public class Limelight extends SubsystemBase {
       SmartDashboard.putNumber("Limelight X", getAngleX());
       SmartDashboard.putNumber("Limelight Y", getAngleY());
       SmartDashboard.putNumber("Limelight Y", getSkew());
-      SmartDashboard.putNumber("Distance to target: ", getDistanceToTarget(-1));
       SmartDashboard.putNumber("Limelight Pipeline:", limelight.getEntry("pipeline").getDouble(3));
 
     }

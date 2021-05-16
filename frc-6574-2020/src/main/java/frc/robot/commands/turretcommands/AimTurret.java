@@ -7,7 +7,6 @@
 
 package frc.robot.commands.turretcommands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
@@ -21,7 +20,7 @@ public class AimTurret extends CommandBase {
   private double simpleFF =.01;
   private double threshold = .25;
   private double offset = 0;//-.35;
-//  private double MAXROTATION = 45;
+  // private double MAXROTATION = 45;
 
   public AimTurret() {
     // Use addRequirements() here to declare subsystem dependencies.

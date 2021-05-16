@@ -11,6 +11,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.Blinkin;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.cscore.UsbCamera;
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -25,13 +26,13 @@ public class Robot extends TimedRobot {
   MjpegServer mjpegServer;
   // 320 x240
   // 20 compression
+  
   // private String gameData;
 
   @Override
   public void robotInit() {
     robotContainer = new RobotContainer();
-    //RobotContainer.compressor.setClosedLoopControl(false);
-    //RobotContainer.compressor.stop();   //stops the compressor
+    //stops the compressor
     //RobotContainer.compressor.start(); //starts the compressor
 
     //cameraServer = CameraServer.getInstance();
@@ -50,14 +51,16 @@ public class Robot extends TimedRobot {
 //    PortForwarder.add(5800,"limelight.local",5800);
 //    PortForwarder.add(5801,"limelight.local",5801);
 //    PortForwarder.add(5805,"limelight.local",5805);
+      Blinkin.lightChaseRed();
+
   }
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
     SmartDashboard.putData(CommandScheduler.getInstance());
-   
   }
+
 
   @Override
   public void autonomousInit() {
@@ -88,9 +91,20 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    // listen to DriverStation to get data for Control Panel color
-    //    gameData = DriverStation.getInstance().getGameSpecificMessage();
 
+    if (OI.driver_startButton.get()) { //disables shooter and compressor for endgame
+      Blinkin.solid_orange();
+      RobotContainer.compressor.setClosedLoopControl(false);
+      RobotContainer.compressor.stop();
+      RobotContainer.shooter.defaultShooterOff();
+    }
+
+    else if (OI.driver_backButton.get()) { //enables shooter and compressor for standard teleop
+      Blinkin.blue();
+      RobotContainer.shooter.setVelocity(Shooter.shooterSpeed);
+      RobotContainer.compressor.setClosedLoopControl(true);
+      RobotContainer.compressor.start();
+    }
   }
 
 }
