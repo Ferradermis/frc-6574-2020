@@ -12,8 +12,8 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 //import frc.robot.RobotContainer; //Might remove, doesn't cause errors yet
 import frc.robot.RobotMap;
@@ -33,7 +33,7 @@ public class Climber extends SubsystemBase {
   final DoubleSolenoid.Value RETRACTED = DoubleSolenoid.Value.kReverse;
   
   final double elevatorSpeed = .25;
-  double climbHeightExtension = 54000;
+  double climbHeightExtension = 80000; //MAX RECORDED NUMBER = 148589
   double climbHeightRetraction = 20000;
 
   public Climber() {
@@ -43,6 +43,8 @@ public class Climber extends SubsystemBase {
     double currentLimitThresholdTime = 1.0;
 
     leftClimb.setSelectedSensorPosition(0);
+
+    SmartDashboard.putNumber("Climber Current", leftClimb.getSupplyCurrent());
     
     rightClimb.follow(leftClimb);
 
@@ -58,14 +60,17 @@ public class Climber extends SubsystemBase {
     leftClimb.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, currentLimit, currentLimitThreshold, currentLimitThresholdTime));
     rightClimb.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, currentLimit, currentLimitThreshold, currentLimitThresholdTime));
 
-    double kF = 0; 
-    double kP = .15;  
+    double kF = 0.0006; 
+    double kP = .17;  
     double kI = 0;
-    double kD = 0;
+    double kD = .15;
     leftClimb.config_kF(0, kF, 20);
     leftClimb.config_kP(0, kP, 20);
     leftClimb.config_kI(0, kI, 20);
     leftClimb.config_kD(0, kD, 20);
+
+    leftClimb.configForwardSoftLimitThreshold(140000, 0);
+    leftClimb.configForwardSoftLimitEnable(true, 0);
 
 
   }
@@ -81,11 +86,19 @@ public class Climber extends SubsystemBase {
     leftClimb.set(ControlMode.PercentOutput, 0);
   }
   public void setPositionToClimbHeight() {
-    leftClimb.set(ControlMode.Position, climbHeightExtension);
+      leftClimb.set(ControlMode.Position, climbHeightExtension);
   }
 
   public void setPositionToClimbHeightRetraction() {
     leftClimb.set(ControlMode.Position, climbHeightRetraction);
+  }
+  public void resetClimber() {
+    
+  }
+  public boolean climberAtPosition(double targetPosition) {
+    double tolerance = 500;
+    double desiredPosition = targetPosition; //calculateTargetVelocity(shooterSpeed);
+    return (leftClimb.getSelectedSensorPosition() >= (desiredPosition - tolerance));
   }
   
   @Override

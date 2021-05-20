@@ -68,7 +68,7 @@ public class Shooter extends SubsystemBase {
 
   public boolean shooterReady(double targetShooterSpeed) {
     double tolerance = 30;
-    double targetVelocity_UnitsPer100ms = targetShooterSpeed;//calculateTargetVelocity(shooterSpeed);
+    double targetVelocity_UnitsPer100ms = targetShooterSpeed; //calculateTargetVelocity(shooterSpeed);
     return (shooterLeft.getSelectedSensorVelocity() >= (targetVelocity_UnitsPer100ms - tolerance));
     //return (shooterLeft.getSelectedSensorVelocity() >= (SmartDashboard.getNumber("Entered Shooter Velocity", 0) - tolerance));
   }

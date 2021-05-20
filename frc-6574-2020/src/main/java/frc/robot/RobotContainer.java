@@ -95,7 +95,7 @@ public class RobotContainer {
   oi.driver_yButton.whenPressed(()->climber.moveElevatorStaticUp()).whenReleased(()->climber.stopElevator());
   oi.driver_aButton.whenPressed(()->climber.moveElevatorStaticDown()).whenReleased(()->climber.stopElevator());
   oi.driver_bButton.whenPressed(()->shooter.feedAndFire()).whenReleased(new StopShooting());
-  oi.driver_xButton.whenPressed(()->climber.setPositionToClimbHeight());
+  oi.driver_xButton.whenPressed(()->climber.setPositionToClimbHeight()).whenReleased(()->climber.stopElevator());
 
 
   //-----Operator Controls-----\\    
