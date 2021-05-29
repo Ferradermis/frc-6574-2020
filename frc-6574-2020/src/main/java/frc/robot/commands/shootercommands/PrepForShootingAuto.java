@@ -12,16 +12,16 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
-import frc.robot.commands.turretcommands.AimTurret;
+import frc.robot.commands.turretcommands.AimTurretAuto;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 
-public class PrepForShooting extends SequentialCommandGroup {
+public class PrepForShootingAuto extends SequentialCommandGroup {
   /**
    * Creates a new PrepForShooting.
    */
-  public PrepForShooting() {
+  public PrepForShootingAuto() {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
@@ -29,10 +29,11 @@ public class PrepForShooting extends SequentialCommandGroup {
       new ParallelCommandGroup(
         new SequentialCommandGroup(
           new InstantCommand(()->RobotContainer.shooter.raiseHoodForShooting()),
+          
           new WaitCommand(.1),
-          new InstantCommand(()->RobotContainer.shooter.extendHoodForLongDistance())
+          new InstantCommand(RobotContainer.shooter::extendHoodForLongDistance, RobotContainer.shooter)
          ),
-        new ScheduleCommand(new AimTurret())
+        new ScheduleCommand(new AimTurretAuto())
       )
      );
   }

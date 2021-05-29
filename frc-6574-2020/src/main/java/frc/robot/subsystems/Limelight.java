@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.commands.turretcommands.AimTurret;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -28,9 +29,10 @@ public class Limelight extends SubsystemBase {
     public void periodic() {
       // This method will be called once per scheduler run
       SmartDashboard.putBoolean("Limelight has target?", hasTarget());
-      SmartDashboard.putNumber("Limelight X", getAngleX());
-      SmartDashboard.putNumber("Limelight Y", getAngleY());
-      SmartDashboard.putNumber("Limelight Y", getSkew());
+      SmartDashboard.putBoolean("Limelight aimed at target?", aimedAtTarget());
+      //SmartDashboard.putNumber("Limelight X", getAngleX());
+      //SmartDashboard.putNumber("Limelight Y", getAngleY());
+      //SmartDashboard.putNumber("Limelight Y", getSkew());
       SmartDashboard.putNumber("Limelight Pipeline:", limelight.getEntry("pipeline").getDouble(3));
 
     }
@@ -105,9 +107,9 @@ public class Limelight extends SubsystemBase {
         return (h2-h1)/Math.tan((angleY+A1)*Math.PI/180);
       }
     
-      public boolean aimedAtTarget() {       
-        final double tolerance = 1;
-        return (Math.abs(getAngleX()) <= tolerance);
-      }
+    public boolean aimedAtTarget() {       
+    //return Math.abs(getAngleX() - (AimTurret.threshold + AimTurret.offset)) <= tolerance;
+    return (Math.abs(getAngleX()) <= AimTurret.threshold);
+    }
     
 }

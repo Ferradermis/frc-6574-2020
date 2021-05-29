@@ -8,15 +8,13 @@
 package frc.robot.commands.autonomouscommands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Shooter;
 
-public class ShootLeaveLine extends SequentialCommandGroup {
+public class ThreeBallAuto extends SequentialCommandGroup {
   /**
    * Creates a new ShootLeaveLine.
    */
-  public ShootLeaveLine() {
-    super(new ShootFromAutoLine(), new AutoPlanCMovesOffLine());
+  public ThreeBallAuto() {
+    super(new ShootFromAutoLine(), new MoveOffLine(-1));
     // Use addRequirements() here to declare subsystem dependencies.
   }
 }

@@ -7,23 +7,18 @@
 
 package frc.robot;
 
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.Blinkin;
 import frc.robot.subsystems.Shooter;
-import edu.wpi.cscore.UsbCamera;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
-import edu.wpi.cscore.MjpegServer;
 
 public class Robot extends TimedRobot {
 
   private RobotContainer robotContainer;
-  private UsbCamera spindexerCamera;
-  private CameraServer cameraServer;
-  MjpegServer mjpegServer;
+  //private UsbCamera spindexerCamera;
+  //private CameraServer cameraServer;
+  //MjpegServer mjpegServer;
   // 320 x240
   // 20 compression
   
@@ -32,10 +27,12 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     robotContainer = new RobotContainer();
+    SmartDashboard.putData(CommandScheduler.getInstance());
     //stops the compressor
     //RobotContainer.compressor.start(); //starts the compressor
-
+    
     //cameraServer = CameraServer.getInstance();
+    
     //spindexerCamera = new UsbCamera("spindexerCamera", 0);
     //cameraServer.addCamera(spindexerCamera);
     //mjpegServer = cameraServer.addServer("mjpeg USB Camera");
@@ -44,6 +41,9 @@ public class Robot extends TimedRobot {
     //spindexerCamera.setResolution(320, 240);
     //spindexerCamera.setFPS(15);
   
+    //UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+    //camera.setResolution(640, 480);
+
 // THIS IS WHAT WORKED IN DULUTH
     //spindexerCamera = cameraServer.startAutomaticCapture();
 

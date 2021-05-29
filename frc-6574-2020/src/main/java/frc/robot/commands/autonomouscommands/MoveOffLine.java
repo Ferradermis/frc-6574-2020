@@ -11,9 +11,12 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.HelperMethods;
 import frc.robot.RobotContainer;
 
-public class AutoPlanCMovesOffLine extends InstantCommand {
+public class MoveOffLine extends InstantCommand {
 
-  public AutoPlanCMovesOffLine() {
+  private double distance;
+
+  public MoveOffLine(double distance) {
+    this.distance = distance;
     addRequirements(RobotContainer.driveTrain);
   }
 
@@ -21,9 +24,8 @@ public class AutoPlanCMovesOffLine extends InstantCommand {
   @Override
   public void initialize() {
     HelperMethods.allAutoStart();
-//    (new TurnTurretAtStart(RobotContainer.turret)).schedule();
-
-    RobotContainer.driveTrain.driveAlongAngle(-1, 0);
+// (new TurnTurretAtStart(RobotContainer.turret)).schedule();
+    RobotContainer.driveTrain.driveAlongAngle(distance, 0);
 
     //driveTrain.arcadeDrive(.25,0);
     //Timer.delay(3);

@@ -12,14 +12,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Shooter;
 
-public class JustShoot extends CommandBase {
+public class JustShootAuto extends CommandBase {
   /**
    * Creates a new Shoot Command.
    */
   boolean interrupted = false;
 
 
-  public JustShoot() {
+  public JustShootAuto() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.shooter);
   }
@@ -33,6 +33,7 @@ public class JustShoot extends CommandBase {
   //  shooter.extendHoodForLongDistance();
   //  distanceToTarget = 138;
     System.out.println("JustShoot is being initialized");
+    RobotContainer.hopper.hopperEncoder.setPosition(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -62,6 +63,6 @@ public class JustShoot extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return interrupted && !RobotContainer.oi.operator_rightTrigger.get();
+    return interrupted && RobotContainer.hopper.hopperEncoder.getPosition() > 150;
   }
 }

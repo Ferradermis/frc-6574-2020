@@ -8,15 +8,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.commands.autonomouscommands.AutoPlanCMovesOffLine;
-import frc.robot.commands.autonomouscommands.ShootLeaveLine;
+import frc.robot.commands.autonomouscommands.MoveOffLine;
+import frc.robot.commands.autonomouscommands.StraightLineSixBallAuto;
+import frc.robot.commands.autonomouscommands.ThreeBallAuto;
 import frc.robot.commands.drivetraincommands.ArcadeDrive;
 import frc.robot.commands.shootercommands.ShootCommand;
 import frc.robot.commands.shootercommands.StopShooting;
@@ -43,7 +42,6 @@ public class RobotContainer {
    */
   
   //Subsystems
-  /** */ 
   public static final OI oi = new OI(); //Phase out
   public static final DriveTrain driveTrain = new DriveTrain();
   public static final Shooter shooter = new Shooter();
@@ -55,13 +53,11 @@ public class RobotContainer {
   public static final Compressor compressor = new Compressor();
 
   public static final Blinkin m_blinkin = new Blinkin(0);
-
     
   //Commands
   public final ArcadeDrive arcadeDrive = new ArcadeDrive();
   public final TurnTurret turnTurret = new TurnTurret();
   public static final AimTurret aimTurret = new AimTurret();
-  //public static final ClimbUpandDown climb = new ClimbUpandDown(climber);
 
   public static SendableChooser<CommandBase> autochooser = new SendableChooser<CommandBase>();
   public static SendableChooser<String> allianceChooser = new SendableChooser<String>();
@@ -69,54 +65,51 @@ public class RobotContainer {
   public RobotContainer() {
 
     driveTrain.setDefaultCommand(arcadeDrive);
-    turret.setDefaultCommand(turnTurret);
-  //  climber.setDefaultCommand(climb);
+  //  turret.setDefaultCommand(turnTurret);
 
     SmartDashboard.putNumber("Delay Start of Auto: ", 0.0);
-    autochooser.addOption("Move off Initiation line", new AutoPlanCMovesOffLine());
-    autochooser.addOption("Shoot and move off line", new ShootLeaveLine());
+    autochooser.addOption("Move off Initiation line", new MoveOffLine(-1));
+    autochooser.addOption("ThreeBallAuto", new ThreeBallAuto());
+    autochooser.addOption("StraightLineSix", new StraightLineSixBallAuto());
     SmartDashboard.putData("Autonomous Chooser", autochooser);
     allianceChooser.setDefaultOption("Red Alliance (pipeline)", "red");    
     allianceChooser.addOption("Blue Alliance (pipeline)", "blue");
     SmartDashboard.putData("Alliance (pipeline)", allianceChooser);    
 
-//    SmartDashboard.putNumber("User entered Shooter % Speed", 0.5);
-//    SmartDashboard.putNumber("User entered Shooter Velocity", 10000);
     configureButtonBindings();
   }
 
  
   private void configureButtonBindings() {
 
-  //-----Driver Controls-----\\
-  oi.driver_rightBumper.whenPressed(()->intake.deployOrRetract());
+    //-----Driver Controls-----\\
+    oi.driver_rightBumper.whenPressed(()->intake.deployOrRetract());
 
-  oi.driver_leftTrigger.whenPressed(()->intake.reverseOn()).whenReleased(()->intake.turnOn()); 
-  oi.driver_yButton.whenPressed(()->climber.moveElevatorStaticUp()).whenReleased(()->climber.stopElevator());
-  oi.driver_aButton.whenPressed(()->climber.moveElevatorStaticDown()).whenReleased(()->climber.stopElevator());
-  oi.driver_bButton.whenPressed(()->shooter.feedAndFire()).whenReleased(new StopShooting());
-  oi.driver_xButton.whenPressed(()->climber.setPositionToClimbHeight()).whenReleased(()->climber.stopElevator());
+    oi.driver_leftTrigger.whenPressed(()->intake.reverseOn()).whenReleased(()->intake.turnOnManual()); 
+    oi.driver_yButton.whenPressed(()->climber.moveElevatorStaticUp()).whenReleased(()->climber.stopElevator());
+    oi.driver_aButton.whenPressed(()->climber.moveElevatorStaticDown()).whenReleased(()->climber.stopElevator());
+    oi.driver_bButton.whenPressed(()->shooter.feedAndFire()).whenReleased(new StopShooting());
+    oi.driver_xButton.whenPressed(()->climber.setElevatorPositionToClimbHeight()).whenReleased(()->climber.stopElevator());
 
 
-  //-----Operator Controls-----\\    
-  //oi.operator_aButton.toggleWhenPressed(climb, true);  // schedules ClimbUpAndDown for endgame
-  oi.operator_rightTrigger.whenPressed(new ShootCommand()).whenReleased(new StopShooting());
-  oi.operator_leftTrigger.whenPressed(()->intake.turnOn())
-                          .whenReleased(()->intake.turnOff());
-  
-  oi.operator_rightBumper.whenPressed(()->hopper.turnOnForIntake())
+    //-----Operator Controls-----\\    
+    //oi.operator_aButton.toggleWhenPressed(climb, true);  // schedules ClimbUpAndDown for endgame
+    oi.operator_rightTrigger.whenPressed(new ShootCommand()).whenReleased(new StopShooting());
+    oi.operator_leftTrigger.whenPressed(()->intake.turnOn())
+                            .whenReleased(()->intake.turnOff());
+    
+    oi.operator_rightBumper.whenPressed(()->hopper.turnOnForIntake())
+                            .whenReleased(()->hopper.turnOff());
+
+    oi.operator_leftBumper.whenPressed(()->hopper.reverseForIntake())
                           .whenReleased(()->hopper.turnOff());
 
-  oi.operator_leftBumper.whenPressed(()->hopper.reverseForIntake())
-                        .whenReleased(()->hopper.turnOff());
-
-  oi.operator_upDpad.whenPressed(()->shooter.raiseHoodForShooting());
-  oi.operator_downDpad.whenPressed(()->shooter.lowerHoodForTrench());
-  oi.operator_rightDpad.whenPressed(()->shooter.extendHoodForLongDistance());
-  oi.operator_leftDpad.whenPressed(()->shooter.retractHoodforShortDistance());
-  oi.operator_aButton.whenPressed(new AimTurret()).whenReleased(new InstantCommand(turret::stopAiming, turret));
+    oi.operator_upDpad.whenPressed(()->shooter.raiseHoodForShooting());
+    oi.operator_downDpad.whenPressed(()->shooter.lowerHoodForTrench());
+    oi.operator_rightDpad.whenPressed(()->shooter.extendHoodForLongDistance());
+    oi.operator_leftDpad.whenPressed(()->shooter.retractHoodforShortDistance());
+    oi.operator_aButton.whenPressed(new AimTurret()).whenReleased(new InstantCommand(turret::stopAiming, turret));
   }
-
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
