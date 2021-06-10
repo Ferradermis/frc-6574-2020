@@ -35,7 +35,7 @@ public class Shooter extends SubsystemBase {
   public DoubleSolenoid hoodAngle = new DoubleSolenoid(RobotMap.HOOD_ANGLE_ID2, RobotMap.HOOD_ANGLE_ID1);
 
   public double enteredShooterVelocity;
-  public static double shooterSpeed = 500; //15500
+  public static double shooterSpeed = 15500; //15500
 
   public Shooter() {
     configureMotors();
@@ -112,8 +112,7 @@ public class Shooter extends SubsystemBase {
 
   public void extendHoodForLongDistance() {
     // only extend distance hood if trenchHood raised and hoodAngle is down
-    if ((hoodTrench.get() == DoubleSolenoid.Value.kForward) && 
-              (hoodAngle.get() == DoubleSolenoid.Value.kReverse)) {
+    if ((hoodTrench.get() == DoubleSolenoid.Value.kForward)){
       hoodAngle.set(DoubleSolenoid.Value.kForward);
     }
   }

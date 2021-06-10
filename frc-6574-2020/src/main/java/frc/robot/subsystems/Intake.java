@@ -19,7 +19,7 @@ public class Intake extends SubsystemBase {
   /**
    * Creates a new Intake.
    */
-  final double MaxIntakeSpeed = .125;  
+  final double MaxIntakeSpeed = 1;  
   
   final DoubleSolenoid.Value DEPLOYED = DoubleSolenoid.Value.kForward;
   final DoubleSolenoid.Value RETRACTED = DoubleSolenoid.Value.kReverse;

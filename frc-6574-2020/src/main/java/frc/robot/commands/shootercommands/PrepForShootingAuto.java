@@ -31,9 +31,9 @@ public class PrepForShootingAuto extends SequentialCommandGroup {
           new InstantCommand(()->RobotContainer.shooter.raiseHoodForShooting()),
           
           new WaitCommand(.1),
-          new InstantCommand(RobotContainer.shooter::extendHoodForLongDistance, RobotContainer.shooter)
+          new ExtendHood()
          ),
-        new ScheduleCommand(new AimTurretAuto())
+        new AimTurretAuto()
       )
      );
   }

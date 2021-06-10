@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.commands.autonomouscommands.AutonomousMovingPracitce;
 import frc.robot.commands.autonomouscommands.MoveOffLine;
 import frc.robot.commands.autonomouscommands.StraightLineSixBallAuto;
 import frc.robot.commands.autonomouscommands.ThreeBallAuto;
@@ -71,6 +72,7 @@ public class RobotContainer {
     autochooser.addOption("Move off Initiation line", new MoveOffLine(-1));
     autochooser.addOption("ThreeBallAuto", new ThreeBallAuto());
     autochooser.addOption("StraightLineSix", new StraightLineSixBallAuto());
+    autochooser.addOption("AutonomousMovingPractic", new AutonomousMovingPracitce());
     SmartDashboard.putData("Autonomous Chooser", autochooser);
     allianceChooser.setDefaultOption("Red Alliance (pipeline)", "red");    
     allianceChooser.addOption("Blue Alliance (pipeline)", "blue");

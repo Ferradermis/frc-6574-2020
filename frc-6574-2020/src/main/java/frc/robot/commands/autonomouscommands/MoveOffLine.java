@@ -25,8 +25,9 @@ public class MoveOffLine extends InstantCommand {
   public void initialize() {
     HelperMethods.allAutoStart();
 // (new TurnTurretAtStart(RobotContainer.turret)).schedule();
+    RobotContainer.driveTrain.resetPosition();
     RobotContainer.driveTrain.driveAlongAngle(distance, 0);
-
+    
     //driveTrain.arcadeDrive(.25,0);
     //Timer.delay(3);
     //driveTrain.stop();

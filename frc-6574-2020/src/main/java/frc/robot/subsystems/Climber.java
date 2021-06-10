@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -59,6 +60,9 @@ public class Climber extends SubsystemBase {
     leftClimb.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, currentLimit, currentLimitThreshold, currentLimitThresholdTime));
     rightClimb.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, currentLimit, currentLimitThreshold, currentLimitThresholdTime));
 
+    leftClimb.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, currentLimit, currentLimitThreshold, currentLimitThresholdTime));
+    rightClimb.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, currentLimit, currentLimitThreshold, currentLimitThresholdTime));
+
     double leftkF = 0.0006; 
     double leftkP = .17;  
     double leftkI = 0;
@@ -91,7 +95,6 @@ public class Climber extends SubsystemBase {
   public void moveElevatorStaticDown() {
     leftClimb.set(ControlMode.PercentOutput, -elevatorSpeed);
     rightClimb.set(ControlMode.PercentOutput, -elevatorSpeed);
-
   }
 
   public void stopElevator() {

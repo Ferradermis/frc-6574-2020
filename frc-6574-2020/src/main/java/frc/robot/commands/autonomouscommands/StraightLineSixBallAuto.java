@@ -6,7 +6,10 @@ package frc.robot.commands.autonomouscommands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.intakecommands.DeployAndTurnOnIntake;
 import frc.robot.commands.intakecommands.IntakeDeploy;
+import frc.robot.commands.intakecommands.IntakeRetract;
+import frc.robot.commands.intakecommands.RetractAndTurnOffIntake;
 import frc.robot.commands.intakecommands.TurnIntakeOn;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -15,11 +18,12 @@ import frc.robot.commands.intakecommands.TurnIntakeOn;
 public class StraightLineSixBallAuto extends SequentialCommandGroup {
   /** Creates a new StraightLineSixBallAuto. */
   public StraightLineSixBallAuto() {
-    super(new ThreeBallAuto(), 
-          new IntakeDeploy(), 
-          new TurnIntakeOn(), 
-          new MoveOffLine(-5), 
-          new WaitCommand(1), 
-          new MoveOffLine(4)); 
+    super(new ShootFromAutoLine(), 
+          new DeployAndTurnOnIntake(),
+          new MoveOffLine(-15), 
+          new WaitCommand(.1), 
+          new MoveOffLine(-0.1),
+          new RetractAndTurnOffIntake(),
+          new ShootFromAutoLine());
     }
 }

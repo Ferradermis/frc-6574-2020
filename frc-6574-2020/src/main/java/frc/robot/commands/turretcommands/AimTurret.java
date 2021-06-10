@@ -14,7 +14,7 @@ public class AimTurret extends CommandBase {
 
   public static double turnKP = .03;
   public static double simpleFF =.04;
-  public static double threshold = .5;
+  public static double threshold = .75;
   public static double offset = 0;//-.35;
   // private double MAXROTATION = 45;
 
