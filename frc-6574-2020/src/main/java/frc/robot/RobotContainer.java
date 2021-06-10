@@ -73,6 +73,7 @@ public class RobotContainer {
     autochooser.addOption("ThreeBallAuto", new ThreeBallAuto());
     autochooser.addOption("StraightLineSix", new StraightLineSixBallAuto());
     autochooser.addOption("AutonomousMovingPractic", new AutonomousMovingPracitce());
+
     SmartDashboard.putData("Autonomous Chooser", autochooser);
     allianceChooser.setDefaultOption("Red Alliance (pipeline)", "red");    
     allianceChooser.addOption("Blue Alliance (pipeline)", "blue");
