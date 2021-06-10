@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
@@ -30,7 +31,7 @@ public class DriveTrain extends SubsystemBase {
   private WPI_TalonFX backRight = new WPI_TalonFX(RobotMap.BACK_RIGHT_CAN_ID);
 
   // following variable are used in turnToHeading and driveAlongAngle
-  final double MaxDriveSpeed = 0.15;
+  final double MaxDriveSpeed = 0.3;//was .15
   final double MaxTurnSpeed = 0.25;
   final double EncoderUnitsPerFeet = 14500;
 
@@ -172,7 +173,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   // NOTE THIS FUNCTION CALL IS NON-BLOCKING; TRY TO AVOID USING
-  private void resetPosition() {
+  public void resetPosition() {
     frontLeft.setSelectedSensorPosition(0, 0, 50); 
     frontRight.setSelectedSensorPosition(0, 0, 50); 
   }

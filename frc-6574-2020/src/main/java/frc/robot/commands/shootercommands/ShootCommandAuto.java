@@ -5,19 +5,21 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.autonomouscommands;
+package frc.robot.commands.shootercommands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.commands.shootercommands.ShootCommandAuto;
 
-public class ShootFromAutoLine extends SequentialCommandGroup {
+public class ShootCommandAuto extends SequentialCommandGroup {
   /**
-   * Creates a new ShootFromAutoLine.
+   * Creates a new ShootCommand.
    */
-  public ShootFromAutoLine() {
-    super(new ShootCommandAuto(), new WaitCommand(.25));
-    // Use addRequirements() here to declare subsystem dependencies.
+  public ShootCommandAuto() {
+    // Add your commands in the super() call, e.g.
+    // super(new FooCommand(), new BarCommand());
+    super(
+      new PrepForShootingAuto(),
+
+      new JustShootAuto()
+    );    
   }
 }
-//, new StopShooting() new WaitCommand(7)

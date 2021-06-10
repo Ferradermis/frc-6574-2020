@@ -35,21 +35,21 @@ public class Shooter extends SubsystemBase {
   public DoubleSolenoid hoodAngle = new DoubleSolenoid(RobotMap.HOOD_ANGLE_ID2, RobotMap.HOOD_ANGLE_ID1);
 
   public double enteredShooterVelocity;
-  public static double shooterSpeed = 500; //15500
+  public static double shooterSpeed = 15500; //15500
 
   public Shooter() {
     configureMotors();
-    raiseHoodForShooting();
-    Timer.delay(.25);
-    extendHoodForLongDistance();
-    SmartDashboard.putNumber("Entered Shooter Velocity", enteredShooterVelocity);
+    //raiseHoodForShooting();
+    //Timer.delay(.25);
+    //extendHoodForLongDistance();
+    //SmartDashboard.putNumber("Entered Shooter Velocity", enteredShooterVelocity);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run 
     SmartDashboard.putNumber("Current Shooter Velocity", shooterLeft.getSelectedSensorVelocity());
-    
+    SmartDashboard.putBoolean("Shooter up to speed?", RobotContainer.shooter.shooterReady(Shooter.shooterSpeed));
   }
 
   public void spinSmartDash() {
@@ -67,9 +67,10 @@ public class Shooter extends SubsystemBase {
   //}
 
   public boolean shooterReady(double targetShooterSpeed) {
-    double tolerance = 30;
-    double targetVelocity_UnitsPer100ms = targetShooterSpeed; //calculateTargetVelocity(shooterSpeed);
-    return (shooterLeft.getSelectedSensorVelocity() >= (targetVelocity_UnitsPer100ms - tolerance));
+    double tolerance = 40;
+    //double targetVelocity_UnitsPer100ms = targetShooterSpeed; //calculateTargetVelocity(shooterSpeed);
+    return (Math.abs(shooterLeft.getSelectedSensorVelocity() - targetShooterSpeed) < tolerance);
+    //return (shooterLeft.getSelectedSensorVelocity() >= (targetVelocity_UnitsPer100ms - tolerance));
     //return (shooterLeft.getSelectedSensorVelocity() >= (SmartDashboard.getNumber("Entered Shooter Velocity", 0) - tolerance));
   }
 
@@ -111,8 +112,7 @@ public class Shooter extends SubsystemBase {
 
   public void extendHoodForLongDistance() {
     // only extend distance hood if trenchHood raised and hoodAngle is down
-    if ((hoodTrench.get() == DoubleSolenoid.Value.kForward) && 
-              (hoodAngle.get() == DoubleSolenoid.Value.kReverse)) {
+    if ((hoodTrench.get() == DoubleSolenoid.Value.kForward)){
       hoodAngle.set(DoubleSolenoid.Value.kForward);
     }
   }

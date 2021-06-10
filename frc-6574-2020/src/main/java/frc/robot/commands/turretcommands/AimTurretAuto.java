@@ -7,21 +7,24 @@
 
 package frc.robot.commands.turretcommands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
-public class AimTurret extends CommandBase {
-
-  public static double turnKP = .03;
-  public static double simpleFF =.04;
-  public static double threshold = .75;
-  public static double offset = 0;//-.35;
-  // private double MAXROTATION = 45;
-
+public class AimTurretAuto extends CommandBase {
   /**
    * Creates a new AimTurret command.
    */
-  public AimTurret() {
+  
+
+  //private double offset = 0;//-.35;
+  private double angleX;
+  private double errorMagnitude;
+  private boolean withinMargin = false;
+
+  // private double MAXROTATION = 45;
+
+  public AimTurretAuto() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.turret);
   }
@@ -31,18 +34,24 @@ public class AimTurret extends CommandBase {
 
   @Override
   public void execute() {
+   
     if (RobotContainer.turret.limelight.hasTarget()) {
-      double angleX = RobotContainer.turret.limelight.getAngleX();
-
-      if (angleX > threshold) {
-        RobotContainer.turret.turn((angleX * turnKP) + simpleFF); // copysign Deleted (what is this), .04 added as simple feedforward
+      angleX = RobotContainer.turret.limelight.getAngleX();
+      errorMagnitude = Math.abs(angleX);
+      SmartDashboard.putNumber("errorMagnitude", errorMagnitude);
+      if (errorMagnitude < AimTurret.threshold) {
+        withinMargin = true;
+      }
+      if (angleX > AimTurret.threshold) {
+        RobotContainer.turret.turn((angleX * AimTurret.turnKP) + AimTurret.simpleFF); // copysign Deleted (what is this), .04 added as simple feedforward
 
       }
-      else if (angleX < -threshold) {
-        RobotContainer.turret.turn((angleX * turnKP) - simpleFF);
+      else if (angleX < -AimTurret.threshold) {
+        RobotContainer.turret.turn((angleX * AimTurret.turnKP) - AimTurret.simpleFF);
       }
-    }
+    } 
   }
+  
 
   // Called once the command ends or is interrupted.
   @Override
@@ -53,6 +62,6 @@ public class AimTurret extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return withinMargin;
   }
 }

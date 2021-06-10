@@ -56,8 +56,91 @@ public class Blinkin extends SubsystemBase {
     set(.99);
   }
 
+  public static void hotPink() {
+    set(.57);
+  }
+
+  public static void darkRed() {
+    set(.59);
+  }
+
+  public static void red() {
+    set(.61);
+  }
+
+  public static void redOrange(){
+  }
+
+  public static void Orange() {
+    set(.65);
+  }
+
+  public static void Gold() {
+    set(.67);
+  }
+
+  public static void yellow() {
+    set(.69);
+  }
+
+  public static void lawnGreen() {
+    set(.71);
+  }
+
+  public static void lime() {
+    set(.73);
+  }
+
+  public static void darkGreen() {
+    set(.75);
+  }
+
+  public static void green() {
+    set(.77);
+  }
+
+  public static void blueGreen() {
+    set(.79);
+  }
+
+  public static void aqua() {
+    set(.81);
+  }
+
+  public static void skyBlue() {
+    set(.83);
+  }
+
+  public static void darkBlue() {
+    set(.85);
+  }
+
   public static void blue() {
     set(.87);
+  }
+
+  public static void blueViolet(){
+    set(.89);
+  }
+
+  public static void violet(){
+    set(.91);
+  }
+
+  public static void white() {
+    set(.93);
+  }
+
+  public static void gray() {
+    set(.95);
+  }
+
+  public static void darkGray() {
+    set(.97);
+  }
+
+  public static void black() {
+    set(.99);
   }
 
   public static void fireMedium() {

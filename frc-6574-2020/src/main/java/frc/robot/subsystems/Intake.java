@@ -19,7 +19,7 @@ public class Intake extends SubsystemBase {
   /**
    * Creates a new Intake.
    */
-  final double MaxIntakeSpeed = 0;  
+  final double MaxIntakeSpeed = 1;  
   
   final DoubleSolenoid.Value DEPLOYED = DoubleSolenoid.Value.kForward;
   final DoubleSolenoid.Value RETRACTED = DoubleSolenoid.Value.kReverse;
@@ -40,6 +40,10 @@ public class Intake extends SubsystemBase {
 
   public void turnOn() {
     intakeMotor.set(-MaxIntakeSpeed);
+  }
+
+  public void turnOnManual() {
+    intakeMotor.set(.85);
   }
 
   public void turnOff() {
@@ -65,7 +69,7 @@ public class Intake extends SubsystemBase {
     intakeDeploy.set(DEPLOYED);
     turnOn();  // TURNED OFF FOR TESTING
     RobotContainer.hopper.turnOnForIntake();
-    RobotContainer.shooter.feeder.set(-.125);
+    RobotContainer.shooter.feeder.set(-.125/4);
   }
 
   public void retract() {

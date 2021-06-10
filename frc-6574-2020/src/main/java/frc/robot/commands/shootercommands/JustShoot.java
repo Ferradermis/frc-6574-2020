@@ -7,15 +7,17 @@
 
 package frc.robot.commands.shootercommands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Shooter;
-import edu.wpi.first.wpilibj.Timer;
 
 public class JustShoot extends CommandBase {
   /**
    * Creates a new Shoot Command.
    */
+  boolean interrupted = false;
+
 
   public JustShoot() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -30,41 +32,36 @@ public class JustShoot extends CommandBase {
   //  Timer.delay(.4);
   //  shooter.extendHoodForLongDistance();
   //  distanceToTarget = 138;
+    System.out.println("JustShoot is being initialized");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    System.out.println("JustShoot is running");
     //distanceToTarget = RobotContainer.turret.limelight.getDistanceToTarget(138); // this is in inches
     //RobotContainer.hopper.turnOnForShooting();
-    RobotContainer.shooter.setVelocity(Shooter.shooterSpeed);
+    //RobotContainer.shooter.setVelocity(Shooter.shooterSpeed);
 
     if (RobotContainer.turret.limelight.aimedAtTarget() && RobotContainer.shooter.shooterReady(Shooter.shooterSpeed)) {
+        System.out.println("JustShoot condition has been met");
         Timer.delay(.25);
         RobotContainer.shooter.feedAndFire();
-        Timer.delay(0.375);
-        this.cancel();
-    } 
+        Timer.delay(1);
+        interrupted = true;
+        System.out.println("JustShoot condition has finished"); 
+      } 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-//    shooter.retractHoodforShortDistance();
-//    Timer.delay(.4);
-    //if (RobotContainer.aimTurret.isScheduled()) {
-      //RobotContainer.aimTurret.cancel();
-    //}
-//    shooter.stopShooter();
-//    shooter.stopFeeder();
-//    RobotContainer.hopper.turnOff();
-//    RobotContainer.turret.resetTurretForward();
-//    shooter.lowerHoodForTrench();
+    RobotContainer.shooter.stopShooter();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return interrupted && !RobotContainer.oi.operator_rightTrigger.get();
   }
 }
