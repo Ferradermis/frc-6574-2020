@@ -88,10 +88,10 @@ public class RobotContainer {
     oi.driver_rightBumper.whenPressed(()->intake.deployOrRetract());
 
     oi.driver_leftTrigger.whenPressed(()->intake.reverseOn()).whenReleased(()->intake.turnOnManual()); 
-    oi.driver_yButton.whenPressed(()->climber.moveElevatorStaticUp()).whenReleased(()->climber.setClimberToCurrentPosition());
-    oi.driver_aButton.whenPressed(()->climber.moveElevatorStaticDown()).whenReleased(()->climber.setClimberToCurrentPosition());
+    oi.driver_yButton.whenPressed(()->climber.moveElevatorStaticUp()).whenReleased(()->climber.stopElevator());
+    oi.driver_aButton.whenPressed(()->climber.moveElevatorStaticDown()).whenReleased(()->climber.stopElevator());
     oi.driver_bButton.whenPressed(()->shooter.feedAndFire()).whenReleased(new StopShooting());
-    oi.driver_xButton.whenPressed(()->climber.moveElevatorStaticDown()).whenReleased(()->climber.stopElevator());
+    oi.driver_xButton.whenPressed(()->climber.setElevatorPositionToClimbHeight()).whenReleased(()->climber.stopElevator());
 
 
     //-----Operator Controls-----\\    

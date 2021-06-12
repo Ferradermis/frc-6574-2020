@@ -43,7 +43,7 @@ public class Hopper extends SubsystemBase {
     double kIz = 0;
     double kMaxOutput = 1;
     double kMinOutput = -1;
-    //double maxRPM = 15000;
+    double maxRPM = 15000;
 
     hopperPIDController.setP(kP);
     hopperPIDController.setI(kI);
@@ -82,12 +82,16 @@ public class Hopper extends SubsystemBase {
     hopperMotor.set(-HopperSpeedManualIntake);
   }
 
+
+
   private void configureMotors() {
     double rampRate = 0.2;
     int currentLimit = 10; 
-    
+ 
     hopperMotor.setOpenLoopRampRate(rampRate);
     hopperMotor.setSmartCurrentLimit(currentLimit);
+    
+
     hopperMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
 
   }
