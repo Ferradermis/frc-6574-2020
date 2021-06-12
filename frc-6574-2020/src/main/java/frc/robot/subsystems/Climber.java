@@ -119,6 +119,14 @@ public class Climber extends SubsystemBase {
     leftClimb.set(ControlMode.Position, climbHeightRetraction);
   }
 
+  public void setClimbertoCurrentPosition() {
+
+    double leftClimbPos = leftClimb.getSelectedSensorPosition();
+    double rightClimbPos = rightClimb.getSelectedSensorPosition();
+    leftClimb.set(ControlMode.Position, leftClimbPos);
+    rightClimb.set(ControlMode.Position, rightClimbPos);    
+  }
+
   public void resetClimber() {
     leftClimb.setSelectedSensorPosition(0);
     rightClimb.setSelectedSensorPosition(0);

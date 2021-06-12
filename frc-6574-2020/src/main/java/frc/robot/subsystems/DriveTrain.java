@@ -12,8 +12,8 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
@@ -33,7 +33,7 @@ public class DriveTrain extends SubsystemBase {
   // following variable are used in turnToHeading and driveAlongAngle
   final double MaxDriveSpeed = 0.3;//was .15
   final double MaxTurnSpeed = 0.25;
-  final double EncoderUnitsPerFeet = 14500;
+  public final int EncoderUnitsPerFeet = 14500;
 
   public DriveTrain(){
     configureMotors();
@@ -199,6 +199,11 @@ public class DriveTrain extends SubsystemBase {
    // drivePositionControl(distanceInEncoderUnits);  
  // }
 
+ public void setPosition(int distance){
+  frontLeft.set(ControlMode.Position,distance);
+  frontRight.set(ControlMode.Position,distance);
+ }
+
 
   private void configureMotors() {
 
@@ -249,20 +254,20 @@ public class DriveTrain extends SubsystemBase {
 // int currentLimit = 30; //int because .setSmartCurrentLimit takes only ints, not doubles. Which makes sense programmatically. 
 //    frontLeft.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, currentLimit, triggerThresholdCurrent, triggerThresholdTime));
 
-/*   Use if we start to do drive by POSITION Closed Loop
-   double kF = 0;
-    double kP = 0.05;
-    double kI = 0;
-    double kD = 0;
+  //Use if we start to do drive by POSITION Closed Loop
+   double kF = .0005;
+    double kP = 0.0038;
+    //double kI = 0;
+    //double kD = 0;
     frontLeft.config_kP(0, kP);
     frontRight.config_kP(0, kP);
-    backLeft.config_kP(0, kP);
-    backRight.config_kP(0, kP);
-    thirdLeft.config_kP(0, kP);
+    frontLeft.config_kF(0, kF);
+    frontRight.config_kF(0, kF);
+
 
   //  frontLeft.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
   //  frontRight.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
-  */
+
 
   }
 }

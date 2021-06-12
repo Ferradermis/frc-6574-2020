@@ -23,7 +23,7 @@ public class Hopper extends SubsystemBase {
    */
   final double HopperSpeedShooting = 0.6; //.125 for IAC, .6 for PPT or normal use
   final double HopperSpeedManualIntake = 0.5; //~5700 units/sec
-  final double HopperSpeedIntake = .25;
+  final double HopperSpeedIntake = .5;
   final double closeLoopSpeed = 3000;
 
   public CANSparkMax hopperMotor = new CANSparkMax(RobotMap.HOPPER_CAN_ID, MotorType.kBrushless);
@@ -43,7 +43,7 @@ public class Hopper extends SubsystemBase {
     double kIz = 0;
     double kMaxOutput = 1;
     double kMinOutput = -1;
-    double maxRPM = 15000;
+    //double maxRPM = 15000;
 
     hopperPIDController.setP(kP);
     hopperPIDController.setI(kI);

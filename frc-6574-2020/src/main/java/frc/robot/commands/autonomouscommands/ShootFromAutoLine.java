@@ -16,7 +16,7 @@ public class ShootFromAutoLine extends SequentialCommandGroup {
    * Creates a new ShootFromAutoLine.
    */
   public ShootFromAutoLine() {
-    super(new ShootCommandAuto(), new WaitCommand(.25));
+    super(new ShootCommandAuto(), new WaitCommand(.125));
     // Use addRequirements() here to declare subsystem dependencies.
   }
 }

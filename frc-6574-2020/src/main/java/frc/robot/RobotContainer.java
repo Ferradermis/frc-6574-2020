@@ -13,10 +13,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.commands.autonomouscommands.AutonomousMovingPracitce;
+import frc.robot.commands.autonomouscommands.AutonomousMovingPractice;
 import frc.robot.commands.autonomouscommands.MoveOffLine;
 import frc.robot.commands.autonomouscommands.StraightLineSixBallAuto;
 import frc.robot.commands.autonomouscommands.ThreeBallAuto;
+import frc.robot.commands.blinkincommands.Rainbow;
 import frc.robot.commands.drivetraincommands.ArcadeDrive;
 import frc.robot.commands.shootercommands.ShootCommand;
 import frc.robot.commands.shootercommands.StopShooting;
@@ -72,8 +73,8 @@ public class RobotContainer {
     autochooser.addOption("Move off Initiation line", new MoveOffLine(-1));
     autochooser.addOption("ThreeBallAuto", new ThreeBallAuto());
     autochooser.addOption("StraightLineSix", new StraightLineSixBallAuto());
-    autochooser.addOption("AutonomousMovingPractic", new AutonomousMovingPracitce());
-
+    autochooser.addOption("AutonomousMovingPractice", new AutonomousMovingPractice());
+    autochooser.addOption("Rainbow!!!", new Rainbow());
     SmartDashboard.putData("Autonomous Chooser", autochooser);
     allianceChooser.setDefaultOption("Red Alliance (pipeline)", "red");    
     allianceChooser.addOption("Blue Alliance (pipeline)", "blue");
@@ -89,10 +90,10 @@ public class RobotContainer {
     oi.driver_rightBumper.whenPressed(()->intake.deployOrRetract());
 
     oi.driver_leftTrigger.whenPressed(()->intake.reverseOn()).whenReleased(()->intake.turnOnManual()); 
-    oi.driver_yButton.whenPressed(()->climber.moveElevatorStaticUp()).whenReleased(()->climber.stopElevator());
-    oi.driver_aButton.whenPressed(()->climber.moveElevatorStaticDown()).whenReleased(()->climber.stopElevator());
+    oi.driver_yButton.whenPressed(()->climber.moveElevatorStaticUp()).whenReleased(()->climber.setClimbertoCurrentPosition());
+    oi.driver_aButton.whenPressed(()->climber.moveElevatorStaticDown()).whenReleased(()->climber.setClimbertoCurrentPosition());
     oi.driver_bButton.whenPressed(()->shooter.feedAndFire()).whenReleased(new StopShooting());
-    oi.driver_xButton.whenPressed(()->climber.setElevatorPositionToClimbHeight()).whenReleased(()->climber.stopElevator());
+    oi.driver_xButton.whenPressed(()->climber.moveElevatorStaticDown()).whenReleased(()->climber.stopElevator());
 
 
     //-----Operator Controls-----\\    

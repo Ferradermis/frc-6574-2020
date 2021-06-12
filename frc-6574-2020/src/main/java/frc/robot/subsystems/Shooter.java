@@ -67,7 +67,7 @@ public class Shooter extends SubsystemBase {
   //}
 
   public boolean shooterReady(double targetShooterSpeed) {
-    double tolerance = 40;
+    double tolerance = 500;
     //double targetVelocity_UnitsPer100ms = targetShooterSpeed; //calculateTargetVelocity(shooterSpeed);
     return (Math.abs(shooterLeft.getSelectedSensorVelocity() - targetShooterSpeed) < tolerance);
     //return (shooterLeft.getSelectedSensorVelocity() >= (targetVelocity_UnitsPer100ms - tolerance));
@@ -190,7 +190,7 @@ public class Shooter extends SubsystemBase {
     shooterLeft.config_kD(0, kD, 20);
 
     //feeder.setOpenLoopRampRate(rampRate);
-    feeder.setSmartCurrentLimit(feederCurrentLimit);
+    //feeder.setSmartCurrentLimit(feederCurrentLimit);
 
 
   }
