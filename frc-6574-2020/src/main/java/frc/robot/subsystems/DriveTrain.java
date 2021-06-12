@@ -13,12 +13,9 @@ import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
-
-
 
 
 public class DriveTrain extends SubsystemBase {
@@ -31,7 +28,7 @@ public class DriveTrain extends SubsystemBase {
   private WPI_TalonFX backRight = new WPI_TalonFX(RobotMap.BACK_RIGHT_CAN_ID);
 
   // following variable are used in turnToHeading and driveAlongAngle
-  final double MaxDriveSpeed = 0.3;//was .15
+  final double MaxDriveSpeed = 0.15;
   final double MaxTurnSpeed = 0.25;
   final double EncoderUnitsPerFeet = 14500;
 
@@ -64,13 +61,12 @@ public class DriveTrain extends SubsystemBase {
     double leftSpeed = drive + steer;
     double rightSpeed = drive - steer;
     
-    if (leftSpeed > 1) { leftSpeed = 1; }
+    if (leftSpeed > 1) { leftSpeed = 1; } //this may not be needed anymore, TalonFX should automatically truncate
       else if (leftSpeed < -1) {leftSpeed = -1;}
 
-    if (rightSpeed  > 1) {rightSpeed = 1;}
+    if (rightSpeed  > 1) {rightSpeed = 1;} //this may not be needed anymore, TalonFX should automatically truncate
      else if (rightSpeed < -1) {rightSpeed = -1;} 
      
-   
      frontLeft.set(ControlMode.PercentOutput,-leftSpeed);
      frontRight.set(ControlMode.PercentOutput,-rightSpeed);
   }

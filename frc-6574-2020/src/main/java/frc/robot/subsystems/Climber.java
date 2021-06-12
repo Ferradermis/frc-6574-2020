@@ -32,7 +32,7 @@ public class Climber extends SubsystemBase {
   final DoubleSolenoid.Value DEPLOYED = DoubleSolenoid.Value.kForward;
   final DoubleSolenoid.Value RETRACTED = DoubleSolenoid.Value.kReverse;
   
-  final double elevatorSpeed = .5;
+  final double elevatorSpeed = .25;
   double climbHeightExtension = 125000; //MAX RECORDED NUMBER = 148589
   double climbHeightRetraction = 20000;
 
@@ -91,6 +91,14 @@ public class Climber extends SubsystemBase {
     leftClimb.set(ControlMode.PercentOutput, elevatorSpeed);
     rightClimb.set(ControlMode.PercentOutput, elevatorSpeed);
   }
+
+  public void setClimberToCurrentPosition() {
+    double leftClimbPos = leftClimb.getSelectedSensorPosition();
+    double rightClimbPos = rightClimb.getSelectedSensorPosition();
+    leftClimb.set(ControlMode.Position, leftClimbPos);
+    rightClimb.set(ControlMode.Position, rightClimbPos);
+  }
+  
 
   public void moveElevatorStaticDown() {
     leftClimb.set(ControlMode.PercentOutput, -elevatorSpeed);
