@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -16,7 +18,7 @@ import frc.robot.subsystems.Shooter;
 public class Robot extends TimedRobot {
 
   private RobotContainer robotContainer;
-  //private UsbCamera spindexerCamera;
+ // private UsbCamera spindexerCamera;
   //private CameraServer cameraServer;
   //MjpegServer mjpegServer;
   // 320 x240
@@ -28,6 +30,9 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     robotContainer = new RobotContainer();
     SmartDashboard.putData(CommandScheduler.getInstance());
+
+    CameraServer.getInstance().startAutomaticCapture();
+
     //stops the compressor
     //RobotContainer.compressor.start(); //starts the compressor
     
@@ -95,12 +100,12 @@ public class Robot extends TimedRobot {
     RobotContainer.compressor.start();
     
     if (OI.driver_startButton.get()) { //disables shooter and compressor for endgame
-      Blinkin.solid_orange();
+      Blinkin.blue();
       RobotContainer.shooter.defaultShooterOff();
     }
 
     else if (OI.driver_backButton.get()) { //enables shooter and compressor for standard teleop
-      Blinkin.blue();
+      Blinkin.red();
       RobotContainer.shooter.setVelocity(Shooter.shooterSpeed);
  
     }

@@ -7,7 +7,9 @@
 
 package frc.robot.commands.shootercommands;
 
+import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.turretcommands.TurnTurret;
 
 public class ShootCommand extends SequentialCommandGroup {
   /**
@@ -19,7 +21,9 @@ public class ShootCommand extends SequentialCommandGroup {
     super(
       new PrepForShooting(),
 
-      new JustShoot()
+      new JustShoot(),
+
+      new ScheduleCommand(new TurnTurret())
     );    
   }
 }

@@ -46,6 +46,10 @@ public class Intake extends SubsystemBase {
     intakeMotor.set(.85);
   }
 
+  public void turnOnAuto(double intakeSpeed) {
+    intakeMotor.set(intakeSpeed);
+  }
+
   public void turnOff() {
     intakeMotor.set(0);
   }

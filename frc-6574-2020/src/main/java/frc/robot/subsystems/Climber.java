@@ -22,7 +22,7 @@ public class Climber extends SubsystemBase {
   /**
    * Creates a new Climber.
    */
-  final double ClimberSpeed = 0.50;
+  final double ClimberSpeed = 0.650;
 
   public WPI_TalonFX leftClimb = new WPI_TalonFX(RobotMap.LEFT_CLIMB_CAN_ID);
   public WPI_TalonFX rightClimb = new WPI_TalonFX(RobotMap.RIGHT_CLIMB_CAN_ID);
@@ -38,13 +38,15 @@ public class Climber extends SubsystemBase {
 
   public Climber() {
     double rampRate = 0.2;
-    int currentLimit = 60; 
-    int currentLimitThreshold = 75;
-    double currentLimitThresholdTime = 1.0;
+    int currentLimit = 50; 
+    int currentLimitThreshold = 65;
+    double currentLimitThresholdTime = .5;
     double allowableCloseLoopError = 150;
+    int currentLimitStator = 1;
+
 
     resetClimber();
-    leftClimb.configAllowableClosedloopError(0, allowableCloseLoopError, 30);
+    leftClimb.configAllowableClosedloopError(0, allowableCloseLoopError, 300);
     
     //rightClimb.follow(leftClimb);
 
@@ -60,8 +62,8 @@ public class Climber extends SubsystemBase {
     leftClimb.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, currentLimit, currentLimitThreshold, currentLimitThresholdTime));
     rightClimb.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, currentLimit, currentLimitThreshold, currentLimitThresholdTime));
 
-    leftClimb.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, currentLimit, currentLimitThreshold, currentLimitThresholdTime));
-    rightClimb.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, currentLimit, currentLimitThreshold, currentLimitThresholdTime));
+    leftClimb.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(false, currentLimitStator, currentLimitThreshold, currentLimitThresholdTime));
+    rightClimb.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(false, currentLimitStator, currentLimitThreshold, currentLimitThresholdTime));
 
     double leftkF = 0.0006; 
     double leftkP = .17;  
