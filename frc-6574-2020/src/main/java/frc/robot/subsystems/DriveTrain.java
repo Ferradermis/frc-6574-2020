@@ -255,8 +255,8 @@ public class DriveTrain extends SubsystemBase {
 //    frontLeft.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, currentLimit, triggerThresholdCurrent, triggerThresholdTime));
 
   //Use if we start to do drive by POSITION Closed Loop
-   double kF = .0005;
-    double kP = 0.0038;
+   double kF = .00070;
+    double kP = 0.0032;
     //double kI = 0;
     //double kD = 0;
     frontLeft.config_kP(0, kP);

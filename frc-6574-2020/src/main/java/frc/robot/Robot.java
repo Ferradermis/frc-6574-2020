@@ -94,20 +94,27 @@ public class Robot extends TimedRobot {
     }
   }
 
-  @Override
-  public void teleopPeriodic() {
+  public void testPeriodic(){
     RobotContainer.compressor.setClosedLoopControl(true);
     RobotContainer.compressor.start();
+  }
+
+  @Override
+  public void teleopPeriodic() {
+    
     
     if (OI.driver_startButton.get()) { //disables shooter and compressor for endgame
       Blinkin.blue();
       RobotContainer.shooter.defaultShooterOff();
+      RobotContainer.compressor.setClosedLoopControl(false);
+      RobotContainer.compressor.stop();
     }
 
     else if (OI.driver_backButton.get()) { //enables shooter and compressor for standard teleop
       Blinkin.red();
       RobotContainer.shooter.setVelocity(Shooter.shooterSpeed);
- 
+      RobotContainer.compressor.setClosedLoopControl(true);
+      RobotContainer.compressor.start();
     }
   }
 

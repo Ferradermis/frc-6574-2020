@@ -14,7 +14,7 @@ public class ThreeBallAuto extends SequentialCommandGroup {
    * Creates a new ShootLeaveLine.
    */
   public ThreeBallAuto() {
-    super(new ShootFromAutoLine(), new MoveOffLine(-1));
+    super(new ShootFromAutoLine(), new DriveDistance(3));
     // Use addRequirements() here to declare subsystem dependencies.
   }
 }

@@ -83,9 +83,9 @@ public class Climber extends SubsystemBase {
     rightClimb.config_kI(0, rightkI, 20);
     rightClimb.config_kD(0, rightkD, 20);
 
-    leftClimb.configForwardSoftLimitThreshold(150000, 0);
+    leftClimb.configForwardSoftLimitThreshold(10000000, 0);
     leftClimb.configForwardSoftLimitEnable(true, 0);
-    rightClimb.configForwardSoftLimitThreshold(150000,0);
+    rightClimb.configForwardSoftLimitThreshold(10000000,0);
     rightClimb.configForwardSoftLimitEnable(true,0);
   }
 

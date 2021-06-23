@@ -84,16 +84,25 @@ public class RobotContainer {
   }
 
  
+  public void setShooterSpeed(int speed) {
+    Shooter.shooterSpeed = speed;
+  }
+
   private void configureButtonBindings() {
 
     //-----Driver Controls-----\\
     oi.driver_rightBumper.whenPressed(()->intake.deployOrRetract());
 
     oi.driver_leftTrigger.whenPressed(()->intake.reverseOn()).whenReleased(()->intake.turnOnManual()); 
-    oi.driver_yButton.whenPressed(()->climber.moveElevatorStaticUp()).whenReleased(()->climber.setClimbertoCurrentPosition());
+    oi.driver_yButton.whenPressed(()->climber.moveElevatorStaticUp()).whenReleased(()->climber.stopElevator());
     oi.driver_aButton.whenPressed(()->climber.moveElevatorStaticDown()).whenReleased(()->climber.setClimbertoCurrentPosition());
     oi.driver_bButton.whenPressed(()->shooter.feedAndFire()).whenReleased(new StopShooting());
     oi.driver_xButton.whenPressed(()->climber.moveElevatorStaticDown()).whenReleased(()->climber.stopElevator());
+
+    oi.driver_leftDpad.whenPressed(()->setShooterSpeed(18000));
+    oi.driver_downDpad.whenPressed(()->setShooterSpeed(15500));
+    oi.driver_upDpad.whenPressed(()->setShooterSpeed(21000));
+    oi.driver_rightDpad.whenPressed(()->setShooterSpeed(19500););
 
 
     //-----Operator Controls-----\\    
