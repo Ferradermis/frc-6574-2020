@@ -102,7 +102,7 @@ public class RobotContainer {
     oi.driver_leftDpad.whenPressed(()->setShooterSpeed(18000));
     oi.driver_downDpad.whenPressed(()->setShooterSpeed(15500));
     oi.driver_upDpad.whenPressed(()->setShooterSpeed(21000));
-    oi.driver_rightDpad.whenPressed(()->setShooterSpeed(19500););
+    oi.driver_rightDpad.whenPressed(()->setShooterSpeed(19500));
 
 
     //-----Operator Controls-----\\    
