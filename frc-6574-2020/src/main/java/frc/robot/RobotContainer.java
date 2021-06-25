@@ -107,7 +107,7 @@ public class RobotContainer {
 
     //-----Operator Controls-----\\    
     //oi.operator_aButton.toggleWhenPressed(climb, true);  // schedules ClimbUpAndDown for endgame
-    oi.operator_rightTrigger.whenPressed(new ShootCommandAuto()).whenReleased(new StopShooting());
+    oi.operator_rightTrigger.whenPressed(new ShootCommand()).whenReleased(new StopShooting());
     oi.operator_leftTrigger.whenPressed(()->intake.turnOn())
                             .whenReleased(()->intake.turnOff());
     
