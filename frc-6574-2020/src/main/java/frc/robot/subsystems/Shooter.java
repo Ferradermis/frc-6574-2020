@@ -35,6 +35,7 @@ public class Shooter extends SubsystemBase {
   public DoubleSolenoid hoodAngle = new DoubleSolenoid(RobotMap.HOOD_ANGLE_ID2, RobotMap.HOOD_ANGLE_ID1);
 
   public double enteredShooterVelocity;
+
   public static double shooterSpeed = 10000; //15500
 
   public Shooter() {
