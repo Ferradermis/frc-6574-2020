@@ -29,7 +29,7 @@ public class StopShooting extends SequentialCommandGroup {
        ),
       //new InstantCommand(()->RobotContainer.shooter.retractHoodforShortDistance()), 
       //new WaitCommand(.1),
-      new InstantCommand(()->RobotContainer.shooter.lowerHoodForTrench()),
+      //new InstantCommand(()->RobotContainer.shooter.lowerHoodForTrench()),
       new ScheduleCommand(new TurnTurret())
       
     );

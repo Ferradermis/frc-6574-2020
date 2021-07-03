@@ -21,6 +21,7 @@ import frc.robot.commands.blinkincommands.Rainbow;
 import frc.robot.commands.drivetraincommands.ArcadeDrive;
 import frc.robot.commands.shootercommands.ShootCommand;
 import frc.robot.commands.shootercommands.StopShooting;
+import frc.robot.commands.spindexercommands.SpindexerShake;
 import frc.robot.commands.turretcommands.AimTurret;
 import frc.robot.commands.turretcommands.TurnTurret;
 import frc.robot.subsystems.Blinkin;
@@ -75,6 +76,7 @@ public class RobotContainer {
     autochooser.addOption("StraightLineSix", new StraightLineSixBallAuto());
     autochooser.addOption("AutonomousMovingPractice", new AutonomousMovingPractice());
     autochooser.addOption("Rainbow!!!", new Rainbow());
+    autochooser.addOption("Spindexershake", new SpindexerShake());
     SmartDashboard.putData("Autonomous Chooser", autochooser);
     allianceChooser.setDefaultOption("Red Alliance (pipeline)", "red");    
     allianceChooser.addOption("Blue Alliance (pipeline)", "blue");
@@ -102,7 +104,7 @@ public class RobotContainer {
     oi.driver_leftDpad.whenPressed(()->setShooterSpeed(18000));
     oi.driver_downDpad.whenPressed(()->setShooterSpeed(15500));
     oi.driver_upDpad.whenPressed(()->setShooterSpeed(21000));
-    oi.driver_rightDpad.whenPressed(()->setShooterSpeed(19500););
+    oi.driver_rightDpad.whenPressed(()->setShooterSpeed(19500));
 
 
     //-----Operator Controls-----\\    
