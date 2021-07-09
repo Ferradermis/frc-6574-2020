@@ -29,8 +29,8 @@ public class PrepForShooting extends SequentialCommandGroup {
       new ParallelCommandGroup(
         new SequentialCommandGroup(
           new InstantCommand(()->RobotContainer.shooter.raiseHoodForShooting()),
-          new WaitCommand(.1)
-          //new InstantCommand(()->RobotContainer.shooter.extendHoodForLongDistance())
+          new WaitCommand(.1),
+          new InstantCommand(()->RobotContainer.shooter.extendHoodForLongDistance())
          ),
         new ScheduleCommand(new AimTurret())
       )

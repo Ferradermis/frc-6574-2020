@@ -21,7 +21,7 @@ public class Hopper extends SubsystemBase {
   /**
    * Creates a new Hopper.
    */
-  final double HopperSpeedShooting = 0.1875; //.125 for IAC, .6 for PPT or normal use
+  final double HopperSpeedShooting = 0.5; //.125 for IAC, .6 for PPT or normal use
   final double HopperSpeedManualIntake = 0.5; //~5700 units/sec
   final double HopperSpeedIntake = .5;
   final double closeLoopSpeed = 3000;

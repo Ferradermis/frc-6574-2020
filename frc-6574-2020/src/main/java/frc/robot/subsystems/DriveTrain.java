@@ -71,8 +71,8 @@ public class DriveTrain extends SubsystemBase {
      else if (rightSpeed < -1) {rightSpeed = -1;} 
      
    
-     frontLeft.set(ControlMode.PercentOutput,-leftSpeed * .25);
-     frontRight.set(ControlMode.PercentOutput,-rightSpeed * .25);
+     frontLeft.set(ControlMode.PercentOutput,-leftSpeed);
+     frontRight.set(ControlMode.PercentOutput,-rightSpeed);
   }
 
     /**
