@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
 import frc.robot.commands.turretcommands.TurnTurret;
 
@@ -27,9 +28,9 @@ public class StopShooting extends SequentialCommandGroup {
         new InstantCommand(()->RobotContainer.turret.stopAiming()),
         new InstantCommand(()->RobotContainer.shooter.stopShooter())
        ),
-      //new InstantCommand(()->RobotContainer.shooter.retractHoodforShortDistance()), 
-      //new WaitCommand(.1),
-      //new InstantCommand(()->RobotContainer.shooter.lowerHoodForTrench()),
+      new InstantCommand(()->RobotContainer.shooter.retractHoodforShortDistance()), 
+      new WaitCommand(.1),
+      new InstantCommand(()->RobotContainer.shooter.lowerHoodForTrench()),
       new ScheduleCommand(new TurnTurret())
       
     );
