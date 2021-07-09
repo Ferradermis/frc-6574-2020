@@ -36,7 +36,7 @@ public class Shooter extends SubsystemBase {
 
   public double enteredShooterVelocity;
 
-  public static double shooterSpeed = 18500; //15500
+  public static double shooterSpeed = 18200; //15500
 
   public Shooter() {
     configureMotors();
