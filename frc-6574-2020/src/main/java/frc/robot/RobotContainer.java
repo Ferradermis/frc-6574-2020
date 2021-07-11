@@ -20,6 +20,7 @@ import frc.robot.commands.autonomouscommands.ThreeBallAuto;
 import frc.robot.commands.blinkincommands.Rainbow;
 import frc.robot.commands.drivetraincommands.ArcadeDrive;
 import frc.robot.commands.shootercommands.ShootCommand;
+import frc.robot.commands.shootercommands.ShootCommandNoLime;
 import frc.robot.commands.shootercommands.StopShooting;
 import frc.robot.commands.spindexercommands.SpindexerShake;
 import frc.robot.commands.turretcommands.AimTurret;
@@ -110,6 +111,7 @@ public class RobotContainer {
     //-----Operator Controls-----\\    
     //oi.operator_aButton.toggleWhenPressed(climb, true);  // schedules ClimbUpAndDown for endgame
     oi.operator_rightTrigger.whenPressed(new ShootCommand()).whenReleased(new StopShooting());
+    oi.operator_xButton.whenPressed(new ShootCommandNoLime()).whenReleased(new StopShooting());
     oi.operator_leftTrigger.whenPressed(()->intake.turnOn())
                             .whenReleased(()->intake.turnOff());
     

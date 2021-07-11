@@ -9,6 +9,7 @@ package frc.robot.commands.turretcommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.Limelight;
 
 public class AimTurret extends CommandBase {
 
@@ -40,7 +41,11 @@ public class AimTurret extends CommandBase {
       }
       else if (angleX < -threshold) {
         RobotContainer.turret.turn((angleX * turnKP) - simpleFF);
+      } else {
+        RobotContainer.turret.stopTurning();
       }
+    } else {
+      RobotContainer.turret.stopTurning();
     }
   }
 
@@ -53,6 +58,6 @@ public class AimTurret extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return Limelight.aimedAtTarget();
   }
 }

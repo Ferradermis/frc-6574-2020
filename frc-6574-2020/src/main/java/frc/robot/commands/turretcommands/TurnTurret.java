@@ -12,7 +12,7 @@ import frc.robot.RobotContainer;
 
 public class TurnTurret extends CommandBase {
 
-  final double THROTTLE = 1; // controls speed via joystick; useful for testing
+  final double THROTTLE = .5; // controls speed via joystick; useful for testing
 
   public TurnTurret() {
     addRequirements(RobotContainer.turret);

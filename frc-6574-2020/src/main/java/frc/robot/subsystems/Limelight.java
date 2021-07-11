@@ -18,37 +18,35 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Limelight extends SubsystemBase {
 
-    public NetworkTable limelight = NetworkTableInstance.getDefault().getTable("limelight");
+    public static NetworkTable limelight = NetworkTableInstance.getDefault().getTable("limelight");
 
-    public Limelight()
-    {
+    public Limelight() {
         ledOn();
     }
 
     @Override
     public void periodic() {
-      // This method will be called once per scheduler run
-      SmartDashboard.putBoolean("Limelight has target?", hasTarget());
-      SmartDashboard.putBoolean("Limelight aimed at target?", aimedAtTarget());
-      //SmartDashboard.putNumber("Limelight X", getAngleX());
-      //SmartDashboard.putNumber("Limelight Y", getAngleY());
-      //SmartDashboard.putNumber("Limelight Y", getSkew());
-      SmartDashboard.putNumber("Limelight Pipeline:", limelight.getEntry("pipeline").getDouble(3));
+        // This method will be called once per scheduler run
+        SmartDashboard.putBoolean("Limelight has target?", hasTarget());
+        SmartDashboard.putBoolean("Limelight aimed at target?", aimedAtTarget());
+        // SmartDashboard.putNumber("Limelight X", getAngleX());
+        // SmartDashboard.putNumber("Limelight Y", getAngleY());
+        // SmartDashboard.putNumber("Limelight Y", getSkew());
+        SmartDashboard.putNumber("Limelight Pipeline:", limelight.getEntry("pipeline").getDouble(3));
 
     }
-  
 
-    public void setTarget(int pipeline){
+    public void setTarget(int pipeline) {
         limelight.getEntry("pipeline").setNumber(pipeline);
     }
 
     /**
-     * Returns whether or not the Limelight has a valid target
-     * in view, as identified by its targeting parameters.
+     * Returns whether or not the Limelight has a valid target in view, as
+     * identified by its targeting parameters.
      * 
-     * @return  whether or not there is target in view
+     * @return whether or not there is target in view
      */
-    public boolean hasTarget() {
+    public static boolean hasTarget() {
         return limelight.getEntry("tv").getDouble(0) == 1;
     }
 
@@ -67,19 +65,22 @@ public class Limelight extends SubsystemBase {
     }
 
     /**
-     * Returns the difference between the center of the camera's
-     * view and the target's center.
+     * Returns the difference between the center of the camera's view and the
+     * target's center.
      * 
-     * @return  a double containing the difference in degrees (in the range of -29.8 to 29.8)
+     * @return a double containing the difference in degrees (in the range of -29.8
+     *         to 29.8)
      */
-    public double getAngleX() {
+    public static double getAngleX() {
         return limelight.getEntry("tx").getDouble(0);
     }
-   /**
-     * Returns the difference between the center of the camera's
-     * view and the target's center.
+
+    /**
+     * Returns the difference between the center of the camera's view and the
+     * target's center.
      * 
-     * @return  a double containing the difference in degrees (in the range of -24.85 to 24.85)
+     * @return a double containing the difference in degrees (in the range of -24.85
+     *         to 24.85)
      */
     public double getAngleY() {
         return limelight.getEntry("ty").getDouble(0);
@@ -89,27 +90,31 @@ public class Limelight extends SubsystemBase {
         return limelight.getEntry("ts").getDouble(0);
     }
 
-
     public double getDistanceToTarget(double defaultDistance) {
         if (!hasTarget()) {
             return defaultDistance;
         }
 
-        //All calculations are in centimeters
-        final double h2 = 86.36; //height of target
-        final double h1 = 25.4; //height of camera
-        // NOTE in final code, just calculate h2 - h1 and set a variable    
-        final double A1 = 23.5; //Angle of camera relative to ground
-    
+        // All calculations are in centimeters
+        final double h2 = 86.36; // height of target
+        final double h1 = 25.4; // height of camera
+        // NOTE in final code, just calculate h2 - h1 and set a variable
+        final double A1 = 23.5; // Angle of camera relative to ground
+
         double angleY = getAngleY();
-        
+
         // calculate currentDistance from target
-        return (h2-h1)/Math.tan((angleY+A1)*Math.PI/180);
-      }
-    
-    public boolean aimedAtTarget() {       
-    //return Math.abs(getAngleX() - (AimTurret.threshold + AimTurret.offset)) <= tolerance;
-    return (Math.abs(getAngleX()) <= AimTurret.threshold);
+        return (h2 - h1) / Math.tan((angleY + A1) * Math.PI / 180);
+    }
+
+    public static boolean aimedAtTarget() {
+        if (hasTarget()) {
+            // return Math.abs(getAngleX() - (AimTurret.threshold + AimTurret.offset)) <=
+            // tolerance;
+            return (Math.abs(getAngleX()) <= AimTurret.threshold);
+        } else {
+            return false;
+        }
     }
     
 }

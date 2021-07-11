@@ -4,9 +4,11 @@
 
 package frc.robot.commands.autonomouscommands;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.RobotContainer;
 import frc.robot.commands.intakecommands.DeployAndTurnOnIntake;
 import frc.robot.commands.spindexercommands.SpindexerShake;
 
@@ -20,7 +22,9 @@ public class StraightLineSixBallAuto extends SequentialCommandGroup {
           new DeployAndTurnOnIntake(),
           new DriveDistance(15), 
           new WaitCommand(.1), 
-          new ParallelCommandGroup(new DriveDistance(-14), new SpindexerShake()),
-          new ShootFromAutoLine());
+          new ParallelCommandGroup(new DriveDistance(-14)/*, new SpindexerShake()*/),
+          new ShootFromAutoLine(),
+          new InstantCommand(()->RobotContainer.shooter.lowerHoodForTrench())
+          );
     }
 }

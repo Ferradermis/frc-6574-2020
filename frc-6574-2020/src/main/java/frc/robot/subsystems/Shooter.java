@@ -36,7 +36,9 @@ public class Shooter extends SubsystemBase {
 
   public double enteredShooterVelocity;
 
-  public static double shooterSpeed = 18200; //15500
+  public static double trenchSpeed = 19000;
+
+  public static double shooterSpeed = 19000; //15500
 
   public Shooter() {
     configureMotors();
@@ -82,6 +84,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setVelocity(double velocity) {
+    shooterSpeed = velocity;
     shooterLeft.set(ControlMode.Velocity, velocity);
   }
 
