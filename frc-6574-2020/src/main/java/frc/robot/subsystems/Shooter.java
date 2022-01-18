@@ -36,9 +36,15 @@ public class Shooter extends SubsystemBase {
 
   public double enteredShooterVelocity;
 
+<<<<<<< Updated upstream
   public static double trenchSpeed = 19000;
 
   public static double shooterSpeed = 19000; //15500
+=======
+  public static double shooterSpeed = 18300;//18200 was normal //15500
+
+
+>>>>>>> Stashed changes
 
   public Shooter() {
     configureMotors();
