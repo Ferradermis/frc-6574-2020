@@ -47,11 +47,7 @@ public class JustShootNoLime extends CommandBase {
         System.out.println("JustShootNoLime condition has been met");
         Timer.delay(.25);
         RobotContainer.shooter.feedAndFire();
-<<<<<<< Updated upstream
         Timer.delay(1);
-=======
-        Timer.delay(3);//1
->>>>>>> Stashed changes
         interrupted = true;
         System.out.println("JustShootNoLime condition has finished"); 
       } 

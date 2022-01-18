@@ -22,11 +22,7 @@ public class StraightLineSixBallAuto extends SequentialCommandGroup {
           new DeployAndTurnOnIntake(),
           new DriveDistance(15), 
           new WaitCommand(.1), 
-<<<<<<< Updated upstream
           new ParallelCommandGroup(new DriveDistance(-14)/*, new SpindexerShake()*/),
-=======
-          new ParallelCommandGroup(new DriveDistance(-14), new SpindexerShake()),
->>>>>>> Stashed changes
           new ShootFromAutoLine(),
           new InstantCommand(()->RobotContainer.shooter.lowerHoodForTrench())
           );

@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -54,7 +55,7 @@ public class RobotContainer {
   public static final Turret turret = new Turret();
   public static final Climber climber = new Climber();
   
-  public static final Compressor compressor = new Compressor();
+  public static final Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
 
   public static final Blinkin m_blinkin = new Blinkin(0);
     

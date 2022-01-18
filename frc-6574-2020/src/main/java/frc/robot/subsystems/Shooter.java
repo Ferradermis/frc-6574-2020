@@ -14,6 +14,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -31,20 +32,14 @@ public class Shooter extends SubsystemBase {
   public CANSparkMax feeder = new CANSparkMax(RobotMap.FEEDER_CAN_ID, MotorType.kBrushless);
  
   // hood controller for raising and lowering
-  public DoubleSolenoid hoodTrench = new DoubleSolenoid(RobotMap.HOOD_TRENCH_ID1, RobotMap.HOOD_TRENCH_ID2);
-  public DoubleSolenoid hoodAngle = new DoubleSolenoid(RobotMap.HOOD_ANGLE_ID2, RobotMap.HOOD_ANGLE_ID1);
+  public DoubleSolenoid hoodTrench = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RobotMap.HOOD_TRENCH_ID1, RobotMap.HOOD_TRENCH_ID2);
+  public DoubleSolenoid hoodAngle = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RobotMap.HOOD_ANGLE_ID2, RobotMap.HOOD_ANGLE_ID1);
 
   public double enteredShooterVelocity;
 
-<<<<<<< Updated upstream
   public static double trenchSpeed = 19000;
 
   public static double shooterSpeed = 19000; //15500
-=======
-  public static double shooterSpeed = 18300;//18200 was normal //15500
-
-
->>>>>>> Stashed changes
 
   public Shooter() {
     configureMotors();

@@ -25,11 +25,7 @@ public class PrepForShootingNoLime extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
-<<<<<<< Updated upstream
       new InstantCommand(()->RobotContainer.shooter.setVelocity(Shooter.trenchSpeed)),
-=======
-      new InstantCommand(()->RobotContainer.shooter.setVelocity(18200)),
->>>>>>> Stashed changes
       new ParallelCommandGroup(
         new SequentialCommandGroup(
           new InstantCommand(()->RobotContainer.shooter.raiseHoodForShooting()),

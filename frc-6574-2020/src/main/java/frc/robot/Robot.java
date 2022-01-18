@@ -30,7 +30,7 @@ public class Robot extends TimedRobot {
     robotContainer = new RobotContainer();
     SmartDashboard.putData(CommandScheduler.getInstance());
 
-    CameraServer.getInstance().startAutomaticCapture();
+    CameraServer.startAutomaticCapture();
 
     //stops the compressor
     //RobotContainer.compressor.start(); //starts the compressor
@@ -45,7 +45,7 @@ public class Robot extends TimedRobot {
     //spindexerCamera.setResolution(320, 240);
     //spindexerCamera.setFPS(15);
   
-    //UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+    //UsbCamera camera = CameraServer.startAutomaticCapture();
     //camera.setResolution(640, 480);
 
 // THIS IS WHAT WORKED IN DULUTH
@@ -94,8 +94,8 @@ public class Robot extends TimedRobot {
   }
 
   public void testPeriodic(){
-    RobotContainer.compressor.setClosedLoopControl(true);
-    RobotContainer.compressor.start();
+    //RobotContainer.compressor.setClosedLoopControl(true);
+    RobotContainer.compressor.enableDigital();
   }
 
   @Override
@@ -105,15 +105,15 @@ public class Robot extends TimedRobot {
     if (OI.driver_startButton.get()) { //disables shooter and compressor for endgame
       Blinkin.blue();
       RobotContainer.shooter.defaultShooterOff();
-      RobotContainer.compressor.setClosedLoopControl(false);
-      RobotContainer.compressor.stop();
+      //RobotContainer.compressor.setClosedLoopControl(false);
+      RobotContainer.compressor.disable();
     }
 
     else if (OI.driver_backButton.get()) { //enables shooter and compressor for standard teleop
       Blinkin.red();
       RobotContainer.shooter.setVelocity(Shooter.shooterSpeed);
-      RobotContainer.compressor.setClosedLoopControl(true);
-      RobotContainer.compressor.start();
+      //RobotContainer.compressor.setClosedLoopControl(true);
+      RobotContainer.compressor.enableDigital();
     }
   }
 
