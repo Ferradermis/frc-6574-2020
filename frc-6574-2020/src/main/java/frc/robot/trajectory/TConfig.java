@@ -7,10 +7,10 @@ package frc.robot.trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 
 /** Add your docs here. */
-public class TConfig extends TrajectoryConfig
-{
-    public TConfig()
-    {
+public class TConfig extends TrajectoryConfig{
+    
+    public TConfig(){
+
         super(0, 0);
     }
 }

@@ -13,7 +13,11 @@ import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
@@ -33,12 +37,19 @@ public class DriveTrain extends SubsystemBase {
   // following variable are used in turnToHeading and driveAlongAngle
   final double MaxDriveSpeed = 0.3;//was .15
   final double MaxTurnSpeed = 0.25;
-  public final int EncoderUnitsPerFeet = 14500;
+  public final int EncoderUnitsPerFeet = 14500;//bad
+
+  public final int encoderDistancePerPulse = 1;
+
+  //Odometry class
+  private final DifferentialDriveOdometry m_odometry;
 
   public DriveTrain(){
     configureMotors();
     resetPosition();
     gyro.calibrate();
+
+    m_odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
   }
 
   @Override
@@ -46,6 +57,21 @@ public class DriveTrain extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Actual Gyro Heading: ", gyro.getAngle());
     SmartDashboard.putNumber("Acual Drive Position: ", getPosition());
+
+    m_odometry.update(gyro.getRotation2d(), frontLeft.getSelectedSensorPosition() * encoderDistancePerPulse, frontRight.getSelectedSensorPosition()* encoderDistancePerPulse);
+  }
+
+  public DifferentialDriveWheelSpeeds getWheelSpeeds(){
+    return new DifferentialDriveWheelSpeeds(frontLeft.getSelectedSensorVelocity(), frontRight.getSelectedSensorVelocity());
+  }
+
+  public Pose2d getPose(){
+    return m_odometry.getPoseMeters();
+  }
+
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+    frontLeft.setVoltage(leftVolts);
+    frontRight.setVoltage(rightVolts);
   }
 
   /**
