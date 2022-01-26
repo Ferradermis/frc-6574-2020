@@ -18,6 +18,7 @@ import frc.robot.commands.autonomouscommands.AutonomousMovingPractice;
 import frc.robot.commands.autonomouscommands.MoveOffLine;
 import frc.robot.commands.autonomouscommands.StraightLineSixBallAuto;
 import frc.robot.commands.autonomouscommands.ThreeBallAuto;
+import frc.robot.commands.autonomouscommands.TrajectorieAuto;
 import frc.robot.commands.blinkincommands.Rainbow;
 import frc.robot.commands.drivetraincommands.ArcadeDrive;
 import frc.robot.commands.shootercommands.ShootCommand;
@@ -78,6 +79,7 @@ public class RobotContainer {
     autochooser.addOption("StraightLineSix", new StraightLineSixBallAuto());
     autochooser.addOption("AutonomousMovingPractice", new AutonomousMovingPractice());
     autochooser.addOption("Rainbow!!!", new Rainbow());
+    //autochooser.addOption("TrajectorieAuto", new TrajectorieAuto());
     autochooser.addOption("Spindexershake", new SpindexerShake());
     SmartDashboard.putData("Autonomous Chooser", autochooser);
     allianceChooser.setDefaultOption("Red Alliance (pipeline)", "red");    
