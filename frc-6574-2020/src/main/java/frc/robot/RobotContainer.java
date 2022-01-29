@@ -31,7 +31,7 @@ import frc.robot.commands.autonomouscommands.AutonomousMovingPractice;
 import frc.robot.commands.autonomouscommands.MoveOffLine;
 import frc.robot.commands.autonomouscommands.StraightLineSixBallAuto;
 import frc.robot.commands.autonomouscommands.ThreeBallAuto;
-import frc.robot.commands.autonomouscommands.TrajectorieAuto;
+//import frc.robot.commands.autonomouscommands.TrajectorieAuto;
 import frc.robot.commands.blinkincommands.Rainbow;
 import frc.robot.commands.drivetraincommands.ArcadeDrive;
 import frc.robot.commands.shootercommands.ShootCommand;
@@ -72,6 +72,9 @@ public class RobotContainer {
   public static final Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
 
   public static final Blinkin m_blinkin = new Blinkin(0);
+
+  public static PIDController leftPID = new PIDController(Constants.kPDriveVel, 0, 0);
+  public static PIDController rightPID = new PIDController(Constants.kPDriveVel, 0, 0);
     
   //Commands
   public final ArcadeDrive arcadeDrive = new ArcadeDrive();
@@ -193,8 +196,8 @@ public class RobotContainer {
                 Constants.kaVoltSecondsSquaredPerMeter),
             Constants.kDriveKinematics,
             driveTrain::getWheelSpeeds,
-            new PIDController(Constants.kPDriveVel, 0, 0),
-            new PIDController(Constants.kPDriveVel, 0, 0),
+            leftPID,
+            rightPID,
             // RamseteCommand passes volts to the callback
             driveTrain::tankDriveVolts,
             driveTrain);

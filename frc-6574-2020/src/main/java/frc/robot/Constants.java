@@ -24,12 +24,14 @@ public final class Constants {
 
     public static final double kPDriveVel = 0.05;//3.561;
 
-    public static final double kTrackwidthFeet = 0.635;
-    public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackwidthFeet);
+    public static final double kTrackWidthMeters = 0.635;
+    public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidthMeters);
 
     public static final double kMaxSpeedMetersPerSecond = 1.5;
     public static final double kMaxAccelerationMetersPerSecondSquared = 0.5;
 
-    public static final double kRamseteB = 2;
-    public static final double kRamseteZeta = 0.7;
+    // Explanation:
+    // https://docs.wpilib.org/en/stable/docs/software/advanced-controls/trajectories/ramsete.html
+    public static final double kRamseteB = 5;
+    public static final double kRamseteZeta = 7.0;
 }

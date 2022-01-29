@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
 
 
@@ -60,6 +61,17 @@ public class DriveTrain extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Actual Gyro Heading: ", gyro.getAngle());
     SmartDashboard.putNumber("Acual Drive Position: ", getPosition());
+
+    SmartDashboard.putNumber("Left side position: ", frontLeft.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Right side position: ", frontRight.getSelectedSensorPosition());
+
+    SmartDashboard.putNumber("Left side velocity: ", frontLeft.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("Right side velocity: ", frontRight.getSelectedSensorVelocity());
+
+
+    SmartDashboard.putNumber("Left side setpoint: ", RobotContainer.leftPID.getSetpoint());
+    SmartDashboard.putNumber("Right side setpoint: ", RobotContainer.rightPID.getSetpoint());
+
 
     m_odometry.update(gyro.getRotation2d(), frontLeft.getSelectedSensorPosition() * encoderDistancePerPulse, frontRight.getSelectedSensorPosition() * encoderDistancePerPulse);
   }
