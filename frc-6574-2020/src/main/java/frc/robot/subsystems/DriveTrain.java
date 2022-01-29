@@ -7,9 +7,13 @@
 
 package frc.robot.subsystems;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -17,7 +21,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
@@ -312,5 +315,14 @@ public class DriveTrain extends SubsystemBase {
   //  frontRight.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
 
 
+  }
+
+  public Collection<TalonFX> getControllerList() {
+    Collection<TalonFX> list = new ArrayList<TalonFX>();
+    list.add(frontLeft);
+    list.add(frontRight);
+    list.add(backLeft);
+    list.add(backRight);
+    return list;
   }
 }

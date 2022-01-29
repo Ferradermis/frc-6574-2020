@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.music.Orchestra;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -92,9 +94,16 @@ public class Robot extends TimedRobot {
     }
   }
 
+  Orchestra orchestra;
+
+  public void testInit(){
+    orchestra = new Orchestra(RobotContainer.driveTrain.getControllerList());
+    orchestra.loadMusic("megalovania.chrp");
+  }
   public void testPeriodic(){
     //RobotContainer.compressor.setClosedLoopControl(true);
     RobotContainer.compressor.enableDigital();
+    orchestra.play();
   }
 
   @Override
