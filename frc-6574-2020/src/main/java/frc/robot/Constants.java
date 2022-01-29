@@ -18,20 +18,20 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static final double ksVolts = 0.57556;
-    public static final double kvVoltSecondsPerMeter = 2.7083;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.33111;
+    public static final double ksVolts = 0.5849;
+    public static final double kvVoltSecondsPerMeter = 2.628;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.34565;
 
-    public static final double kPDriveVel = 0.05;//3.561;
+    public static final double kPDriveVel = 3.5201;//3.561;
 
     public static final double kTrackWidthMeters = 0.635;
     public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidthMeters);
 
     public static final double kMaxSpeedMetersPerSecond = 1.5;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 0.5;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 1;
 
     // Explanation:
     // https://docs.wpilib.org/en/stable/docs/software/advanced-controls/trajectories/ramsete.html
-    public static final double kRamseteB = 5;
-    public static final double kRamseteZeta = 7.0;
+    public static final double kRamseteB = 2;
+    public static final double kRamseteZeta = 0.7;
 }

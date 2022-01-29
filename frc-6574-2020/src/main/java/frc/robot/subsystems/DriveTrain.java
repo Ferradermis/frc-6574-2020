@@ -62,22 +62,20 @@ public class DriveTrain extends SubsystemBase {
     SmartDashboard.putNumber("Actual Gyro Heading: ", gyro.getAngle());
     SmartDashboard.putNumber("Acual Drive Position: ", getPosition());
 
-    SmartDashboard.putNumber("Left side position: ", frontLeft.getSelectedSensorPosition());
-    SmartDashboard.putNumber("Right side position: ", frontRight.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Adjusted left position: ", frontLeft.getSelectedSensorPosition() * encoderDistancePerPulse);
+    SmartDashboard.putNumber("Adjusted right position: ", frontRight.getSelectedSensorPosition() * encoderDistancePerPulse);
 
-    SmartDashboard.putNumber("Left side velocity: ", frontLeft.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("Right side velocity: ", frontRight.getSelectedSensorVelocity());
-
+    SmartDashboard.putNumber("Left side velocity: ", frontLeft.getSelectedSensorVelocity() * encoderDistancePerPulse);
+    SmartDashboard.putNumber("Right side velocity: ", frontRight.getSelectedSensorVelocity() * encoderDistancePerPulse);
 
     SmartDashboard.putNumber("Left side setpoint: ", RobotContainer.leftPID.getSetpoint());
     SmartDashboard.putNumber("Right side setpoint: ", RobotContainer.rightPID.getSetpoint());
-
 
     m_odometry.update(gyro.getRotation2d(), frontLeft.getSelectedSensorPosition() * encoderDistancePerPulse, frontRight.getSelectedSensorPosition() * encoderDistancePerPulse);
   }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds(){
-    return new DifferentialDriveWheelSpeeds(frontLeft.getSelectedSensorVelocity(), frontRight.getSelectedSensorVelocity());
+    return new DifferentialDriveWheelSpeeds(frontLeft.getSelectedSensorVelocity() * encoderDistancePerPulse, frontRight.getSelectedSensorVelocity() * encoderDistancePerPulse);
   }
 
   public Pose2d getPose(){
