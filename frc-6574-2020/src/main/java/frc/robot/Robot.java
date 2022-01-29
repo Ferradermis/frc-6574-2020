@@ -7,7 +7,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -30,7 +29,7 @@ public class Robot extends TimedRobot {
     robotContainer = new RobotContainer();
     SmartDashboard.putData(CommandScheduler.getInstance());
 
-    CameraServer.startAutomaticCapture();
+    //CameraServer.startAutomaticCapture();
 
     //stops the compressor
     //RobotContainer.compressor.start(); //starts the compressor
@@ -100,6 +99,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+
+    //RobotContainer.driveTrain.stop();
+    //DriveTrain.stop();
     
     
     if (OI.driver_startButton.get()) { //disables shooter and compressor for endgame

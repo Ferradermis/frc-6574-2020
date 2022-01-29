@@ -39,15 +39,18 @@ public class DriveTrain extends SubsystemBase {
   final double MaxTurnSpeed = 0.25;
   public final int EncoderUnitsPerFeet = 14500;//bad
 
-  public final int encoderDistancePerPulse = 1;
+  public final double encoderDistancePerPulse = 0.000023038 ;
 
   //Odometry class
   private final DifferentialDriveOdometry m_odometry;
 
   public DriveTrain(){
+    
     configureMotors();
     resetPosition();
     gyro.calibrate();
+
+    //frontLeft.distance
 
     m_odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
   }
@@ -58,7 +61,7 @@ public class DriveTrain extends SubsystemBase {
     SmartDashboard.putNumber("Actual Gyro Heading: ", gyro.getAngle());
     SmartDashboard.putNumber("Acual Drive Position: ", getPosition());
 
-    m_odometry.update(gyro.getRotation2d(), frontLeft.getSelectedSensorPosition() * encoderDistancePerPulse, frontRight.getSelectedSensorPosition()* encoderDistancePerPulse);
+    m_odometry.update(gyro.getRotation2d(), frontLeft.getSelectedSensorPosition() * encoderDistancePerPulse, frontRight.getSelectedSensorPosition() * encoderDistancePerPulse);
   }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds(){
@@ -67,6 +70,11 @@ public class DriveTrain extends SubsystemBase {
 
   public Pose2d getPose(){
     return m_odometry.getPoseMeters();
+  }
+  public void resetOdometry(Pose2d pose) {
+    frontLeft.setSelectedSensorPosition(0);
+    frontRight.setSelectedSensorPosition(0);
+    m_odometry.resetPosition(pose,gyro.getRotation2d());
   }
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {
@@ -110,8 +118,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   //functions to support 
-  public void driveAlongAngle(double distance, double alongAngle)
-  {
+  public void driveAlongAngle(double distance, double alongAngle) {
     int direction = (distance > 0) ? 1 : -1;
     driveAlongAngle(Math.abs(distance), direction, alongAngle);
   }
@@ -135,7 +142,7 @@ public class DriveTrain extends SubsystemBase {
    // if (Math.abs(angleError) > 1) {
    //   turnToHeading(alongAngle);
    // }
-   SmartDashboard.putNumber("Current distanceError", distanceError);
+    SmartDashboard.putNumber("Current distanceError", distanceError);
 
       while (Math.abs(distanceError) > tolerance){
 
