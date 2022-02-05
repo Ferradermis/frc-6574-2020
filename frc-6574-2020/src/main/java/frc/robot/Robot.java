@@ -7,8 +7,15 @@
 
 package frc.robot;
 
+import java.io.IOException;
+import java.nio.file.Path;
+
 import com.ctre.phoenix.music.Orchestra;
 
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -26,14 +33,23 @@ public class Robot extends TimedRobot {
   
   // private String gameData;
 
+  public static Trajectory autoTrajectory = new Trajectory();
+
   @Override
   public void robotInit() {
     robotContainer = new RobotContainer();
     SmartDashboard.putData(CommandScheduler.getInstance());
 
+    try {
+      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve("paths/AutoPath.wpilib.json");
+      autoTrajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+    } catch (IOException ex) {
+        DriverStation.reportError("Unable to open trajectory: " + "paths/AutoPath.wpilib.json", ex.getStackTrace());
+    }
+
     //CameraServer.startAutomaticCapture();
 
-    //stops the compressor
+    //stops the compressPor
     //RobotContainer.compressor.start(); //starts the compressor
     
     //cameraServer = CameraServer.getInstance();

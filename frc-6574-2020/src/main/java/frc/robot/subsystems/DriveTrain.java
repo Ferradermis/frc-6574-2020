@@ -43,7 +43,7 @@ public class DriveTrain extends SubsystemBase {
   final double MaxTurnSpeed = 0.25;
   public final int EncoderUnitsPerFeet = 14500;//bad
 
-  public final double encoderDistancePerPulse = 0.000023038 ;
+  public final double encoderDistancePerPulse = 0.0000213017 ;
 
   //Odometry class
   private final DifferentialDriveOdometry m_odometry;
@@ -67,6 +67,9 @@ public class DriveTrain extends SubsystemBase {
 
     SmartDashboard.putNumber("Adjusted left position: ", frontLeft.getSelectedSensorPosition() * encoderDistancePerPulse);
     SmartDashboard.putNumber("Adjusted right position: ", frontRight.getSelectedSensorPosition() * encoderDistancePerPulse);
+
+    SmartDashboard.putNumber("Left position: ", frontLeft.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Right position: ", frontRight.getSelectedSensorPosition());
 
     SmartDashboard.putNumber("Left side velocity: ", frontLeft.getSelectedSensorVelocity() * encoderDistancePerPulse);
     SmartDashboard.putNumber("Right side velocity: ", frontRight.getSelectedSensorVelocity() * encoderDistancePerPulse);
